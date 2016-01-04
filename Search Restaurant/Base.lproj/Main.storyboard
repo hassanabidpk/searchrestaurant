@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Search_Restaurant" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +17,136 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g9U-rT-yOi" userLabel="Phoot View Container">
+                                <rect key="frame" x="37" y="73" width="526" height="274"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Q1B-Hm-x9D">
+                                        <rect key="frame" x="8" y="8" width="510" height="258"/>
+                                        <animations/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for Restaurant" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5o4-ON-HnF">
+                                        <rect key="frame" x="180" y="127" width="167" height="21"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" red="1" green="0.48475621143096093" blue="0.4033569187151681" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="Q1B-Hm-x9D" firstAttribute="centerY" secondItem="g9U-rT-yOi" secondAttribute="centerY" id="QVw-Ev-CcR"/>
+                                    <constraint firstItem="Q1B-Hm-x9D" firstAttribute="leading" secondItem="g9U-rT-yOi" secondAttribute="leadingMargin" id="ULy-qa-DdZ"/>
+                                    <constraint firstItem="5o4-ON-HnF" firstAttribute="centerY" secondItem="g9U-rT-yOi" secondAttribute="centerY" id="ZNU-RL-hE0"/>
+                                    <constraint firstItem="Q1B-Hm-x9D" firstAttribute="centerX" secondItem="g9U-rT-yOi" secondAttribute="centerX" id="jh2-oo-xCl"/>
+                                    <constraint firstItem="5o4-ON-HnF" firstAttribute="centerX" secondItem="g9U-rT-yOi" secondAttribute="centerX" id="wz7-LA-99t"/>
+                                    <constraint firstItem="Q1B-Hm-x9D" firstAttribute="top" secondItem="g9U-rT-yOi" secondAttribute="topMargin" id="yzV-4M-N7f"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search Restaurant nearby" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gYg-FU-YYj">
+                                <rect key="frame" x="181" y="28" width="198" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P7f-Lc-0Ha" userLabel="Search Container">
+                                <rect key="frame" x="37" y="385" width="526" height="195"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mhv-de-1ar">
+                                        <rect key="frame" x="245" y="119" width="36" height="36"/>
+                                        <animations/>
+                                        <state key="normal" image="search"/>
+                                        <connections>
+                                            <action selector="searchRestaurant:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Js1-o0-v5N"/>
+                                        </connections>
+                                    </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Location name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xcG-ha-7Gv">
+                                        <rect key="frame" x="61" y="10" width="405" height="30"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="405" id="lFp-ZQ-9BW" userLabel="width = 200"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="lFp-ZQ-9BW"/>
+                                            </mask>
+                                        </variation>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search restaurant type" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rBR-EL-Syq">
+                                        <rect key="frame" x="61" y="65" width="405" height="30"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="mhv-de-1ar" firstAttribute="centerX" secondItem="P7f-Lc-0Ha" secondAttribute="centerX" id="0WO-ej-Yhz"/>
+                                    <constraint firstItem="rBR-EL-Syq" firstAttribute="leading" secondItem="P7f-Lc-0Ha" secondAttribute="leading" constant="61" id="1jw-lJ-Oeb"/>
+                                    <constraint firstItem="rBR-EL-Syq" firstAttribute="centerX" secondItem="P7f-Lc-0Ha" secondAttribute="centerX" id="9mE-6V-uL6"/>
+                                    <constraint firstItem="rBR-EL-Syq" firstAttribute="top" secondItem="xcG-ha-7Gv" secondAttribute="bottom" constant="25" id="NSO-G1-Ogp"/>
+                                    <constraint firstAttribute="trailing" secondItem="xcG-ha-7Gv" secondAttribute="trailing" constant="60" id="R2b-sP-YWI"/>
+                                    <constraint firstItem="rBR-EL-Syq" firstAttribute="width" secondItem="xcG-ha-7Gv" secondAttribute="width" id="YwH-CH-sUo"/>
+                                    <constraint firstItem="mhv-de-1ar" firstAttribute="top" secondItem="rBR-EL-Syq" secondAttribute="bottom" constant="24" id="a7a-kc-pKh"/>
+                                    <constraint firstItem="xcG-ha-7Gv" firstAttribute="top" secondItem="P7f-Lc-0Ha" secondAttribute="top" constant="10" id="hVr-Vt-ZLx"/>
+                                    <constraint firstItem="xcG-ha-7Gv" firstAttribute="leading" secondItem="P7f-Lc-0Ha" secondAttribute="leading" constant="60" id="nLu-5X-haS"/>
+                                    <constraint firstItem="xcG-ha-7Gv" firstAttribute="centerX" secondItem="P7f-Lc-0Ha" secondAttribute="centerX" id="t04-8X-o8O"/>
+                                    <constraint firstItem="rBR-EL-Syq" firstAttribute="leading" secondItem="xcG-ha-7Gv" secondAttribute="leading" id="yMn-F6-sWZ"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="R2b-sP-YWI"/>
+                                        <exclude reference="nLu-5X-haS"/>
+                                        <exclude reference="t04-8X-o8O"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="P7f-Lc-0Ha" firstAttribute="leading" secondItem="g9U-rT-yOi" secondAttribute="leading" id="0Kk-j2-a5g"/>
+                            <constraint firstItem="P7f-Lc-0Ha" firstAttribute="top" secondItem="g9U-rT-yOi" secondAttribute="bottom" constant="38" id="0dj-Dh-cl2"/>
+                            <constraint firstItem="gYg-FU-YYj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-20" id="1ds-QC-jiQ"/>
+                            <constraint firstItem="g9U-rT-yOi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="17" id="Ba9-7C-zM8"/>
+                            <constraint firstItem="g9U-rT-yOi" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="73" id="C0S-zy-60O"/>
+                            <constraint firstItem="P7f-Lc-0Ha" firstAttribute="trailing" secondItem="g9U-rT-yOi" secondAttribute="trailing" id="Fy9-AD-siW"/>
+                            <constraint firstItem="g9U-rT-yOi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="M2A-Lc-V15"/>
+                            <constraint firstItem="P7f-Lc-0Ha" firstAttribute="leading" secondItem="g9U-rT-yOi" secondAttribute="leading" id="TMJ-ME-0qe"/>
+                            <constraint firstItem="gYg-FU-YYj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="XH1-d0-RO8"/>
+                            <constraint firstItem="P7f-Lc-0Ha" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="17" id="azl-zy-CSs"/>
+                            <constraint firstAttribute="bottom" secondItem="P7f-Lc-0Ha" secondAttribute="bottom" constant="20" symbolic="YES" id="cM4-Au-NVj"/>
+                            <constraint firstItem="P7f-Lc-0Ha" firstAttribute="trailing" secondItem="g9U-rT-yOi" secondAttribute="trailing" id="cuo-Nw-CIq"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="g9U-rT-yOi" secondAttribute="bottom" constant="253" id="tOy-7y-MeH"/>
+                            <constraint firstItem="P7f-Lc-0Ha" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="xqI-hj-ZK4"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Ba9-7C-zM8"/>
+                                <exclude reference="M2A-Lc-V15"/>
+                                <exclude reference="0Kk-j2-a5g"/>
+                                <exclude reference="cuo-Nw-CIq"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="locationTextField" destination="xcG-ha-7Gv" id="VqJ-ek-I8y"/>
+                        <outlet property="restaurantImageView" destination="Q1B-Hm-x9D" id="w8c-zf-Vee"/>
+                        <outlet property="restaurantName" destination="5o4-ON-HnF" id="RTS-k7-geU"/>
+                        <outlet property="restaurantTextField" destination="rBR-EL-Syq" id="6So-di-uzW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="305" y="429"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="search" width="36" height="36"/>
+    </resources>
 </document>

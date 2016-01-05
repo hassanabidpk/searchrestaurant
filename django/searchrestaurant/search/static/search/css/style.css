@@ -1,0 +1,195 @@
+/*http://css-snippets.com/drop-down-navigation */
+/* https://developer.mozilla.org/ko/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes */
+/* https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #ccc;
+}
+
+nav ul {
+  list-style: none;
+  background-color: #0000ff;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+    width: 20%;
+    border-right: 3px solid white;
+    height: 50px;
+    line-height: 50px;
+    font-size: 140%;
+    display: inline-block;
+    margin-right: -4px;
+  }
+
+nav li:last-child{
+	    border-right: none;
+}
+
+nav li li{
+	    border-right: none;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  padding-left: 15px;
+}
+
+nav a:hover {
+  background-color: #005f5f;
+}
+
+nav a.active {
+  background-color: #ffffff;
+  color: #444;
+  cursor: default;
+}
+
+/* Sub Menus */
+nav li li {
+  font-size: .8em;
+}
+
+nav > ul > li {
+   text-align: center;
+}
+
+nav > ul > li > a {
+    padding-left: 0;
+}
+
+/* Sub Menus */
+nav li ul {
+    position: absolute;
+    display: none;
+    width: inherit;
+}
+
+nav li:hover ul {
+   display: block;
+}
+
+nav li ul li {
+   display: block;
+ }
+
+/* Card View */
+
+
+.card{
+width: 300px;
+border: 1px solid gray;
+box-shadow: 1px 1px 3px #888;
+border-top: 10px solid red;
+min-height: 250px;
+padding-: 10px;
+margin: 10px;
+}
+
+/* TODO: */
+
+.card a img {
+
+  width: 300px;
+  /*margin: ?px;*/
+}
+
+.card_single {
+width: 500px;
+border: 1px solid gray;
+box-shadow: 1px 1px 3px #888;
+border-top: 10px solid red;
+min-height: 250px;
+padding-: 10px;
+margin: 10px;
+
+}
+
+.card_single img {
+
+  width: 400px;
+  margin-top: 10px;
+  margin-left: 50px;
+}
+
+.card_single ul {
+
+  list-style: none;
+  padding-top: 10px;
+}
+
+.card_single ul li{
+
+  padding: 5px;
+}
+
+
+h1 {
+   text-align: left;
+   margin-left: 30px;
+
+}
+
+p {
+
+  margin-left: 30px;
+  /* make it more elegant */
+}
+
+.mainbox{
+  font-family: calibri;
+  box-sizing: border-box;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+/* TODO */
+
+.card a {
+
+   text-decoration: none;
+   color: black;
+
+}
+
+.card a:hover {
+
+ /* color: ;*/
+}
+
+.card_single a {
+
+   text-decoration: none;
+   color: black;
+
+}
+
+.title {
+/* */
+
+position: absolute;
+ margin-top: 300px;
+ margin-left: 220px;
+color: yellow;
+font-size: 100px;
+font-weight: 700;
+text-align: center;
+
+}
+
+
+/* Single View */
+
+
+
+
+
+

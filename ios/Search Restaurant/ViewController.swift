@@ -10,9 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
 	
-	let GOOGLE_API_KEY = "AIzaSyCsyy2d-DIZucnnpJl5SKPST8dvV_6n_Ok"
-	let FOURSQUARE_CLIENT_ID = "URC5H2RL1RHRTXAW3N30JBRBQGOUZQ2MMSSPSEPQVVXXDDQE"
-	let FOURSQUARE_CLIENT_SECRET = "25SAH5QCTNA2J2O24CJ2I1DHUXMUPOVG2P2DZAKEP3GKI2ER"
+	let GOOGLE_API_KEY = "API_KEY"
+	let FOURSQUARE_CLIENT_ID = "CLIENT_ID"
+	let FOURSQUARE_CLIENT_SECRET = "CLIENT_SECRET"
 	let GOOGLE_BASE_URL_HOST = "maps.googleapis.com"
 	let FOURSQUARE_BASE_URL_HOST = "api.foursquare.com"
 	
@@ -143,6 +143,7 @@ class ViewController: UIViewController {
 			
 			guard let stat = parsedResult["status"] as? String where stat == "OK" else {
 				print ("Google geocoding API returned an error = See error code in \(parsedResult)")
+                self.stopSpinner(parsedResult["status"] as! String)
 				return
 			}
 			
@@ -308,6 +309,15 @@ class ViewController: UIViewController {
 		
 		
 	}
+    
+    func stopSpinner(error : String!) {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.spinner.stopAnimating()
+            if let error = error {
+                self.restaurantName.text = error
+            }
+        })
+    }
 	
 	func getRandomPhoto(id : String!)  {
 		

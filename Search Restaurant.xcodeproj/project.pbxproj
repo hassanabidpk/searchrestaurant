@@ -193,6 +193,7 @@
 				TargetAttributes = {
 					4CCB02111C3A4EE300C93C28 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = M7ULFZ4G22;
 					};
 					4CCB02251C3A4EE300C93C28 = {
 						CreatedOnToolsVersion = 7.1;
@@ -399,7 +400,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Search Restaurant/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-Restaurant";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -410,7 +413,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Search Restaurant/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-Restaurant";
 				PRODUCT_NAME = "$(TARGET_NAME)";

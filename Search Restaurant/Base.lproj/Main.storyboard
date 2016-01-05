@@ -25,8 +25,26 @@
                                         <rect key="frame" x="8" y="8" width="510" height="258"/>
                                         <animations/>
                                     </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" preservesSuperviewLayoutMargins="YES" text="Adress : " textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CrM-4S-kuE">
+                                        <rect key="frame" x="230" y="163" width="67" height="21"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Check-in Counts : " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hEI-zi-lhH">
+                                        <rect key="frame" x="192" y="192" width="142" height="21"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="3FW-h3-IqF">
+                                        <rect key="frame" x="253" y="135" width="20" height="20"/>
+                                        <animations/>
+                                    </activityIndicatorView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for Restaurant" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5o4-ON-HnF">
-                                        <rect key="frame" x="180" y="127" width="167" height="21"/>
+                                        <rect key="frame" x="180" y="91" width="167" height="21"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -36,11 +54,18 @@
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="0.48475621143096093" blue="0.4033569187151681" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="CrM-4S-kuE" firstAttribute="centerX" secondItem="g9U-rT-yOi" secondAttribute="centerX" id="8PP-8R-c8G"/>
+                                    <constraint firstItem="hEI-zi-lhH" firstAttribute="centerX" secondItem="g9U-rT-yOi" secondAttribute="centerX" id="B56-9C-pkc"/>
+                                    <constraint firstItem="hEI-zi-lhH" firstAttribute="top" secondItem="CrM-4S-kuE" secondAttribute="bottom" constant="8" symbolic="YES" id="MER-5T-E43"/>
+                                    <constraint firstItem="3FW-h3-IqF" firstAttribute="centerY" secondItem="g9U-rT-yOi" secondAttribute="centerY" id="PIf-L0-sVQ"/>
                                     <constraint firstItem="Q1B-Hm-x9D" firstAttribute="centerY" secondItem="g9U-rT-yOi" secondAttribute="centerY" id="QVw-Ev-CcR"/>
                                     <constraint firstItem="Q1B-Hm-x9D" firstAttribute="leading" secondItem="g9U-rT-yOi" secondAttribute="leadingMargin" id="ULy-qa-DdZ"/>
-                                    <constraint firstItem="5o4-ON-HnF" firstAttribute="centerY" secondItem="g9U-rT-yOi" secondAttribute="centerY" id="ZNU-RL-hE0"/>
+                                    <constraint firstItem="5o4-ON-HnF" firstAttribute="centerY" secondItem="g9U-rT-yOi" secondAttribute="centerY" constant="-35.5" id="ZNU-RL-hE0"/>
+                                    <constraint firstItem="CrM-4S-kuE" firstAttribute="top" secondItem="5o4-ON-HnF" secondAttribute="bottom" constant="51" id="aE9-Ll-9o2"/>
+                                    <constraint firstItem="CrM-4S-kuE" firstAttribute="width" secondItem="Q1B-Hm-x9D" secondAttribute="width" id="fYh-WF-5zW"/>
                                     <constraint firstItem="Q1B-Hm-x9D" firstAttribute="centerX" secondItem="g9U-rT-yOi" secondAttribute="centerX" id="jh2-oo-xCl"/>
                                     <constraint firstItem="5o4-ON-HnF" firstAttribute="centerX" secondItem="g9U-rT-yOi" secondAttribute="centerX" id="wz7-LA-99t"/>
+                                    <constraint firstItem="3FW-h3-IqF" firstAttribute="centerX" secondItem="g9U-rT-yOi" secondAttribute="centerX" id="xmS-7p-IpR"/>
                                     <constraint firstItem="Q1B-Hm-x9D" firstAttribute="top" secondItem="g9U-rT-yOi" secondAttribute="topMargin" id="yzV-4M-N7f"/>
                                 </constraints>
                             </view>
@@ -136,9 +161,12 @@
                     </view>
                     <connections>
                         <outlet property="locationTextField" destination="xcG-ha-7Gv" id="VqJ-ek-I8y"/>
+                        <outlet property="restaurantAddress" destination="CrM-4S-kuE" id="iUs-cn-mys"/>
+                        <outlet property="restaurantCheckins" destination="hEI-zi-lhH" id="qd1-jy-gAO"/>
                         <outlet property="restaurantImageView" destination="Q1B-Hm-x9D" id="w8c-zf-Vee"/>
                         <outlet property="restaurantName" destination="5o4-ON-HnF" id="RTS-k7-geU"/>
                         <outlet property="restaurantTextField" destination="rBR-EL-Syq" id="6So-di-uzW"/>
+                        <outlet property="spinner" destination="3FW-h3-IqF" id="Xjf-xx-pda"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

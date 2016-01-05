@@ -10,9 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
 	
-	let GOOGLE_API_KEY = "API_KEY"
-	let FOURSQUARE_CLIENT_ID = "CLIENT_KEY"
-	let FOURSQUARE_CLIENT_SECRET = "CLIENT_SECRET"
+	let GOOGLE_API_KEY = "AIzaSyCsyy2d-DIZucnnpJl5SKPST8dvV_6n_Ok"
+	let FOURSQUARE_CLIENT_ID = "URC5H2RL1RHRTXAW3N30JBRBQGOUZQ2MMSSPSEPQVVXXDDQE"
+	let FOURSQUARE_CLIENT_SECRET = "25SAH5QCTNA2J2O24CJ2I1DHUXMUPOVG2P2DZAKEP3GKI2ER"
 	let GOOGLE_BASE_URL_HOST = "maps.googleapis.com"
 	let FOURSQUARE_BASE_URL_HOST = "api.foursquare.com"
 	
@@ -246,9 +246,14 @@ class ViewController: UIViewController {
 				return
 			}
 			
-			guard let response = parsedResult["response"] as? NSDictionary, venues = response["venues"] as? NSArray
+			guard let response = parsedResult["response"] as? NSDictionary, venues = response["venues"] as? NSArray where venues.count >= 1
 				else {
-					print ("cannot find key location in \(parsedResult)")
+					print ("cannot find key restaurant in \(parsedResult)")
+					dispatch_async(dispatch_get_main_queue(), {
+						self.restaurantName.text = "Coudn't find any restaurant - Try again"
+						self.spinner.stopAnimating()
+						
+					})
 					return
 			}
 			

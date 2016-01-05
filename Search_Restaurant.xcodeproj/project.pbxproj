@@ -34,17 +34,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4CCB02121C3A4EE300C93C28 /* Search Restaurant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Search Restaurant.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CCB02121C3A4EE300C93C28 /* Search_Restaurant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Search_Restaurant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CCB02151C3A4EE300C93C28 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4CCB02171C3A4EE300C93C28 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4CCB021A1C3A4EE300C93C28 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4CCB021C1C3A4EE300C93C28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4CCB021F1C3A4EE300C93C28 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4CCB02211C3A4EE300C93C28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4CCB02261C3A4EE300C93C28 /* Search RestaurantTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Search RestaurantTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CCB02261C3A4EE300C93C28 /* Search_Restaurant.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Search_Restaurant.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CCB022A1C3A4EE300C93C28 /* Search_RestaurantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search_RestaurantTests.swift; sourceTree = "<group>"; };
 		4CCB022C1C3A4EE300C93C28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4CCB02311C3A4EE300C93C28 /* Search RestaurantUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Search RestaurantUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CCB02311C3A4EE300C93C28 /* Search_Restaurant.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Search_Restaurant.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CCB02351C3A4EE300C93C28 /* Search_RestaurantUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search_RestaurantUITests.swift; sourceTree = "<group>"; };
 		4CCB02371C3A4EE300C93C28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,9 +87,9 @@
 		4CCB02131C3A4EE300C93C28 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4CCB02121C3A4EE300C93C28 /* Search Restaurant.app */,
-				4CCB02261C3A4EE300C93C28 /* Search RestaurantTests.xctest */,
-				4CCB02311C3A4EE300C93C28 /* Search RestaurantUITests.xctest */,
+				4CCB02121C3A4EE300C93C28 /* Search_Restaurant.app */,
+				4CCB02261C3A4EE300C93C28 /* Search_Restaurant.xctest */,
+				4CCB02311C3A4EE300C93C28 /* Search_Restaurant.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -128,9 +128,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4CCB02111C3A4EE300C93C28 /* Search Restaurant */ = {
+		4CCB02111C3A4EE300C93C28 /* Search_Restaurant */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4CCB023A1C3A4EE300C93C28 /* Build configuration list for PBXNativeTarget "Search Restaurant" */;
+			buildConfigurationList = 4CCB023A1C3A4EE300C93C28 /* Build configuration list for PBXNativeTarget "Search_Restaurant" */;
 			buildPhases = (
 				4CCB020E1C3A4EE300C93C28 /* Sources */,
 				4CCB020F1C3A4EE300C93C28 /* Frameworks */,
@@ -140,14 +140,14 @@
 			);
 			dependencies = (
 			);
-			name = "Search Restaurant";
+			name = Search_Restaurant;
 			productName = "Search Restaurant";
-			productReference = 4CCB02121C3A4EE300C93C28 /* Search Restaurant.app */;
+			productReference = 4CCB02121C3A4EE300C93C28 /* Search_Restaurant.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4CCB02251C3A4EE300C93C28 /* Search RestaurantTests */ = {
+		4CCB02251C3A4EE300C93C28 /* Search_RestaurantTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4CCB023D1C3A4EE300C93C28 /* Build configuration list for PBXNativeTarget "Search RestaurantTests" */;
+			buildConfigurationList = 4CCB023D1C3A4EE300C93C28 /* Build configuration list for PBXNativeTarget "Search_RestaurantTests" */;
 			buildPhases = (
 				4CCB02221C3A4EE300C93C28 /* Sources */,
 				4CCB02231C3A4EE300C93C28 /* Frameworks */,
@@ -158,14 +158,14 @@
 			dependencies = (
 				4CCB02281C3A4EE300C93C28 /* PBXTargetDependency */,
 			);
-			name = "Search RestaurantTests";
+			name = Search_RestaurantTests;
 			productName = "Search RestaurantTests";
-			productReference = 4CCB02261C3A4EE300C93C28 /* Search RestaurantTests.xctest */;
+			productReference = 4CCB02261C3A4EE300C93C28 /* Search_Restaurant.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		4CCB02301C3A4EE300C93C28 /* Search RestaurantUITests */ = {
+		4CCB02301C3A4EE300C93C28 /* Search_RestaurantUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4CCB02401C3A4EE300C93C28 /* Build configuration list for PBXNativeTarget "Search RestaurantUITests" */;
+			buildConfigurationList = 4CCB02401C3A4EE300C93C28 /* Build configuration list for PBXNativeTarget "Search_RestaurantUITests" */;
 			buildPhases = (
 				4CCB022D1C3A4EE300C93C28 /* Sources */,
 				4CCB022E1C3A4EE300C93C28 /* Frameworks */,
@@ -176,9 +176,9 @@
 			dependencies = (
 				4CCB02331C3A4EE300C93C28 /* PBXTargetDependency */,
 			);
-			name = "Search RestaurantUITests";
+			name = Search_RestaurantUITests;
 			productName = "Search RestaurantUITests";
-			productReference = 4CCB02311C3A4EE300C93C28 /* Search RestaurantUITests.xctest */;
+			productReference = 4CCB02311C3A4EE300C93C28 /* Search_Restaurant.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -205,7 +205,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4CCB020D1C3A4EE300C93C28 /* Build configuration list for PBXProject "Search Restaurant" */;
+			buildConfigurationList = 4CCB020D1C3A4EE300C93C28 /* Build configuration list for PBXProject "Search_Restaurant" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -218,9 +218,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4CCB02111C3A4EE300C93C28 /* Search Restaurant */,
-				4CCB02251C3A4EE300C93C28 /* Search RestaurantTests */,
-				4CCB02301C3A4EE300C93C28 /* Search RestaurantUITests */,
+				4CCB02111C3A4EE300C93C28 /* Search_Restaurant */,
+				4CCB02251C3A4EE300C93C28 /* Search_RestaurantTests */,
+				4CCB02301C3A4EE300C93C28 /* Search_RestaurantUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -283,12 +283,12 @@
 /* Begin PBXTargetDependency section */
 		4CCB02281C3A4EE300C93C28 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4CCB02111C3A4EE300C93C28 /* Search Restaurant */;
+			target = 4CCB02111C3A4EE300C93C28 /* Search_Restaurant */;
 			targetProxy = 4CCB02271C3A4EE300C93C28 /* PBXContainerItemProxy */;
 		};
 		4CCB02331C3A4EE300C93C28 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4CCB02111C3A4EE300C93C28 /* Search Restaurant */;
+			target = 4CCB02111C3A4EE300C93C28 /* Search_Restaurant */;
 			targetProxy = 4CCB02321C3A4EE300C93C28 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -405,7 +405,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-Restaurant";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Search_Restaurant;
 			};
 			name = Debug;
 		};
@@ -418,7 +418,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-Restaurant";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Search_Restaurant;
 			};
 			name = Release;
 		};
@@ -429,8 +429,8 @@
 				INFOPLIST_FILE = "Search RestaurantTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-RestaurantTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Search Restaurant.app/Search Restaurant";
+				PRODUCT_NAME = Search_Restaurant;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Search_Restaurant.app/Search_Restaurant";
 			};
 			name = Debug;
 		};
@@ -441,8 +441,8 @@
 				INFOPLIST_FILE = "Search RestaurantTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-RestaurantTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Search Restaurant.app/Search Restaurant";
+				PRODUCT_NAME = Search_Restaurant;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Search_Restaurant.app/Search_Restaurant";
 			};
 			name = Release;
 		};
@@ -452,7 +452,7 @@
 				INFOPLIST_FILE = "Search RestaurantUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-RestaurantUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Search_Restaurant;
 				TEST_TARGET_NAME = "Search Restaurant";
 				USES_XCTRUNNER = YES;
 			};
@@ -464,7 +464,7 @@
 				INFOPLIST_FILE = "Search RestaurantUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-RestaurantUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Search_Restaurant;
 				TEST_TARGET_NAME = "Search Restaurant";
 				USES_XCTRUNNER = YES;
 			};
@@ -473,7 +473,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4CCB020D1C3A4EE300C93C28 /* Build configuration list for PBXProject "Search Restaurant" */ = {
+		4CCB020D1C3A4EE300C93C28 /* Build configuration list for PBXProject "Search_Restaurant" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4CCB02381C3A4EE300C93C28 /* Debug */,
@@ -482,29 +482,32 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4CCB023A1C3A4EE300C93C28 /* Build configuration list for PBXNativeTarget "Search Restaurant" */ = {
+		4CCB023A1C3A4EE300C93C28 /* Build configuration list for PBXNativeTarget "Search_Restaurant" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4CCB023B1C3A4EE300C93C28 /* Debug */,
 				4CCB023C1C3A4EE300C93C28 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		4CCB023D1C3A4EE300C93C28 /* Build configuration list for PBXNativeTarget "Search RestaurantTests" */ = {
+		4CCB023D1C3A4EE300C93C28 /* Build configuration list for PBXNativeTarget "Search_RestaurantTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4CCB023E1C3A4EE300C93C28 /* Debug */,
 				4CCB023F1C3A4EE300C93C28 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		4CCB02401C3A4EE300C93C28 /* Build configuration list for PBXNativeTarget "Search RestaurantUITests" */ = {
+		4CCB02401C3A4EE300C93C28 /* Build configuration list for PBXNativeTarget "Search_RestaurantUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4CCB02411C3A4EE300C93C28 /* Debug */,
 				4CCB02421C3A4EE300C93C28 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

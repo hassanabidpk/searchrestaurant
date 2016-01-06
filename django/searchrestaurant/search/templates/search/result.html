@@ -35,14 +35,14 @@
             </div>
           </div>
 					<div class="inner cover">
-	           <div class="row">
+	           <div class="row" style="margin-top:22px;">
 	              <div class="col-xs-12 col-md-8 col-md-offset-2">
 		              {% if image %}
 		              <img src="{{ image }}" class="img-responsive center-block">
 		              {% else %}
 		               <img src="{% static 'search/images/red.jpg' %}" width="400" class="img-responsive center-block">
 		               {% endif %}
-		              <h2>{{ name }}</h2>
+		              <h2>{{ name|truncatechars:255 }}</h2>
 		              <ul class="list-group">
 		              	<li class="list-group-item list-group-item-success">Checkins<span class="badge">{{ checkins }}</span></li>
 		               	<li class="list-group-item list-group-item-info">Phone: {{ phone_number }}</li>

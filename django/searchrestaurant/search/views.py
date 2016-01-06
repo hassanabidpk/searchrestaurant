@@ -15,6 +15,11 @@ def getRandomRestaurant(location,query):
 	google_payload = {'address': location, 'key': GOOGLE_API_KEY}
 	rgoogle = requests.get("https://maps.googleapis.com/maps/api/geocode/json", params=google_payload)
 	googlejson = rgoogle.json()
+	# print(rgoogle.url)
+	status = googlejson["status"]
+	if not status == "OK" :
+		result["name"] = "Invalid address"
+		return result
 	location = googlejson['results'][0]
 
 	# print ("Latitude and Longitude of Seoul : ",location["geometry"]["location"])
@@ -31,6 +36,9 @@ def getRandomRestaurant(location,query):
 	restaurants = fjson['response']['venues']
 	total_restaurants = len(restaurants)
 	restaurants_count = min(total_restaurants,100)
+	if not restaurants_count > 0:
+		result["name"] = "Sorry - No Restaurant found!"
+		return result
 	random_restaurant_index = random.randrange(0,restaurants_count)
 	random_restaurant = restaurants[random_restaurant_index]
 	location = random_restaurant["location"]
@@ -57,7 +65,7 @@ def getRandomRestaurant(location,query):
 	result["address"] = (' ').join(formattedAddress)
 
 	# Get Restaurant photo
-	foursquare_payload_photo = {'clihistoryent_id': FOURSQUARE_CLIENT_ID, 'client_secret': FOURSQUARE_CLIENT_SECRET, 'v' : 20160105}
+	foursquare_payload_photo = {'client_id': FOURSQUARE_CLIENT_ID, 'client_secret': FOURSQUARE_CLIENT_SECRET, 'v' : 20160105}
 
 	rfoursquare_photo = requests.get("https://api.foursquare.com/v2/venues/"+venue_id+"/photos",params=foursquare_payload_photo)
 	# print (rfoursquare_photo.url)
@@ -68,7 +76,7 @@ def getRandomRestaurant(location,query):
 		photos_count = min(total_photos,100)
 		random_photo_index = random.randrange(0,photos_count)
 		photo = photos['items'][random_photo_index]
-		photo_url = photo["prefix"] + "height350" + photo["suffix"]
+		photo_url = photo["prefix"] + "height320" + photo["suffix"]
 		# print (photo_url)
 		result["image"] = photo_url
 	else :

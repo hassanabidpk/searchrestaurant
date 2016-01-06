@@ -11,18 +11,18 @@ FOURSQUARE_CLIENT_SECRET = '25SAH5QCTNA2J2O24CJ2I1DHUXMUPOVG2P2DZAKEP3GKI2ER'
 
 def getRandomRestaurant(location,query):
 	result = {}
-	# Get latitude and longitude 
+	# Get latitude and longitude
 	google_payload = {'address': location, 'key': GOOGLE_API_KEY}
 	rgoogle = requests.get("https://maps.googleapis.com/maps/api/geocode/json", params=google_payload)
 	googlejson = rgoogle.json()
 	location = googlejson['results'][0]
 
-	print ("Latitude and Longitude of Seoul : ",location["geometry"]["location"])
+	# print ("Latitude and Longitude of Seoul : ",location["geometry"]["location"])
 	latitude = location["geometry"]["location"]["lat"]
 	longitude = location["geometry"]["location"]["lng"]
 	latlong = str(latitude) + "," + str(longitude)
 
-	# Get restaurant based on query 
+	# Get restaurant based on query
 	foursquare_payload = {'client_id': FOURSQUARE_CLIENT_ID, 'client_secret': FOURSQUARE_CLIENT_SECRET, 'v' : 20160105,
 	'limit':100,'ll': latlong,'query': query}
 
@@ -37,7 +37,7 @@ def getRandomRestaurant(location,query):
 	formattedAddress  = []
 	try:
 		formattedAddress = location["formattedAddress"]
-	except KeyError: 
+	except KeyError:
 		formattedAddress[0] = "N/A"
 
 	stats = random_restaurant["stats"]
@@ -56,11 +56,11 @@ def getRandomRestaurant(location,query):
 	result["phone_number"] = phone_number
 	result["address"] = (' ').join(formattedAddress)
 
-	# Get Restaurant photo 
-	foursquare_payload_photo = {'client_id': FOURSQUARE_CLIENT_ID, 'client_secret': FOURSQUARE_CLIENT_SECRET, 'v' : 20160105}
+	# Get Restaurant photo
+	foursquare_payload_photo = {'clihistoryent_id': FOURSQUARE_CLIENT_ID, 'client_secret': FOURSQUARE_CLIENT_SECRET, 'v' : 20160105}
 
 	rfoursquare_photo = requests.get("https://api.foursquare.com/v2/venues/"+venue_id+"/photos",params=foursquare_payload_photo)
-	print (rfoursquare_photo.url)
+	# print (rfoursquare_photo.url)
 	photojson = rfoursquare_photo.json()
 	photos = photojson['response']['photos']
 	total_photos = photos["count"]
@@ -68,10 +68,10 @@ def getRandomRestaurant(location,query):
 		photos_count = min(total_photos,100)
 		random_photo_index = random.randrange(0,photos_count)
 		photo = photos['items'][random_photo_index]
-		photo_url = photo["prefix"] + "height250" + photo["suffix"]
-		print (photo_url)
+		photo_url = photo["prefix"] + "height350" + photo["suffix"]
+		# print (photo_url)
 		result["image"] = photo_url
-	else : 
+	else :
 		print("no_photo")
 
 	return result
@@ -91,9 +91,7 @@ def result(request):
 		if restaurantType and location :
 			context = getRandomRestaurant(location,restaurantType)
 			return render(request,'search/result.html',context)
-		else : 
+		else :
 			return HttpResponseRedirect('/')
-	else : 
+	else :
 		return HttpResponseRedirect('/')
-
-

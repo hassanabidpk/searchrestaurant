@@ -14,8 +14,6 @@
   <!-- Custom Style -->
 <link rel="stylesheet" href="{% static 'search/css/style_b.css' %}">
 
-
-
 </head>
 <body style="background-image: url('{% static 'search/images/street_background.jpg' %}')">
   <div class="site-wrapper">
@@ -36,39 +34,23 @@
               </nav>
             </div>
           </div>
-
-           <div class="row">
-              <div class="col-xs-12 col-md-6 col-md-offset-4">
-              {% if image %}
-              <img src="{{ image }}">
-              {% else %}
-               <img src="{% static 'search/images/red.jpg' %}" width="300">
-               {% endif %}
-              <h2>{{ name }}</h2>
-             <ul class="list-group">
-              <li class="list-group-item list-group-item-success">Checkins<span class="badge">{{ checkins }}</span></li>
-               <li class="list-group-item list-group-item-info">Phone: {{ phone_number }}</li>
-                <li class="list-group-item list-group-item-info">Address: {{ address }}</li>
-            </ul>
-                </div>
-
-            </div>
-
-         <!--  <div class="inner cover">
-            <h1 class="cover-heading">Search restaurant</h1>
-            <form class="form-inline" style="margin-top: 35px;" action="{% url 'search:result' %}" method="get">
-              <div class="form-group">
-                <label for="location">Location</label>
-                <input type="text" class="form-control" id="location" placeholder="Gangnam-gu,Seoul" required>
-              </div>
-              <div class="form-group" >
-                <label for="restauranttype">Restaurant Type</label>
-                <input type="text" class="form-control" id="restauranttype" placeholder="pizza" required>
-              </div>
-              <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-            </form>
-          </div> -->
-
+					<div class="inner cover">
+	           <div class="row">
+	              <div class="col-xs-12 col-md-8 col-md-offset-2">
+		              {% if image %}
+		              <img src="{{ image }}" class="img-responsive center-block">
+		              {% else %}
+		               <img src="{% static 'search/images/red.jpg' %}" width="400" class="img-responsive center-block">
+		               {% endif %}
+		              <h2>{{ name }}</h2>
+		              <ul class="list-group">
+		              	<li class="list-group-item list-group-item-success">Checkins<span class="badge">{{ checkins }}</span></li>
+		               	<li class="list-group-item list-group-item-info">Phone: {{ phone_number }}</li>
+		                <li class="list-group-item list-group-item-info">Address: {{ address }}</li>
+		              </ul>
+	                </div>
+	            </div>
+					</div>
           <div class="mastfoot">
             <div class="inner">
               <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>

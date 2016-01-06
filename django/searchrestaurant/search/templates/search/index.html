@@ -41,11 +41,11 @@
             <h1 class="cover-heading">Search restaurant</h1>
             <form class="form-inline" style="margin-top: 35px;" action="{% url 'search:result' %}" method="get">
               <div class="form-group">
-                <label for="location">Location</label>
+                <label for="location" style="font-size:20px; color:yellow;">Location</label>
                 <input type="text" name="location" class="form-control" id="location" placeholder="Gangnam-gu,Seoul" required>
               </div>
               <div class="form-group" >
-                <label for="rtype">Restaurant Type</label>
+                <label for="rtype" style="font-size:20px; color:yellow;">Restaurant Type</label>
                 <input type="text" class="form-control" name="rtype" id="rtype" placeholder="pizza" required>
               </div>
               <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>

@@ -14,4 +14,6 @@ Coming soon
 
 # Django :
 
-Coming soon
+Check Django Folder
+
+<img src="images/website.png" >

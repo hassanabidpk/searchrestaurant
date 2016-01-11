@@ -7,17 +7,15 @@
 //
 
 import UIKit
+import GoogleMaps
 
 class ViewController: UIViewController {
 	
-	let GOOGLE_API_KEY = "API_KEY"
-	let FOURSQUARE_CLIENT_ID = "CLIENT_ID"
-	let FOURSQUARE_CLIENT_SECRET = "CLIENT_SECRET"
+	let GOOGLE_API_KEY = "GOOGLE_API_KEY"
+	let FOURSQUARE_CLIENT_ID = "FOURSQUARE_CLIENT_ID"
+	let FOURSQUARE_CLIENT_SECRET = "FOURSQUARE_CLIENT_SECRET"
 	let GOOGLE_BASE_URL_HOST = "maps.googleapis.com"
 	let FOURSQUARE_BASE_URL_HOST = "api.foursquare.com"
-	
-	
-
 	
 	@IBOutlet weak var restaurantImageView: UIImageView!
 	@IBOutlet weak var restaurantName: UILabel!
@@ -30,6 +28,10 @@ class ViewController: UIViewController {
 	@IBOutlet weak var restaurantCheckins: UILabel!
 	
 	var tapRecognizer: UITapGestureRecognizer? = nil
+	var placesClient: GMSPlacesClient?
+	var locationManager: CLLocationManager!
+	var latlngFromCurrLoc : String?
+	var currentPlaceName : String?
 	
 	@IBAction func searchRestaurant(sender: UIButton) {
 		
@@ -40,10 +42,20 @@ class ViewController: UIViewController {
 			self.restaurantCheckins.text = ""
 			self.restaurantAddress.text = ""
 			self.spinner.startAnimating()
-			let gURL = self.getURLForQuery()
-			print(gURL)
-	
-			self.getLocationCordinates(gURL)
+			if let currentPlaceName = currentPlaceName  {
+				if currentPlaceName != self.locationTextField.text  {
+					self.latlngFromCurrLoc = nil
+					print("get place by searching")
+				}
+			}
+			if let latlng = self.latlngFromCurrLoc {
+				self.getRandomRestaurant(nil, lng: nil)
+				print(latlng)
+			} else {
+				let gURL = self.getURLForQuery()
+				print(gURL)
+				self.getLocationCordinates(gURL)
+			}
 		} else {
 		
 			self.restaurantName.text = "Enter both location and restaurant type!"
@@ -54,6 +66,43 @@ class ViewController: UIViewController {
 	
 	}
 	
+	
+	@IBAction func getCurrentLocation(sender: UIButton) {
+		/* Use GoogleMaps API */
+		print("getCurrentLocation ")
+		if(!CLLocationManager.locationServicesEnabled()) {
+			locationManager.requestWhenInUseAuthorization()
+			return
+		}
+		placesClient?.currentPlaceWithCallback({
+			(placeLikelihoodList: GMSPlaceLikelihoodList? , error: NSError?) -> Void in
+			
+			if let error = error  {
+				print("Pick place error : \(error.localizedDescription)")
+				return
+			}
+			
+			self.locationTextField.text = "No Current Place"
+			
+			if let placeLikelihoodList = placeLikelihoodList {
+				print("\(placeLikelihoodList)")
+				let place = placeLikelihoodList.likelihoods.first?.place
+				if let place = place {
+					
+					self.currentPlaceName = place.name
+					self.locationTextField.text = place.name
+					print("place : \(place.name)")
+					var latlng: CLLocationCoordinate2D!
+					latlng = place.coordinate
+					print(latlng)
+					self.latlngFromCurrLoc = "\(latlng.latitude),\(latlng.longitude)"
+				
+				}
+			}
+		})
+		
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 	
@@ -62,6 +111,11 @@ class ViewController: UIViewController {
 		self.restaurantCheckins.text = ""
 		self.restaurantAddress.text = ""
 		self.spinner.stopAnimating()
+		placesClient = GMSPlacesClient()
+		locationManager = CLLocationManager()
+		self.restaurantName.lineBreakMode = NSLineBreakMode.ByWordWrapping
+		self.restaurantName.numberOfLines = 2
+		
 		
 	}
 	
@@ -188,7 +242,11 @@ class ViewController: UIViewController {
 		if let latitude = lat as String!, longitude = lng as String! {
 			latlongStr = String(latitude) + "," + String(longitude)
 		} else {
-			latlongStr = ""
+			if let latlng = latlngFromCurrLoc {
+				latlongStr = latlng
+			} else  {
+				latlongStr = ""
+			}
 		}
 //		let escapedRestaurantValue = self.restaurantTextField.text!.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
 		let escapedRestaurantValue = "\(self.restaurantTextField.text!)"
@@ -271,7 +329,7 @@ class ViewController: UIViewController {
 					let id = restaurant["id"]
 					let checkIns = stats["checkinsCount"]
 					
-					print(name, " \nAddress : " , formattedAddress, "\nstats: ", checkIns)
+//					print(name, " \nAddress : " , formattedAddress, "\nstats: ", checkIns)
 				if let venueId = id as! String! {
 					self.getRandomPhoto(venueId)
 					var checkInsCount : Int
@@ -283,13 +341,12 @@ class ViewController: UIViewController {
 					
 					dispatch_async(dispatch_get_main_queue(), {
 						self.restaurantName.font = UIFont.systemFontOfSize(20.0)
-						
-						self.restaurantName.text = (name as! String)
+						self.restaurantName.text = "\(name)"
 						self.restaurantCheckins.text = "Checkins : \(checkInsCount)"
 						var addressArray =  [String]()
 						if let address = formattedAddress {
 							addressArray = address as! [String]
-							print("Formatted address: ", addressArray)
+//							print("Formatted address: ", addressArray)
 							self.restaurantAddress.lineBreakMode = NSLineBreakMode.ByWordWrapping
 							self.restaurantAddress.numberOfLines = 0
 						
@@ -402,6 +459,7 @@ class ViewController: UIViewController {
 					print ("cannot find key / or count is zero / in \(parsedResult)")
 					dispatch_async(dispatch_get_main_queue(), {
 						self.spinner.stopAnimating()
+						self.restaurantImageView.image = nil
 					})
 					return
 			}

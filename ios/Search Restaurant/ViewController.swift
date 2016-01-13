@@ -32,6 +32,7 @@ class ViewController: UIViewController {
 	var locationManager: CLLocationManager!
 	var latlngFromCurrLoc : String?
 	var currentPlaceName : String?
+    var placePicker : GMSPlacePicker?
 	
 	@IBAction func searchRestaurant(sender: UIButton) {
 		
@@ -103,6 +104,38 @@ class ViewController: UIViewController {
 		
 	}
 	
+    @IBAction func pickPlace(sender: UIButton) {
+        let center = CLLocationCoordinate2DMake(37.5667, 126.9667)
+        let northEast = CLLocationCoordinate2DMake(center.latitude + 0.001, center.longitude + 0.001)
+        let southWest = CLLocationCoordinate2DMake(center.latitude - 0.001, center.longitude - 0.001)
+        let viewport = GMSCoordinateBounds(coordinate: northEast, coordinate: southWest)
+        let config = GMSPlacePickerConfig(viewport: viewport)
+        placePicker = GMSPlacePicker(config: config)
+        
+        placePicker?.pickPlaceWithCallback({ (place: GMSPlace?, error: NSError?) -> Void in
+            if let error = error {
+                print("Pick Place error: \(error.localizedDescription)")
+                return
+            }
+            
+            if let place = place {
+                print("Place name \(place.name)")
+                print("Place address \(place.formattedAddress)")
+                print("Place attributions \(place.attributions)")
+                self.currentPlaceName = place.name
+                self.locationTextField.text = place.name
+                print("place : \(place.name)")
+                var latlng: CLLocationCoordinate2D!
+                latlng = place.coordinate
+                print(latlng)
+                self.latlngFromCurrLoc = "\(latlng.latitude),\(latlng.longitude)"
+
+            } else {
+                print("No place selected")
+            }
+        })
+        
+    }
 	override func viewDidLoad() {
 		super.viewDidLoad()
 	

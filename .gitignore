@@ -2,3 +2,6 @@
 django/rvenv
 *.pyc
 ios/Pods/
+android/.gradle
+android/.idea
+android/build

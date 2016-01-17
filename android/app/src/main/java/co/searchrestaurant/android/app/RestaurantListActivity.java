@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,13 @@ import android.widget.TextView;
 
 
 import co.searchrestaurant.android.app.dummy.DummyContent;
+import co.searchrestaurant.android.app.fetch.GeocodingApi;
+import co.searchrestaurant.android.app.fetch.GeocodingResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.GsonConverterFactory;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import java.util.List;
 
@@ -64,6 +72,29 @@ public class RestaurantListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://maps.googleapis.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        GeocodingApi api = retrofit.create(GeocodingApi.class);
+        Call<GeocodingResponse> call = api.getLatLng("yongsan+seoul","API_KEY");
+        call.enqueue(new Callback<GeocodingResponse>() {
+            @Override
+            public void onResponse(Response<GeocodingResponse> response) {
+                if(response.isSuccess()) {
+                    Log.d("CallBack", " response is " + response.body().results.get(0).formatted_address);
+                } else {
+                    Log.d("CallBack", " response is " + response.raw().toString());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d("CallBack", " Throwable is " +t);
+            }
+        });
+
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {

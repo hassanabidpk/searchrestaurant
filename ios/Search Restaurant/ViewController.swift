@@ -14,7 +14,7 @@ class ViewController: UIViewController {
 	
 	let GOOGLE_API_KEY = "GOOGLE_API_KEY"
 	let FOURSQUARE_CLIENT_ID = "FOURSQUARE_CLIENT_ID"
-	let FOURSQUARE_CLIENT_ID = "FOURSQUARE_CLIENT_ID"
+	let FOURSQUARE_CLIENT_SECRET = "FOURSQUARE_CLIENT_SECRET"
 	let GOOGLE_BASE_URL_HOST = "maps.googleapis.com"
 	let FOURSQUARE_BASE_URL_HOST = "api.foursquare.com"
 	
@@ -27,6 +27,7 @@ class ViewController: UIViewController {
 	@IBOutlet weak var restaurantAddress: UILabel!
 	@IBOutlet weak var spinner: UIActivityIndicatorView!
 	@IBOutlet weak var restaurantCheckins: UILabel!
+    @IBOutlet weak var showRestaurantsList: UIBarButtonItem!
 	
 	var tapRecognizer: UITapGestureRecognizer? = nil
 	var placesClient: GMSPlacesClient?
@@ -35,12 +36,16 @@ class ViewController: UIViewController {
 	var currentPlaceName : String?
     var placePicker : GMSPlacePicker?
 	var restaurants = [Restaurant] ()
+    var count: Int = 1
+    
+    
 	
 	@IBAction func searchRestaurant(sender: UIButton) {
 		
 		print("search restaurant")
 		self.dismissAnyVisibleKeyboards()
 		if !self.locationTextField.text!.isEmpty && !self.restaurantTextField.text!.isEmpty {
+            self.showRestaurantsList.enabled = false
 			self.restaurantName.text = "Searching .... "
 			self.restaurantCheckins.text = ""
 			self.restaurantAddress.text = ""
@@ -53,6 +58,7 @@ class ViewController: UIViewController {
 			}
 			if let latlng = self.latlngFromCurrLoc {
 				self.getRandomRestaurant(nil, lng: nil)
+                self.getRestaurants(nil, lng: nil)
 				print(latlng)
 			} else {
 				let gURL = self.getURLForQuery()
@@ -150,6 +156,7 @@ class ViewController: UIViewController {
 		locationManager = CLLocationManager()
 		self.restaurantName.lineBreakMode = NSLineBreakMode.ByWordWrapping
 		self.restaurantName.numberOfLines = 2
+        self.showRestaurantsList.enabled = false
 		
 		
 	}
@@ -602,7 +609,7 @@ extension ViewController {
 	
 	
 	func getRestaurants(lat:String! , lng: String!)  {
-		
+		restaurants.removeAll()
 		let foursquareComponents = NSURLComponents()
 		foursquareComponents.scheme = "https"
 		foursquareComponents.host = FOURSQUARE_BASE_URL_HOST
@@ -690,9 +697,7 @@ extension ViewController {
 			}
 			
 			print("Total Venues : " , venues.count)
-			var count: Int = 1
 			for r in venues {
-				count += 1
 				if let restaurant = r as? NSDictionary {
 					let location = restaurant["location"]!
 					let formattedAddress = location["formattedAddress"]
@@ -703,7 +708,12 @@ extension ViewController {
 						var addressArray =  [String]()
 						if let address = formattedAddress {
 							addressArray = address as! [String]
-							self.getPhotoForRestaurant(venueId,name: name as! String,address: addressArray.joinWithSeparator(" "))
+                            dispatch_async(dispatch_get_main_queue(), {
+                                self.spinner.startAnimating()
+                                
+                            })
+                            self.getPhotoForRestaurant(venueId,name: name as! String,address: addressArray.joinWithSeparator(" "),totalCount: venues.count)
+                            
 						}
 					
 					}
@@ -711,6 +721,8 @@ extension ViewController {
 				}
 			
 			}
+            
+            
 			
 		}
 		
@@ -719,7 +731,7 @@ extension ViewController {
 		
 	}
 	
-	func getPhotoForRestaurant(id : String!, name: String!, address: String!)  {
+    func getPhotoForRestaurant(id : String!, name: String!, address: String!,totalCount:Int)  {
 		
 		let foursquareComponents = NSURLComponents()
 		foursquareComponents.scheme = "https"
@@ -743,7 +755,7 @@ extension ViewController {
 		let request = NSURLRequest(URL: url)
 		
 		let task = session.dataTaskWithRequest(request) { (data, response, error) in
-			
+			self.count += 1
 			guard (error == nil ) else {
 				print("There is error in Foursquare Photo request api request")
 				self.spinner.stopAnimating()
@@ -808,7 +820,18 @@ extension ViewController {
 					let image  = UIImage(data: imageData)
 					let restaurant = Restaurant(name: name, photo: image, address: address)!
 					self.restaurants.append(restaurant)
-					self.saveRestaurants()
+                    self.saveRestaurants()
+//					self.saveRestaurants()
+                    if(self.count == (totalCount+1)) {
+                        print("count : \(self.count) == \(totalCount)")
+                        dispatch_async(dispatch_get_main_queue(), {
+//                            self.saveRestaurants()
+                            self.spinner.stopAnimating()
+                            
+                        })
+                    } else {
+                        print("count : \(self.count) != \(totalCount)")
+                    }
 					
 				} else {
 					print("Image does not exist at \(photoURL)")
@@ -827,16 +850,34 @@ extension ViewController {
 	// MARK: NSCoding
 	
 	func saveRestaurants() {
-		
+		deleteRestaurants()
+        self.count = 0
 		let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(restaurants, toFile: Restaurant.ArchiveURL.path!)
+
 		self.spinner.stopAnimating()
 		if !isSuccessfulSave {
 			print("Failed to save restaurants...")
 		} else {
+            self.showRestaurantsList.enabled = true
 			print("saved restaurants")
 		}
 	}
+    
+    func deleteRestaurants() {
+        do {
+        try  NSFileManager.defaultManager().removeItemAtPath(Restaurant.ArchiveURL.path!)
+        } catch {
+            print("couldn't delete restaurant")
+        }
+    
+    }
 
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+//        self.saveRestaurants()
+        
+    }
 
 }
 

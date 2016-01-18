@@ -50,6 +50,9 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
+                                        <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="8" y="192" width="310" height="21"/>
+                                        </variation>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -109,6 +112,7 @@
                                         <state key="normal" image="mylocation"/>
                                         <connections>
                                             <action selector="getCurrentLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HHO-Xu-xMc"/>
+                                            <segue destination="WXP-2A-iNH" kind="show" id="41j-bd-1B4"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F8i-xB-Jrp">
@@ -215,6 +219,85 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="305" y="429"/>
+        </scene>
+        <!--Nearby Restaurants-->
+        <scene sceneID="wHL-uA-rnj">
+            <objects>
+                <tableViewController id="ULl-Nl-iB2" customClass="RestaurantTableViewController" customModule="Search_Restaurant" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="92" sectionHeaderHeight="28" sectionFooterHeight="28" id="Dbg-8Z-CBD">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RestaurantTableViewCell" rowHeight="144" id="Z3B-cH-598" userLabel="RestaurantTableViewCell" customClass="RestaurantTableViewCell" customModule="Search_Restaurant" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="144"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z3B-cH-598" id="ng3-f3-EFf">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="143"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfn-Ib-enx">
+                                            <rect key="frame" x="156" y="8" width="294" height="21"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BaA-JY-g6j" userLabel="RestaurantImage">
+                                            <rect key="frame" x="8" y="0.0" width="128" height="128"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Address" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6y-gj-zsH">
+                                            <rect key="frame" x="156" y="31" width="294" height="66"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                            <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                                <rect key="frame" x="156" y="39" width="212" height="66"/>
+                                            </variation>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="restaurantAddress" destination="s6y-gj-zsH" id="HsR-bU-Ves"/>
+                                    <outlet property="restaurantImage" destination="BaA-JY-g6j" id="4wO-g3-Cun"/>
+                                    <outlet property="restaurantName" destination="zfn-Ib-enx" id="d4P-f9-GXg"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ULl-Nl-iB2" id="FBJ-qp-Slm"/>
+                            <outlet property="delegate" destination="ULl-Nl-iB2" id="p3C-mv-oes"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Nearby Restaurants" id="bvI-AY-Asf">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="BlX-gD-hbx">
+                            <connections>
+                                <segue destination="DUc-PG-jhI" kind="unwind" unwindAction="cancelToRestaurantTableViewController:" id="Z0L-IE-O3N"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vEW-yz-UmX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="DUc-PG-jhI" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1923" y="429"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="cYR-W1-7Uo">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WXP-2A-iNH" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eTx-Mf-emi">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ULl-Nl-iB2" kind="relationship" relationship="rootViewController" id="4jo-gK-fFG"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BC6-x6-TuB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1112" y="429"/>
         </scene>
     </scenes>
     <resources>

@@ -17,4 +17,4 @@ Enter `GOOGLE_API_KEY`, `FOURSQUARE_CLIENT_ID` and `FOURSQUARE_CLIENT_SECRET` in
 
 
 
-<img src="images/ios_1.png" width="300">
+<img src="../images/ios_1.png" width="300">

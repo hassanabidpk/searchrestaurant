@@ -1,74 +1,49 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Search Restaurant</title>
-
-<!-- Latest compiled and minified CSS -->
-<!-- http://getbootstrap.com/getting-started/ -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
-
-  <!-- Custom Style -->
-<link rel="stylesheet" href="{% static 'search/css/style_b.css' %}">
-
-
-
-</head>
-<body>
-  <div class="site-wrapper">
-
-      <div class="site-wrapper-inner">
-
-        <div class="cover-container">
-
-          <div class="masthead clearfix">
-            <div class="inner">
-              <h3 class="masthead-brand">Search Restaurant</h3>
-              <nav>
-                <ul class="nav masthead-nav">
-                  <li class="active"><a href="#">Home</a></li>
-                  <li><a href="#">Restaurants</a></li>
-                  <li><a href="#">Contact</a></li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-
-          <div class="inner cover">
-            <h1 class="cover-heading">Search restaurant</h1>
-            <form class="form-inline" style="margin-top: 35px;" action="{% url 'search:result' %}" method="get">
-              <div class="form-group">
-                <label for="location" style="font-size:20px; color:yellow;">Location</label>
-                <input type="text" name="location" class="form-control" id="location" placeholder="Gangnam-gu,Seoul" required>
+{% extends 'search/base.html' %}
+        {% block content %}
+        <div class="scan-be-together-section mdl-typography--text-center">
+          <div class="logo-font scan-slogan">Search Restaurant</div>
+          <div class="logo-font scan-sub-slogan">Find delicious food nearby!</div>
+          <div class="mdl-grid">
+              <div class="mdl-cell mdl-cell--4-col mdl-cell--4-offset">
+                <form action="{% url 'search:rlistview' %}" method="get">
+                  <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" name="location" id="location" type="text" style="background-color: white;" required>
+                    <label class="mdl-textfield__label" for="name">Place : Gangnam-gu etc.</label>
+                  </div><br>
+                  <div class="mdl-textfield mdl-js-textfield" >
+                    <input class="mdl-textfield__input" type="text" name="rtype" id="rtype" style="background-color: white;" required>
+                    <label class="mdl-textfield__label" for="email">Restaurant type : pizza</label>
+                  </div><br>
+                    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                     <i class="material-icons">search</i>
+                    </button>
+                </form>
               </div>
-              <div class="form-group" >
-                <label for="rtype" style="font-size:20px; color:yellow;">Restaurant Type</label>
-                <input type="text" class="form-control" name="rtype" id="rtype" placeholder="pizza" required>
-              </div>
-              <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-            </form>
-          </div>
-
-          <div class="mastfoot">
-            <div class="inner">
-              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
             </div>
-          </div>
-
+            <button class="scan-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+              <i class="material-icons">expand_more</i>
+            </button>
         </div>
+        {% endblock %}
 
-      </div>
-
+  {% block jsblock1 %}
+    <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+  <div class="mdl-snackbar__text"></div>
+      <button class="mdl-snackbar__action" type="button"></button>
     </div>
+    <script>
+    (function() {
+      'use strict';
+      window['counter'] = 0;
+      var snackbarContainer = document.querySelector('#demo-toast-example');
+      var showToastButton = document.querySelector('#demo-show-toast');
+      showToastButton.addEventListener('click', function() {
+        'use strict';
+        var data = {message: 'Coming soon - '  + ++counter};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+      });
+    }());
+    </script>
+    {% endblock %}
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
-
-</body>
-</html>

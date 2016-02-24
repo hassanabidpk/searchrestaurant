@@ -97,6 +97,7 @@ def getRandomRestaurant(location,query):
 	return result
 
 def getRestaurantList(ilocation,query):
+	rtype = query
 	result = {}
 	restaurantList = []
 	# Get latitude and longitude

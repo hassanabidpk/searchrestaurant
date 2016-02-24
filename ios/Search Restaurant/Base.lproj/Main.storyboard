@@ -21,6 +21,10 @@
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g9U-rT-yOi" userLabel="Phoot View Container">
                                 <rect key="frame" x="0.0" y="73" width="600" height="274"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q1B-Hm-x9D">
+                                        <rect key="frame" x="0.0" y="-12" width="600" height="298"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" preservesSuperviewLayoutMargins="YES" text="Adress : " textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CrM-4S-kuE">
                                         <rect key="frame" x="267" y="163" width="67" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -51,9 +55,6 @@
                                             <rect key="frame" x="8" y="192" width="310" height="21"/>
                                         </variation>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q1B-Hm-x9D">
-                                        <rect key="frame" x="0.0" y="-12" width="600" height="298"/>
-                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -261,8 +262,8 @@
                                                     <exclude reference="XKy-lS-11R"/>
                                                 </mask>
                                             </variation>
-                                            <variation key="widthClass=compact" misplaced="YES">
-                                                <rect key="frame" x="100" y="8" width="45" height="21"/>
+                                            <variation key="heightClass=compact" misplaced="YES">
+                                                <rect key="frame" x="144" y="8" width="270" height="21"/>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
                                                 <rect key="frame" x="100" y="8" width="263" height="21"/>
@@ -272,7 +273,7 @@
                                                 </mask>
                                             </variation>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6y-gj-zsH">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6y-gj-zsH">
                                             <rect key="frame" x="144" y="37" width="264" height="99"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="263" id="O5Z-S7-cdf" userLabel="width = 212"/>
@@ -298,6 +299,9 @@
                                                     <include reference="Wzo-au-FGc"/>
                                                 </mask>
                                             </variation>
+                                            <variation key="heightClass=compact-widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="-56" y="37" width="448" height="99"/>
+                                            </variation>
                                             <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
                                                 <rect key="frame" x="100" y="39" width="263" height="66"/>
                                                 <mask key="constraints">
@@ -320,6 +324,9 @@
                                                     <exclude reference="WFg-cY-cD0"/>
                                                 </mask>
                                             </variation>
+                                            <variation key="heightClass=compact" misplaced="YES">
+                                                <rect key="frame" x="0.0" y="26" width="92" height="92"/>
+                                            </variation>
                                             <variation key="widthClass=compact" misplaced="YES">
                                                 <rect key="frame" x="0.0" y="0.0" width="92" height="92"/>
                                             </variation>
@@ -337,6 +344,7 @@
                                         <constraint firstItem="s6y-gj-zsH" firstAttribute="top" secondItem="zfn-Ib-enx" secondAttribute="bottom" constant="10" id="AwX-TB-TGb"/>
                                         <constraint firstItem="s6y-gj-zsH" firstAttribute="top" secondItem="zfn-Ib-enx" secondAttribute="bottom" constant="8" id="DS4-cu-YFF"/>
                                         <constraint firstItem="BaA-JY-g6j" firstAttribute="leading" secondItem="ng3-f3-EFf" secondAttribute="leading" id="FZg-uU-5BE"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="s6y-gj-zsH" secondAttribute="trailing" constant="28" id="Gid-k4-nXl"/>
                                         <constraint firstItem="BaA-JY-g6j" firstAttribute="top" secondItem="ng3-f3-EFf" secondAttribute="top" id="HDg-Kp-YVk"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="BaA-JY-g6j" secondAttribute="bottom" constant="7.5" id="UIi-BD-Dsk"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="BaA-JY-g6j" secondAttribute="bottom" id="V5v-4A-SgN"/>
@@ -346,11 +354,9 @@
                                         <constraint firstItem="s6y-gj-zsH" firstAttribute="leading" secondItem="zfn-Ib-enx" secondAttribute="leading" id="dUt-HK-sRC"/>
                                         <constraint firstItem="zfn-Ib-enx" firstAttribute="top" secondItem="ng3-f3-EFf" secondAttribute="topMargin" id="gdo-1u-T7s"/>
                                         <constraint firstItem="zfn-Ib-enx" firstAttribute="trailing" secondItem="s6y-gj-zsH" secondAttribute="trailing" id="gh7-Tj-Etn"/>
-                                        <constraint firstItem="zfn-Ib-enx" firstAttribute="trailing" secondItem="s6y-gj-zsH" secondAttribute="trailing" constant="-219" id="lZn-5m-icS"/>
                                         <constraint firstItem="BaA-JY-g6j" firstAttribute="leading" secondItem="ng3-f3-EFf" secondAttribute="leading" id="onM-Pv-lQp"/>
                                         <constraint firstItem="s6y-gj-zsH" firstAttribute="centerY" secondItem="ng3-f3-EFf" secondAttribute="centerY" id="raS-fX-CIx"/>
                                         <constraint firstItem="s6y-gj-zsH" firstAttribute="bottom" secondItem="BaA-JY-g6j" secondAttribute="bottom" id="rgU-Sd-55W"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="s6y-gj-zsH" secondAttribute="trailing" constant="184" id="sNg-G2-hY5"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -365,7 +371,13 @@
                                             <exclude reference="gdo-1u-T7s"/>
                                             <exclude reference="gh7-Tj-Etn"/>
                                             <exclude reference="AwX-TB-TGb"/>
+                                            <exclude reference="Gid-k4-nXl"/>
                                             <exclude reference="raS-fX-CIx"/>
+                                        </mask>
+                                    </variation>
+                                    <variation key="widthClass=compact">
+                                        <mask key="constraints">
+                                            <include reference="Gid-k4-nXl"/>
                                         </mask>
                                     </variation>
                                     <variation key="heightClass=regular-widthClass=compact">
@@ -379,12 +391,10 @@
                                             <include reference="bDb-MA-s9H"/>
                                             <include reference="gdo-1u-T7s"/>
                                             <include reference="gh7-Tj-Etn"/>
-                                            <exclude reference="lZn-5m-icS"/>
                                             <exclude reference="AwX-TB-TGb"/>
                                             <exclude reference="DS4-cu-YFF"/>
                                             <include reference="raS-fX-CIx"/>
                                             <exclude reference="rgU-Sd-55W"/>
-                                            <exclude reference="sNg-G2-hY5"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>

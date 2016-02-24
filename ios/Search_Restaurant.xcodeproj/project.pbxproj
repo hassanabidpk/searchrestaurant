@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		2CF4026D30329B986D805907 /* Pods_Search_Restaurant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A17C5615CF6FA32459C34FCE /* Pods_Search_Restaurant.framework */; };
+		3CED1F441C4D2D2B00AA1418 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3CED1F421C4D2D2B00AA1418 /* Interface.storyboard */; };
+		3CED1F461C4D2D2B00AA1418 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CED1F451C4D2D2B00AA1418 /* Assets.xcassets */; };
+		3CED1F4D1C4D2D2B00AA1418 /* Search Restaurant Watchapp Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 3CED1F4C1C4D2D2B00AA1418 /* Search Restaurant Watchapp Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3CED1F541C4D2D2B00AA1418 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED1F531C4D2D2B00AA1418 /* InterfaceController.swift */; };
+		3CED1F561C4D2D2B00AA1418 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED1F551C4D2D2B00AA1418 /* ExtensionDelegate.swift */; };
+		3CED1F581C4D2D2B00AA1418 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED1F571C4D2D2B00AA1418 /* NotificationController.swift */; };
+		3CED1F5A1C4D2D2B00AA1418 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CED1F591C4D2D2B00AA1418 /* Assets.xcassets */; };
+		3CED1F5E1C4D2D2B00AA1418 /* Search Restaurant Watchapp.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 3CED1F401C4D2D2B00AA1418 /* Search Restaurant Watchapp.app */; };
 		4C49EF741C4CA933000AC2BF /* RestaurantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C49EF731C4CA933000AC2BF /* RestaurantTableViewCell.swift */; };
 		4C49EF771C4CAA43000AC2BF /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C49EF761C4CAA43000AC2BF /* Restaurant.swift */; };
 		4C49EF791C4CAB4C000AC2BF /* RestaurantTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C49EF781C4CAB4C000AC2BF /* RestaurantTableViewController.swift */; };
@@ -23,6 +31,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3CED1F4E1C4D2D2B00AA1418 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4CCB020A1C3A4EE300C93C28 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3CED1F4B1C4D2D2B00AA1418;
+			remoteInfo = "Search Restaurant Watchapp Extension";
+		};
+		3CED1F5C1C4D2D2B00AA1418 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4CCB020A1C3A4EE300C93C28 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3CED1F3F1C4D2D2B00AA1418;
+			remoteInfo = "Search Restaurant Watchapp";
+		};
 		4CCB02271C3A4EE300C93C28 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4CCB020A1C3A4EE300C93C28 /* Project object */;
@@ -39,8 +61,44 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		3CED1F621C4D2D2B00AA1418 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				3CED1F4D1C4D2D2B00AA1418 /* Search Restaurant Watchapp Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CED1F661C4D2D2B00AA1418 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				3CED1F5E1C4D2D2B00AA1418 /* Search Restaurant Watchapp.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		118190707D84C41FA6460606 /* Pods-Search_Restaurant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Search_Restaurant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Search_Restaurant/Pods-Search_Restaurant.debug.xcconfig"; sourceTree = "<group>"; };
+		3CED1F401C4D2D2B00AA1418 /* Search Restaurant Watchapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Search Restaurant Watchapp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CED1F431C4D2D2B00AA1418 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		3CED1F451C4D2D2B00AA1418 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3CED1F471C4D2D2B00AA1418 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3CED1F4C1C4D2D2B00AA1418 /* Search Restaurant Watchapp Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Search Restaurant Watchapp Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CED1F521C4D2D2B00AA1418 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		3CED1F531C4D2D2B00AA1418 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		3CED1F551C4D2D2B00AA1418 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		3CED1F571C4D2D2B00AA1418 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		3CED1F591C4D2D2B00AA1418 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3CED1F5B1C4D2D2B00AA1418 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C49EF731C4CA933000AC2BF /* RestaurantTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantTableViewCell.swift; sourceTree = "<group>"; };
 		4C49EF761C4CAA43000AC2BF /* Restaurant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		4C49EF781C4CAB4C000AC2BF /* RestaurantTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantTableViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +120,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3CED1F491C4D2D2B00AA1418 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4CCB020F1C3A4EE300C93C28 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -93,6 +158,37 @@
 				A17C5615CF6FA32459C34FCE /* Pods_Search_Restaurant.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3CED1F411C4D2D2B00AA1418 /* Search Restaurant Watchapp */ = {
+			isa = PBXGroup;
+			children = (
+				3CED1F421C4D2D2B00AA1418 /* Interface.storyboard */,
+				3CED1F451C4D2D2B00AA1418 /* Assets.xcassets */,
+				3CED1F471C4D2D2B00AA1418 /* Info.plist */,
+			);
+			path = "Search Restaurant Watchapp";
+			sourceTree = "<group>";
+		};
+		3CED1F501C4D2D2B00AA1418 /* Search Restaurant Watchapp Extension */ = {
+			isa = PBXGroup;
+			children = (
+				3CED1F531C4D2D2B00AA1418 /* InterfaceController.swift */,
+				3CED1F551C4D2D2B00AA1418 /* ExtensionDelegate.swift */,
+				3CED1F571C4D2D2B00AA1418 /* NotificationController.swift */,
+				3CED1F591C4D2D2B00AA1418 /* Assets.xcassets */,
+				3CED1F5B1C4D2D2B00AA1418 /* Info.plist */,
+				3CED1F511C4D2D2B00AA1418 /* Supporting Files */,
+			);
+			path = "Search Restaurant Watchapp Extension";
+			sourceTree = "<group>";
+		};
+		3CED1F511C4D2D2B00AA1418 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3CED1F521C4D2D2B00AA1418 /* PushNotificationPayload.apns */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		44717D9A5486D07F571359F4 /* Pods */ = {
@@ -134,6 +230,8 @@
 				4CCB02141C3A4EE300C93C28 /* Search Restaurant */,
 				4CCB02291C3A4EE300C93C28 /* Search RestaurantTests */,
 				4CCB02341C3A4EE300C93C28 /* Search RestaurantUITests */,
+				3CED1F411C4D2D2B00AA1418 /* Search Restaurant Watchapp */,
+				3CED1F501C4D2D2B00AA1418 /* Search Restaurant Watchapp Extension */,
 				4CCB02131C3A4EE300C93C28 /* Products */,
 				44717D9A5486D07F571359F4 /* Pods */,
 				09BBD2C0AF16104DF02C6FB3 /* Frameworks */,
@@ -146,6 +244,8 @@
 				4CCB02121C3A4EE300C93C28 /* Search_Restaurant.app */,
 				4CCB02261C3A4EE300C93C28 /* Search_Restaurant.xctest */,
 				4CCB02311C3A4EE300C93C28 /* Search_Restaurant.xctest */,
+				3CED1F401C4D2D2B00AA1418 /* Search Restaurant Watchapp.app */,
+				3CED1F4C1C4D2D2B00AA1418 /* Search Restaurant Watchapp Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -187,6 +287,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3CED1F3F1C4D2D2B00AA1418 /* Search Restaurant Watchapp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CED1F631C4D2D2B00AA1418 /* Build configuration list for PBXNativeTarget "Search Restaurant Watchapp" */;
+			buildPhases = (
+				3CED1F3E1C4D2D2B00AA1418 /* Resources */,
+				3CED1F621C4D2D2B00AA1418 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3CED1F4F1C4D2D2B00AA1418 /* PBXTargetDependency */,
+			);
+			name = "Search Restaurant Watchapp";
+			productName = "Search Restaurant Watchapp";
+			productReference = 3CED1F401C4D2D2B00AA1418 /* Search Restaurant Watchapp.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		3CED1F4B1C4D2D2B00AA1418 /* Search Restaurant Watchapp Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CED1F5F1C4D2D2B00AA1418 /* Build configuration list for PBXNativeTarget "Search Restaurant Watchapp Extension" */;
+			buildPhases = (
+				3CED1F481C4D2D2B00AA1418 /* Sources */,
+				3CED1F491C4D2D2B00AA1418 /* Frameworks */,
+				3CED1F4A1C4D2D2B00AA1418 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Search Restaurant Watchapp Extension";
+			productName = "Search Restaurant Watchapp Extension";
+			productReference = 3CED1F4C1C4D2D2B00AA1418 /* Search Restaurant Watchapp Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		4CCB02111C3A4EE300C93C28 /* Search_Restaurant */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4CCB023A1C3A4EE300C93C28 /* Build configuration list for PBXNativeTarget "Search_Restaurant" */;
@@ -197,10 +331,12 @@
 				4CCB02101C3A4EE300C93C28 /* Resources */,
 				15B0743876F4A6A6DE51A635 /* Embed Pods Frameworks */,
 				AE5862A0F85D2373865D5A89 /* Copy Pods Resources */,
+				3CED1F661C4D2D2B00AA1418 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3CED1F5D1C4D2D2B00AA1418 /* PBXTargetDependency */,
 			);
 			name = Search_Restaurant;
 			productName = "Search Restaurant";
@@ -249,10 +385,17 @@
 		4CCB020A1C3A4EE300C93C28 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = NexStreamingCorp;
 				TargetAttributes = {
+					3CED1F3F1C4D2D2B00AA1418 = {
+						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = ZBZ6445J8B;
+					};
+					3CED1F4B1C4D2D2B00AA1418 = {
+						CreatedOnToolsVersion = 7.2;
+					};
 					4CCB02111C3A4EE300C93C28 = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = ZBZ6445J8B;
@@ -283,11 +426,30 @@
 				4CCB02111C3A4EE300C93C28 /* Search_Restaurant */,
 				4CCB02251C3A4EE300C93C28 /* Search_RestaurantTests */,
 				4CCB02301C3A4EE300C93C28 /* Search_RestaurantUITests */,
+				3CED1F3F1C4D2D2B00AA1418 /* Search Restaurant Watchapp */,
+				3CED1F4B1C4D2D2B00AA1418 /* Search Restaurant Watchapp Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3CED1F3E1C4D2D2B00AA1418 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CED1F461C4D2D2B00AA1418 /* Assets.xcassets in Resources */,
+				3CED1F441C4D2D2B00AA1418 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CED1F4A1C4D2D2B00AA1418 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CED1F5A1C4D2D2B00AA1418 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4CCB02101C3A4EE300C93C28 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -363,6 +525,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3CED1F481C4D2D2B00AA1418 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CED1F581C4D2D2B00AA1418 /* NotificationController.swift in Sources */,
+				3CED1F561C4D2D2B00AA1418 /* ExtensionDelegate.swift in Sources */,
+				3CED1F541C4D2D2B00AA1418 /* InterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4CCB020E1C3A4EE300C93C28 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -396,6 +568,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3CED1F4F1C4D2D2B00AA1418 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3CED1F4B1C4D2D2B00AA1418 /* Search Restaurant Watchapp Extension */;
+			targetProxy = 3CED1F4E1C4D2D2B00AA1418 /* PBXContainerItemProxy */;
+		};
+		3CED1F5D1C4D2D2B00AA1418 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3CED1F3F1C4D2D2B00AA1418 /* Search Restaurant Watchapp */;
+			targetProxy = 3CED1F5C1C4D2D2B00AA1418 /* PBXContainerItemProxy */;
+		};
 		4CCB02281C3A4EE300C93C28 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4CCB02111C3A4EE300C93C28 /* Search_Restaurant */;
@@ -409,6 +591,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		3CED1F421C4D2D2B00AA1418 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3CED1F431C4D2D2B00AA1418 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		4CCB02191C3A4EE300C93C28 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -428,6 +618,70 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3CED1F601C4D2D2B00AA1418 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Search Restaurant Watchapp Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-Restaurant.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Debug;
+		};
+		3CED1F611C4D2D2B00AA1418 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Search Restaurant Watchapp Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-Restaurant.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Release;
+		};
+		3CED1F641C4D2D2B00AA1418 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				IBSC_MODULE = Search_Restaurant_Watchapp_Extension;
+				INFOPLIST_FILE = "Search Restaurant Watchapp/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-Restaurant.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Debug;
+		};
+		3CED1F651C4D2D2B00AA1418 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				IBSC_MODULE = Search_Restaurant_Watchapp_Extension;
+				INFOPLIST_FILE = "Search Restaurant Watchapp/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-Restaurant.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Release;
+		};
 		4CCB02381C3A4EE300C93C28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -519,7 +773,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Search Restaurant/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-Restaurant";
 				PRODUCT_NAME = Search_Restaurant;
@@ -535,7 +789,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Search Restaurant/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nexhassan.app.Search-Restaurant";
 				PRODUCT_NAME = Search_Restaurant;
@@ -594,6 +848,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3CED1F5F1C4D2D2B00AA1418 /* Build configuration list for PBXNativeTarget "Search Restaurant Watchapp Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CED1F601C4D2D2B00AA1418 /* Debug */,
+				3CED1F611C4D2D2B00AA1418 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		3CED1F631C4D2D2B00AA1418 /* Build configuration list for PBXNativeTarget "Search Restaurant Watchapp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CED1F641C4D2D2B00AA1418 /* Debug */,
+				3CED1F651C4D2D2B00AA1418 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		4CCB020D1C3A4EE300C93C28 /* Build configuration list for PBXProject "Search_Restaurant" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

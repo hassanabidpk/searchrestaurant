@@ -12,9 +12,9 @@ import GoogleMaps
 class ViewController: UIViewController {
 	
 	
-	let GOOGLE_API_KEY = "GOOGLE_API_KEY"
-	let FOURSQUARE_CLIENT_ID = "FOURSQUARE_CLIENT_ID"
-	let FOURSQUARE_CLIENT_SECRET = "FOURSQUARE_CLIENT_SECRET"
+	let GOOGLE_API_KEY = "AIzaSyDfSn5O7yYTPHtBg4PC41ydWPw364h5riE"
+	let FOURSQUARE_CLIENT_ID = "URC5H2RL1RHRTXAW3N30JBRBQGOUZQ2MMSSPSEPQVVXXDDQE"
+	let FOURSQUARE_CLIENT_SECRET = "25SAH5QCTNA2J2O24CJ2I1DHUXMUPOVG2P2DZAKEP3GKI2ER"
 	let GOOGLE_BASE_URL_HOST = "maps.googleapis.com"
 	let FOURSQUARE_BASE_URL_HOST = "api.foursquare.com"
 	
@@ -38,11 +38,14 @@ class ViewController: UIViewController {
 	var restaurants = [Restaurant] ()
     var count: Int = 1
     
+    let radiusDefault = "800"
+    
     
 	
 	@IBAction func searchRestaurant(sender: UIButton) {
 		
 		print("search restaurant")
+        testAPI()
 		self.dismissAnyVisibleKeyboards()
 		if !self.locationTextField.text!.isEmpty && !self.restaurantTextField.text!.isEmpty {
             self.showRestaurantsList.enabled = false
@@ -154,9 +157,26 @@ class ViewController: UIViewController {
 		self.spinner.stopAnimating()
 		placesClient = GMSPlacesClient()
 		locationManager = CLLocationManager()
-		self.restaurantName.lineBreakMode = NSLineBreakMode.ByWordWrapping
-		self.restaurantName.numberOfLines = 2
-        self.showRestaurantsList.enabled = false
+        setupTextFields()
+        
+        if let savedRestaurants = loadRestaurants() {
+            restaurants = savedRestaurants
+            print("restaurants found with size :", restaurants.count)
+            let randomRestaurantIndex = Int(arc4random_uniform(UInt32(restaurants.count)))
+            let randomRestaurant = restaurants[randomRestaurantIndex]
+            dispatch_async(dispatch_get_main_queue(), {
+                self.restaurantName.font = UIFont.systemFontOfSize(20.0)
+                self.restaurantName.text = randomRestaurant.name
+                self.restaurantAddress.text = randomRestaurant.address
+                self.restaurantImageView.image = randomRestaurant.photo
+                self.showRestaurantsList.enabled = true
+                self.restaurantImageView.alpha = 0.5
+                
+            })
+            
+        } else {
+            print("no restaurants found")
+        }
 		
 		
 	}
@@ -280,6 +300,7 @@ class ViewController: UIViewController {
 		let clientsecret = NSURLQueryItem(name: "client_secret", value: FOURSQUARE_CLIENT_SECRET)
 		let version = NSURLQueryItem(name: "v", value: "20160105")
 		let limit = NSURLQueryItem(name: "limit", value: "50")
+        let radius = NSURLQueryItem(name:"radius", value: radiusDefault)
 		var latlongStr :String
 		if let latitude = lat as String!, longitude = lng as String! {
 			latlongStr = String(latitude) + "," + String(longitude)
@@ -295,7 +316,7 @@ class ViewController: UIViewController {
 		let latlong = NSURLQueryItem(name: "ll", value: latlongStr)
 		let query = NSURLQueryItem(name: "query", value: escapedRestaurantValue)
 		
-		foursquareComponents.queryItems = [clientid,clientsecret, version,limit,latlong,query]
+		foursquareComponents.queryItems = [clientid,clientsecret, version,limit,latlong,radius,query]
 		let url = foursquareComponents.URL! as NSURL
 		
 		print(url)
@@ -389,9 +410,6 @@ class ViewController: UIViewController {
 						if let address = formattedAddress {
 							addressArray = address as! [String]
 //							print("Formatted address: ", addressArray)
-							self.restaurantAddress.lineBreakMode = NSLineBreakMode.ByWordWrapping
-							self.restaurantAddress.numberOfLines = 0
-						
 							self.restaurantAddress.text = addressArray.joinWithSeparator(" ")
 						}
 					})
@@ -536,6 +554,82 @@ class ViewController: UIViewController {
 		
 	}
 	
+    func testAPI()  {
+        
+        let foursquareComponents = NSURLComponents()
+        foursquareComponents.scheme = "https"
+//        foursquareComponents.host = "localhost"
+//        foursquareComponents.port = 8000
+        foursquareComponents.host = "searchrestaurant.pythonanywhere.com"
+        
+   
+        foursquareComponents.path = "/api/v1/"
+//        ocation=insa-dong&rtype=pizza
+        let format = NSURLQueryItem(name: "format", value: "json")
+        let location = NSURLQueryItem(name: "location", value: "insa-dong")
+        let rtype = NSURLQueryItem(name: "rtype", value: "pizza")
+        
+        
+        
+        foursquareComponents.queryItems = [format,location,rtype]
+        let url = foursquareComponents.URL! as NSURL
+        
+        print(url)
+        
+        let session = NSURLSession.sharedSession()
+        let request = NSURLRequest(URL: url)
+        
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            guard (error == nil ) else {
+                print("There is error in test rest api request")
+                self.spinner.stopAnimating()
+                return
+            }
+            
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                
+                if let response = response as? NSHTTPURLResponse {
+                    print ("Your api request returned an Invalid response! Status code : \(response.statusCode)")
+                } else if let response = response {
+                    print ("Your api request returned an Invalid response! Response : \(response)")
+                } else {
+                    print ("Your api request returned an Invalid response!")
+                }
+                self.spinner.stopAnimating()
+                return
+            }
+            
+            guard let data = data else {
+                
+                print("No data was returned by the api  request")
+                self.spinner.stopAnimating()
+                return
+            }
+            
+            
+            let parsedResult : AnyObject!
+            
+            do {
+                parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+//                print(parsedResult)
+                for r in parsedResult as! NSArray {
+                    print(r["address"])
+                }
+                
+            }catch {
+                
+                parsedResult = nil
+                print("Could not parse the data (Foursquare photo ) as JSON : \(data)")
+                self.spinner.stopAnimating()
+                return
+            }
+           
+        }
+        
+        task.resume()
+        
+    }
 	
 	// MARK: Helper methods
 	
@@ -619,6 +713,7 @@ extension ViewController {
 		let clientsecret = NSURLQueryItem(name: "client_secret", value: FOURSQUARE_CLIENT_SECRET)
 		let version = NSURLQueryItem(name: "v", value: "20160105")
 		let limit = NSURLQueryItem(name: "limit", value: "50")
+        let radius = NSURLQueryItem(name:"radius", value: radiusDefault)
 		var latlongStr :String
 		if let latitude = lat as String!, longitude = lng as String! {
 			latlongStr = String(latitude) + "," + String(longitude)
@@ -634,7 +729,7 @@ extension ViewController {
 		let latlong = NSURLQueryItem(name: "ll", value: latlongStr)
 		let query = NSURLQueryItem(name: "query", value: escapedRestaurantValue)
 		
-		foursquareComponents.queryItems = [clientid,clientsecret, version,limit,latlong,query]
+		foursquareComponents.queryItems = [clientid,clientsecret, version,limit,latlong,radius,query]
 		let url = foursquareComponents.URL! as NSURL
 		
 		print(url)
@@ -871,12 +966,27 @@ extension ViewController {
         }
     
     }
+    
+    func loadRestaurants() -> [Restaurant]? {
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(Restaurant.ArchiveURL.path!) as? [Restaurant]
+    }
 
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
 //        self.saveRestaurants()
         
+    }
+    
+    // MARK : Helper methods
+    
+    func setupTextFields() {
+        
+        self.restaurantName.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        self.restaurantName.numberOfLines = 2
+        self.showRestaurantsList.enabled = false
+        self.restaurantAddress.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        self.restaurantAddress.numberOfLines = 0
     }
 
 }

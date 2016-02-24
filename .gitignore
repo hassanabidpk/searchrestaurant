@@ -8,3 +8,5 @@ android/build
 *.xcuserstate
 ios/xcuserdata/
 *.xcuserdatad
+django/searchrestaurant/staticfiles
+

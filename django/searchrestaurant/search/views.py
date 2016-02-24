@@ -216,7 +216,7 @@ class RListView(View):
 			restaurantType = request.GET["rtype"]
 			if restaurantType and location :
 				try: 
-					loc = Location.objects.get(restaurant_location=location)
+					loc = Location.objects.get(restaurant_location=location,rtype=restaurantType)
 					restaurants = loc.restaurant.all()
 					context["rlist"] = restaurants
 				except ObjectDoesNotExist:
@@ -262,7 +262,7 @@ class RestaurantList(APIView):
 		except ObjectDoesNotExist:
 			context = getRestaurantList(location,restaurantType)
 			try: 
-				loc = Location.objects.get(restaurant_location=location)
+				loc = Location.objects.get(restaurant_location=location,rtype=restaurantType)
 				restaurants = loc.restaurant.all()
 				serializer = RestaurantSerializer(restaurants, many=True)
 				return Response(serializer.data,status=status.HTTP_200_OK)

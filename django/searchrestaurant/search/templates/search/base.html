@@ -21,7 +21,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Share business cards with ease!">
+    <meta name="description" content="Find delicious food nearby!">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Search Restaurant</title>
 
@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.min.css">
     <link rel="stylesheet" href="{% static 'search/css/styles.css' %}">
+    <meta property="og:image"content="{% static 'search/images/food_kitchen.jpg' %}" />
 
   </head>
   <body>
@@ -54,7 +55,7 @@
           <div class="scan-navigation-container">
             <nav class="scan-navigation mdl-navigation">
               <a id="demo-show-toast1" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-typography--text-uppercase" href="{% url 'search:rallview' %}">Restaurants</a>
-              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="https://github.com/hassanabidpk/searchrestaurant">Github</a>
+              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="hhttps://github.com/hassanabidpk/searchrestaurant/blob/master/API_DOC.md">API</a>
             </nav>
           </div>
            <a href="/" style="text-decoration: none;color: #767676;" class="scan-mobile-title mdl-layout-title" style="color: #767676;">
@@ -75,7 +76,7 @@
         </a>
         <nav class="mdl-navigation">
           <a class="mdl-navigation__link" href="{% url 'search:rallview' %}">Restaurants</a>
-          <a class="mdl-navigation__link" href="https://github.com/hassanabidpk/searchrestaurant">Github</a>
+          <a class="mdl-navigation__link" href="https://github.com/hassanabidpk/searchrestaurant/blob/master/API_DOC.md">rtype=restaurantType</a>
           <div class="scan-drawer-separator"></div>
         </nav>
       </div>

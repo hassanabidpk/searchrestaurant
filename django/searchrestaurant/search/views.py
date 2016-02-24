@@ -182,7 +182,7 @@ def getRestaurantList(ilocation,query):
 			print("no_photo")
 
 	try:
-		loc = Location.objects.get(restaurant_location=ilocation,restaurantType=rtype)
+		loc = Location.objects.get(restaurant_location=ilocation,resturant_type=rtype)
 	except MultipleObjectsReturned:
 		loc = loc[0]
 	restaurants = loc.restaurant.all()

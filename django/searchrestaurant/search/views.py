@@ -4,7 +4,7 @@ import requests
 import random
 from django.views.generic import View
 from .models import Location,Restaurant
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist,MultipleObjectsReturned
 from rest_framework import viewsets
 from .serializers import RestaurantSerializer
 from django.views.decorators.csrf import csrf_exempt
@@ -180,7 +180,10 @@ def getRestaurantList(ilocation,query):
 			# oneRestaurant["image"] = None
 			print("no_photo")
 
-	loc = Location.objects.get(restaurant_location=ilocation)
+	try:
+		loc = Location.objects.get(restaurant_location=ilocation,restaurantType=rtype)
+	except MultipleObjectsReturned:
+		loc = loc[0]
 	restaurants = loc.restaurant.all()
 	result["rlist"] = restaurants
 	return result
@@ -216,11 +219,16 @@ class RListView(View):
 			restaurantType = request.GET["rtype"]
 			if restaurantType and location :
 				try: 
-					loc = Location.objects.get(restaurant_location=location,rtype=restaurantType)
+					loc = Location.objects.get(restaurant_location=location,resturant_type=restaurantType)
 					restaurants = loc.restaurant.all()
 					context["rlist"] = restaurants
 				except ObjectDoesNotExist:
 					context = getRestaurantList(location,restaurantType)
+				except MultipleObjectsReturned:
+					print("multiple-objects")
+					loc = loc[0]
+					restaurants = loc.restaurant.all()
+					context["rlist"] = restaurants
 				return render(request,'search/list.html',context)
 			else :
 				return HttpResponseRedirect('/')
@@ -255,20 +263,30 @@ class RestaurantList(APIView):
 			serializer = RestaurantSerializer(restaurants, many=True)
 			return Response(serializer.data,status=status.HTTP_200_OK)
 		try: 
-			loc = Location.objects.get(restaurant_location=location,rtype=restaurantType)
+			loc = Location.objects.get(restaurant_location=location,resturant_type=restaurantType)
+			restaurants = loc.restaurant.all()
+			serializer = RestaurantSerializer(restaurants, many=True)
+			return Response(serializer.data,status=status.HTTP_200_OK)
+		except MultipleObjectsReturned:
+			loc = loc[0]
 			restaurants = loc.restaurant.all()
 			serializer = RestaurantSerializer(restaurants, many=True)
 			return Response(serializer.data,status=status.HTTP_200_OK)
 		except ObjectDoesNotExist:
 			context = getRestaurantList(location,restaurantType)
 			try: 
-				loc = Location.objects.get(restaurant_location=location,rtype=restaurantType)
+				loc = Location.objects.get(restaurant_location=location,resturant_type=restaurantType)
 				restaurants = loc.restaurant.all()
 				serializer = RestaurantSerializer(restaurants, many=True)
 				return Response(serializer.data,status=status.HTTP_200_OK)
 			except ObjectDoesNotExist:
 				print ("does not exist")
 				return Response(data={'error':"not-found",'status':404},status=status.HTTP_404_NOT_FOUND)
+			except MultipleObjectsReturned:
+				loc = loc[0]
+				restaurants = loc.restaurant.all()
+				serializer = RestaurantSerializer(restaurants, many=True)
+				return Response(serializer.data,status=status.HTTP_200_OK)
 
 		
 

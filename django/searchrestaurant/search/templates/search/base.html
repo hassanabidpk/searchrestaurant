@@ -37,9 +37,9 @@
 
       <div class="scan-header mdl-layout__header mdl-layout__header--waterfall">
         <div class="mdl-layout__header-row">
-          <span class="scan-title mdl-layout-title" style="color: #767676;">
+          <a href="/" style="text-decoration: none;color: #767676;" class="scan-title mdl-layout-title">
           Search Restaurant
-          </span>
+          </a>
           <!-- Add spacer, to align navigation to the right in desktop -->
           <div class="scan-header-spacer mdl-layout-spacer"></div>
           <div class="scan-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
@@ -53,29 +53,29 @@
           <!-- Navigation -->
           <div class="scan-navigation-container">
             <nav class="scan-navigation mdl-navigation">
-              <a id="demo-show-toast1" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-typography--text-uppercase" href="#">Restaurants</a>
-              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">Contact us</a>
+              <a id="demo-show-toast1" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-typography--text-uppercase" href="{% url 'search:rallview' %}">Restaurants</a>
+              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="https://github.com/hassanabidpk/searchrestaurant">Github</a>
             </nav>
           </div>
-          <span class="scan-mobile-title mdl-layout-title" style="color: #767676;">
+           <a href="/" style="text-decoration: none;color: #767676;" class="scan-mobile-title mdl-layout-title" style="color: #767676;">
            Search Restaurant
-          </span>
+          </a>
           <button class="scan-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
             <i class="material-icons">more_vert</i>
           </button>
           <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
-            <li class="mdl-menu__item">scantact History</li>
+            <li class="mdl-menu__item">coming soon</li>
           </ul>
         </div>
       </div>
 
       <div class="scan-drawer mdl-layout__drawer">
-        <span class="mdl-layout-title" style="color: #767676;">
+        <a class="mdl-layout-title"  <a href="/" style="text-decoration: none;color: #767676;">
           Search Restaurant
-        </span>
+        </a>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="/account/signup/">Restaurants</a>
-          <a class="mdl-navigation__link" href="">Contact us</a>
+          <a class="mdl-navigation__link" href="{% url 'search:rallview' %}">Restaurants</a>
+          <a class="mdl-navigation__link" href="https://github.com/hassanabidpk/searchrestaurant">Github</a>
           <div class="scan-drawer-separator"></div>
         </nav>
       </div>
@@ -85,21 +85,6 @@
         {% block content %}
         {% endblock %}
         <footer class="scan-footer mdl-mega-footer">
-          <div class="mdl-mega-footer--top-section">
-            <div class="mdl-mega-footer--left-section">
-              <button class="mdl-mega-footer--social-btn"></button>
-              &nbsp;
-              <button class="mdl-mega-footer--social-btn"></button>
-              &nbsp;
-              <button class="mdl-mega-footer--social-btn"></button>
-            </div>
-            <div class="mdl-mega-footer--right-section">
-              <a class="mdl-typography--font-light" href="#top">
-                Back to Top
-                <i class="material-icons">expand_less</i>
-              </a>
-            </div>
-          </div>
 
           <div class="mdl-mega-footer--middle-section">
             <p class="mdl-typography--font-light">© 2016 Search Restaurant</p>
@@ -111,7 +96,7 @@
               <i class="material-icons">arrow_drop_up</i>
             </a>
             <ul class="mdl-menu mdl-js-menu mdl-menu--top-left mdl-js-ripple-effect" for="version-dropdown">
-              <li class="mdl-menu__item">scan History</li>
+              <li class="mdl-menu__item">v1</li>
             </ul>
             <a class="scan-link scan-link-menu mdl-typography--font-light" id="developers-dropdown">
               For Developers
@@ -119,7 +104,6 @@
             </a>
             <ul class="mdl-menu mdl-js-menu mdl-menu--top-left mdl-js-ripple-effect" for="developers-dropdown">
             </ul>
-            <a class="scan-link mdl-typography--font-light" href="">Blog</a>
             <a class="scan-link mdl-typography--font-light" href="">Privacy Policy</a>
           </div>
 

@@ -1,18 +1,19 @@
 {% extends 'search/base.html' %}
         {% block content %}
-          <div class="mdl-grid">
+        <div class="mdl-grid">
             <div class="mdl-cell mdl-cell--4-col mdl-cell--4-offset ">
               <div id="spinner" class="mdl-spinner mdl-js-spinner is-active align-center"></div>
             </div>
             </div>
+
 					<div class="mdl-grid">
             {% if error %} 
             <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--2-offset mdl-card mdl-shadow--3dp  mdl-cell--12-col-phone">
             <h4>Nothing found for the given search</h4>
             </div>
             {% else %}
-            {% if rlist %}
-            {% for rest in rlist %}
+            {% if r_list %}
+            {% for rest in r_list %}
 	           <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-card mdl-shadow--3dp  mdl-cell--12-col-phone">
               <div class="mdl-card__media">
                 <img src="{{ rest.photo_url }}" style="max-height:200px;">
@@ -63,4 +64,3 @@
       window.onload = load;
     </script>
   {% endblock %}
-

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import Http404,HttpResponse
+from django.http import Http404,HttpResponse,HttpResponseRedirect
 import requests
 import random
 from django.views.generic import View
@@ -13,11 +13,12 @@ from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.conf import settings
+from django.views.generic import ListView
 
-
-GOOGLE_API_KEY = 'GOOGLE_API_KEY'
-FOURSQUARE_CLIENT_ID = 'FOURSQUARE_CLIENT_ID'
-FOURSQUARE_CLIENT_SECRET = 'FOURSQUARE_CLIENT_SECRET'
+GOOGLE_API_KEY = settings.GOOGLE_API_KEY
+FOURSQUARE_CLIENT_ID = settings.FOURSQUARE_CLIENT_ID
+FOURSQUARE_CLIENT_SECRET = settings.FOURSQUARE_CLIENT_SECRET
 
 
 def getRandomRestaurant(location,query):
@@ -203,8 +204,11 @@ def result(request):
 	else :
 		return HttpResponseRedirect('/')
 
-class ListView(View):
+class RListView(View):
+	print(GOOGLE_API_KEY)
 	def get(self,request):
+		if not "location" in request.GET:
+			return HttpResponseRedirect('/')
 		context = {}
 		if request.method == "GET":
 			location = request.GET["location"]
@@ -223,6 +227,12 @@ class ListView(View):
 		else :
 			return HttpResponseRedirect('/')
 
+class RestaurantAllListView(ListView):
+	print("ListView")
+	context_object_name = 'r_list'
+	queryset = Restaurant.objects.all()
+	template_name = 'search/all_list.html'
+
 
 class JSONResponse(HttpResponse):
     """
@@ -236,11 +246,16 @@ class JSONResponse(HttpResponse):
 
 class RestaurantList(APIView):
 	def get(self,request,format=None):
-		location = request.GET["location"]
-		location = location.replace(" ","+")
-		restaurantType = request.GET["rtype"]
+		if "location" in request.GET and "rtype" in request.GET:
+			location = request.GET["location"]
+			location = location.replace(" ","+")
+			restaurantType = request.GET["rtype"]
+		else:
+			restaurants = Restaurant.objects.all()
+			serializer = RestaurantSerializer(restaurants, many=True)
+			return Response(serializer.data,status=status.HTTP_200_OK)
 		try: 
-			loc = Location.objects.get(restaurant_location=location)
+			loc = Location.objects.get(restaurant_location=location,rtype=restaurantType)
 			restaurants = loc.restaurant.all()
 			serializer = RestaurantSerializer(restaurants, many=True)
 			return Response(serializer.data,status=status.HTTP_200_OK)

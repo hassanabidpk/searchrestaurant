@@ -3,6 +3,7 @@
         <div class="scan-be-together-section mdl-typography--text-center">
           <div class="logo-font scan-slogan">Search Restaurant</div>
           <div class="logo-font scan-sub-slogan">Find delicious food nearby!</div>
+           <div id="spinner" class="mdl-spinner mdl-js-spinner"></div>
           <div class="mdl-grid">
               <div class="mdl-cell mdl-cell--4-col mdl-cell--4-offset">
                 <form action="{% url 'search:rlistview' %}" method="get">
@@ -14,13 +15,13 @@
                     <input class="mdl-textfield__input" type="text" name="rtype" id="rtype" style="background-color: white;" required>
                     <label class="mdl-textfield__label" for="email">Restaurant type : pizza</label>
                   </div><br>
-                    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="formsubmit">
                      <i class="material-icons">search</i>
                     </button>
                 </form>
               </div>
             </div>
-            <button class="scan-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+            <button onclick="startSpinner()" class="scan-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
               <i class="material-icons">expand_more</i>
             </button>
         </div>
@@ -43,7 +44,20 @@
         snackbarContainer.MaterialSnackbar.showSnackbar(data);
       });
     }());
+
     </script>
+    <script>
+        
+        var spinner = document.getElementById("spinner");
+        var submitButton = document.getElementById("formsubmit");
+        submitButton.addEventListener("click", startSpinner);
+
+         function startSpinner() {
+          console.log("startSpinner");
+          spinner.classList.add("is-active");
+        };
+    </script>
+
     {% endblock %}
 
 

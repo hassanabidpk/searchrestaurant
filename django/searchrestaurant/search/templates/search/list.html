@@ -1,10 +1,5 @@
 {% extends 'search/base.html' %}
         {% block content %}
-          <div class="mdl-grid">
-            <div class="mdl-cell mdl-cell--4-col mdl-cell--4-offset ">
-              <div id="spinner" class="mdl-spinner mdl-js-spinner is-active align-center"></div>
-            </div>
-            </div>
 					<div class="mdl-grid">
             {% if error %} 
             <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--2-offset mdl-card mdl-shadow--3dp  mdl-cell--12-col-phone">
@@ -12,6 +7,10 @@
             </div>
             {% else %}
             {% if rlist %}
+             <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--4-offset mdl-cell--8-col-tablet mdl-cell--8-col-phone">
+             <h4 class="align-center">Search result</h4>
+             <div id="spinner" class="mdl-spinner mdl-js-spinner is-active align-center"></div>
+             </div>
             {% for rest in rlist %}
 	           <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-card mdl-shadow--3dp  mdl-cell--12-col-phone">
               <div class="mdl-card__media">
@@ -20,21 +19,20 @@
               <div class="mdl-card__title">
                  <h4 class="mdl-card__title-text">{{ rest.name }}</h4>
               </div>
-              <div class="mdl-card__supporting-text">
+              <div class="mdl-card__supporting-text post-excerpt">
                 <span class="mdl-typography--font-light mdl-typography--subhead">
               {{ rest.address }}
                 </span>
               </div>   
               
-              <div class="mdl-card__actions">
-              
-                <!-- Icon button link-->
-                <div class="icon material-icons mdl-badge" data-badge="{{ rest.checkins }}">grade
-                </div>
-<!--                 <div> <i class="material-icons">phone</i>{{ rest.phone_number }}
-                </div> -->
-                
+              <div class="mdl-card__actions"> 
+                <span class="mdl-badge" data-badge="♥">{{ rest.checkins }}</span>          
               </div>
+              <div class="mdl-card__actions mdl-card--border post-categories post-tags">
+              <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised">
+                {{ rest.r_type }}
+              </a>
+               </div>
               <div class="mdl-card__menu">
                 <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
                   <i class="material-icons" style="color: white;">share</i>

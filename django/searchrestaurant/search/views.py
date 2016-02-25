@@ -104,9 +104,10 @@ def getRestaurantList(ilocation,query):
 	google_payload = {'address': ilocation, 'key': GOOGLE_API_KEY}
 	rgoogle = requests.get("https://maps.googleapis.com/maps/api/geocode/json", params=google_payload)
 	googlejson = rgoogle.json()
-	# print(rgoogle.url)
+	print(rgoogle.url)
 	status = googlejson["status"]
 	if not status == "OK" :
+		print("Invalid address - Try again")
 		result["error"] = "Invalid address - Try again"
 		return result
 	location = googlejson['results'][0]
@@ -115,7 +116,7 @@ def getRestaurantList(ilocation,query):
 	latitude = location["geometry"]["location"]["lat"]
 	longitude = location["geometry"]["location"]["lng"]
 	latlong = str(latitude) + "," + str(longitude)
-	loc = Location(restaurant_location=ilocation,latitude=latitude,longitude=longitude,resturant_type=query)
+	loc = Location(restaurant_location=ilocation,latitude=latitude,longitude=longitude,restaurant_type=query)
 	loc.save()
 	# Get restaurant based on query
 	foursquare_payload = {'client_id': FOURSQUARE_CLIENT_ID, 'client_secret': FOURSQUARE_CLIENT_SECRET, 'v' : 20160105,
@@ -172,17 +173,32 @@ def getRestaurantList(ilocation,query):
 			photo_url = photo["prefix"] + "300x200" + photo["suffix"]
 			# print (photo_url)
 			oneRestaurant["photo_url"] = photo_url
-			rest = Restaurant(name=name,latitude=lat,longitude=lng,checkins=checkIns,phone_number=phone_number,
-				venue_id=venue_id,address=oneRestaurant["address"],photo_url=photo_url)
-			rest.save()
-			loc.restaurant.add(rest)
-			restaurantList.append(oneRestaurant)
+			try :
+				rest = loc.restaurant.get(name=name,address=oneRestaurant["address"])
+
+			except ObjectDoesNotExist:
+				try : 
+					rest = Restaurant.objects.get(name=name,address=oneRestaurant["address"],r_type=rtype)
+					loc.restaurant.add(rest)
+					restaurantList.append(oneRestaurant)
+					print("exisiting rest found and added to location")
+				except ObjectDoesNotExist:
+					rest = Restaurant(name=name,latitude=lat,longitude=lng,checkins=checkIns,phone_number=phone_number,
+						venue_id=venue_id,address=oneRestaurant["address"],photo_url=photo_url,r_type=rtype)
+					rest.save()
+					loc.restaurant.add(rest)
+					restaurantList.append(oneRestaurant)
+					print("no rest found therefore saved and added to location")
+				except MultipleObjectsReturned:
+					print("multiple objects returned 1")
+			except MultipleObjectsReturned:
+				print("multiple objects returned 2")
 		else :
 			# oneRestaurant["image"] = None
 			print("no_photo")
 
 	try:
-		loc = Location.objects.get(restaurant_location=ilocation,resturant_type=rtype)
+		loc = Location.objects.get(restaurant_location=ilocation,restaurant_type=rtype)
 	except MultipleObjectsReturned:
 		loc = loc[0]
 	restaurants = loc.restaurant.all()
@@ -208,9 +224,9 @@ def result(request):
 	else :
 		return HttpResponseRedirect('/')
 
-class RListView(View):
-	print(GOOGLE_API_KEY)
+class RestaurantListView(View):
 	def get(self,request):
+		print("RestaurantListView")
 		if not "location" in request.GET:
 			return HttpResponseRedirect('/')
 		context = {}
@@ -218,12 +234,15 @@ class RListView(View):
 			location = request.GET["location"]
 			location = location.replace(" ","+")
 			restaurantType = request.GET["rtype"]
-			if restaurantType and location :
+			print("location %s",location)
+			if restaurantType and location:
 				try: 
-					loc = Location.objects.get(restaurant_location=location,resturant_type=restaurantType)
+					print("check for exisitng location and rtype")
+					loc = Location.objects.get(restaurant_location=location,restaurant_type=restaurantType)
 					restaurants = loc.restaurant.all()
 					context["rlist"] = restaurants
 				except ObjectDoesNotExist:
+					print("rlistview objectdoesnotexist")
 					context = getRestaurantList(location,restaurantType)
 				except MultipleObjectsReturned:
 					print("multiple-objects")
@@ -237,7 +256,7 @@ class RListView(View):
 			return HttpResponseRedirect('/')
 
 class RestaurantAllListView(ListView):
-	print("ListView")
+	print("RestaurantAllListView")
 	context_object_name = 'r_list'
 	queryset = Restaurant.objects.all()
 	template_name = 'search/all_list.html'
@@ -264,7 +283,7 @@ class RestaurantList(APIView):
 			serializer = RestaurantSerializer(restaurants, many=True)
 			return Response(serializer.data,status=status.HTTP_200_OK)
 		try: 
-			loc = Location.objects.get(restaurant_location=location,resturant_type=restaurantType)
+			loc = Location.objects.get(restaurant_location=location,restaurant_type=restaurantType)
 			restaurants = loc.restaurant.all()
 			serializer = RestaurantSerializer(restaurants, many=True)
 			return Response(serializer.data,status=status.HTTP_200_OK)
@@ -276,7 +295,7 @@ class RestaurantList(APIView):
 		except ObjectDoesNotExist:
 			context = getRestaurantList(location,restaurantType)
 			try: 
-				loc = Location.objects.get(restaurant_location=location,resturant_type=restaurantType)
+				loc = Location.objects.get(restaurant_location=location,restaurant_type=restaurantType)
 				restaurants = loc.restaurant.all()
 				serializer = RestaurantSerializer(restaurants, many=True)
 				return Response(serializer.data,status=status.HTTP_200_OK)

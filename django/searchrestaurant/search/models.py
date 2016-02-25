@@ -14,6 +14,7 @@ class Restaurant(models.Model):
 	phone_number = models.CharField(max_length=200,default='')
 	created_at = models.DateTimeField(auto_now=True)
 	updated_at = models.DateTimeField(auto_now_add=True)
+	r_type = models.CharField(max_length=100,default="")
 
 	def __str__(self):
 		return self.name
@@ -27,7 +28,7 @@ class Location(models.Model):
 	restaurant_location = models.CharField(max_length=100)
 	latitude = models.DecimalField(max_digits=9, decimal_places=6)
 	longitude = models.DecimalField(max_digits=9, decimal_places=6)
-	resturant_type = models.CharField(max_length=100,default="pizza")
+	restaurant_type = models.CharField(max_length=100,default="pizza")
 	restaurant = models.ManyToManyField(Restaurant)
 	created_at = models.DateTimeField(auto_now=True)
 	updated_at = models.DateTimeField(auto_now_add=True)

@@ -10,7 +10,7 @@
             {% if r_list %}
             <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--4-offset mdl-cell--8-col-tablet mdl-cell--8-col-phone">
              <h4 class="align-center">All restaurants &amp; coffee shops</h4>
-             <div id="spinner" class="mdl-spinner mdl-js-spinner is-active align-center"></div>
+             <div id="spinner" class="mdl-spinner mdl-js-spinner is-active"></div>
 
              </div>
 
@@ -58,6 +58,7 @@
 
   {% endblock %}
   {% block jsblock1 %}
+    <script>
       function load() {
         var spinner = document.getElementById("spinner");
         console.log("load event detected!");
@@ -65,5 +66,4 @@
       }
       window.onload = load;
     </script>
-    <script>
   {% endblock %}

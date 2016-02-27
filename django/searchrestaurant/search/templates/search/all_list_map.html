@@ -1,0 +1,112 @@
+{% extends 'search/base.html' %}
+{% load staticfiles %}
+        {% block content %}
+
+					<div class="mdl-grid">
+            {% if error %} 
+            <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--2-offset mdl-cell--12-col-phone">
+            <h4>Nothing delicious here -:( </h4>
+            </div>
+            {% else %}
+            {% if r_list %}
+            <div class="mdl-cell-middle mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-phone">
+             <h4 class="align-center" style="margin: 20px;">All restaurants &amp; coffee shops</h4>
+             <div id="spinner" class="mdl-spinner mdl-js-spinner is-active align-center"></div>
+            <div id="map"></div>
+             </div>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAg2StWdwwf2v8OcHJNJtAcxgkygU5rROo&callback=initMap" async defer></script>
+             <script>
+              var marker;
+              var markers = [];
+              var labels = []; 
+              var icons = [];
+              var addresses = [];
+              var titles = [];
+              var map;
+              var infowindows = [];
+              var global_markers = [];
+
+              function initMap() {
+                var map = new google.maps.Map(document.getElementById('map'), {
+                  zoom: 9,
+                  center: {lat: {{ avgLat.latitude__avg }}, lng: {{ avgLng.longitude__avg }}}
+                });
+                 infowindow = new google.maps.InfoWindow({});
+                 addMarkers(markers,labels,map,icons,addresses,titles);
+
+                }
+
+                function addMarkers(locations, labels,map,icons,addresses,titles) {
+                 for (var i =0; i < locations.length; i++) {
+                    var marker = new google.maps.Marker({
+                      position: locations[i],
+                      title: labels[i],
+                      animation: google.maps.Animation.DROP,
+                      map: map,
+                      icon: icons[i],
+                      title: titles[i]
+                    });
+                var contentString = '<div class="mdl-grid">'+
+                    '<div class="mdl-cell mdl-cell--12-col"><h4>'+
+                    titles[i] +'</h4></div>'+
+                    '<div class="mdl-cell mdl-cell--12-col">'+
+                    '<p>' + addresses[i] + 
+                    '</p>'+
+                    '</div>'+
+                    '</div>';
+                     marker['infowindow'] = contentString;
+
+                      global_markers[i] = marker;
+
+                      google.maps.event.addListener(global_markers[i], 'click', function() {
+                          infowindow.setContent(this['infowindow']);
+                          infowindow.open(map, this);
+                      });
+
+                  }
+
+                }
+  
+
+            </script>
+            {% for rest in r_list %}
+            <script>
+              var restLtnLng = { lat: {{rest.latitude}}, lng: {{rest.longitude}} };
+              var label = "{{rest.r_type}}"
+              // var icon = "{% static 'search/images/{{rest.r_type}' %}";
+              var icon = "http://127.0.0.1:8000/static/search/images/" + label +".png";
+              icons.push(icon);
+              markers.push(restLtnLng);
+              labels.push(label);
+              addresses.push("{{rest.address}}");
+              titles.push("{{rest.name}}");
+            </script>
+
+            {% if forloop.last %}
+            <script>
+
+            </script>
+            {% endif %}
+	           
+            {% endfor %}
+            {% else %}
+            <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--2-offset mdl-card mdl-shadow--3dp  mdl-cell--12-col-phone">
+            <h4 class="align-center">Nothing found for the given search</h4>
+            </div>
+            {% endif %}
+
+            {% endif %}
+					</div>
+
+  {% endblock %}
+  {% block jsblock1 %}
+
+    <script>
+      function load() {
+        var spinner = document.getElementById("spinner");
+        console.log("load event detected!");
+        spinner.classList.remove("is-active");
+      }
+      window.onload = load;
+    </script>
+  {% endblock %}

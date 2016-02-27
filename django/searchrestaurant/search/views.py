@@ -4,6 +4,7 @@ import requests
 import random
 from django.views.generic import View
 from .models import Location,Restaurant
+from django.db.models import Avg
 from django.core.exceptions import ObjectDoesNotExist,MultipleObjectsReturned
 from rest_framework import viewsets
 from .serializers import RestaurantSerializer
@@ -19,6 +20,7 @@ from django.views.generic import ListView
 GOOGLE_API_KEY = settings.GOOGLE_API_KEY
 FOURSQUARE_CLIENT_ID = settings.FOURSQUARE_CLIENT_ID
 FOURSQUARE_CLIENT_SECRET = settings.FOURSQUARE_CLIENT_SECRET
+GOOGLE_API_KEY_JAVASCRIPT = 'GOOGLE_API_KEY_JAVASCRIPT'
 
 
 def getRandomRestaurant(location,query):
@@ -260,6 +262,25 @@ class RestaurantAllListView(ListView):
 	context_object_name = 'r_list'
 	queryset = Restaurant.objects.all()
 	template_name = 'search/all_list.html'
+
+class RestaurantAllMapListView(ListView):
+	""" This class based view shows map of all restaurants"""
+	print("RestaurantAllMapListView")
+	context_object_name = 'r_list'
+	queryset = Restaurant.objects.all()
+	template_name = 'search/all_list_map.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(RestaurantAllMapListView, self).get_context_data(**kwargs)
+		avgLat = Restaurant.objects.all().aggregate(Avg('latitude'))
+		avgLng = Restaurant.objects.all().aggregate(Avg('longitude'))
+		print(avgLat,avgLng)
+		context["avgLat"] = avgLat
+		context["avgLng"] = avgLng
+		return context
+
+
+
 
 
 class JSONResponse(HttpResponse):

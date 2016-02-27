@@ -555,3 +555,7 @@ img {
   width: 100%;
   overflow-x: auto;
 }
+#map {
+  height: 768px;
+  margin-left: 10px;
+}

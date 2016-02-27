@@ -22,6 +22,9 @@ from django.views.generic import TemplateView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
      url(r'^', include('search.urls', namespace="search")),
+     url(r'^docs/', include('rest_framework_docs.urls')),
+	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+     
 ]
 
 urlpatterns += staticfiles_urlpatterns()

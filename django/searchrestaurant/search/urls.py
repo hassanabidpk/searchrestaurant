@@ -8,8 +8,8 @@ urlpatterns = [
 	url(r'^result/$', views.result, name='result'),
 	url(r'^list/$', views.RestaurantListView.as_view(), name="rlistview"),
 	url(r'^restaurants/$', views.RestaurantAllListView.as_view(), name="rallview"),
-	url(r'^api/v1/',views.RestaurantList.as_view()),
-	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+	url(r'^restaurants/map/$', views.RestaurantAllMapListView.as_view(), name="rlistmapview"),
+	url(r'^api/v1/$',views.RestaurantList.as_view()),
   
 ]
 

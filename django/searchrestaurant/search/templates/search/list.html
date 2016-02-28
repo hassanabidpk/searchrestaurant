@@ -1,8 +1,29 @@
 {% extends 'search/base.html' %}
+{% load staticfiles %}
+{% block fbsdkblock %} 
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '231384847207103',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+{% endblock %}
         {% block content %}
 					<div class="mdl-grid">
             {% if error %} 
-            <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--2-offset mdl-card mdl-shadow--3dp  mdl-cell--12-col-phone">
+            <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--2-offset-desktop mdl-cell--12-col-phone">
             <h4>Nothing found for the given search</h4>
             </div>
             {% else %}
@@ -14,7 +35,9 @@
             {% for rest in rlist %}
 	           <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-card mdl-shadow--3dp  mdl-cell--12-col-phone">
               <div class="mdl-card__media">
+              <a href="{% url 'search:rwithid' rest.venue_id %}">
                 <img src="{{ rest.photo_url }}" style="max-height:200px;">
+                </a>
               </div>
               <div class="mdl-card__title">
                  <h4 class="mdl-card__title-text">{{ rest.name }}</h4>
@@ -34,14 +57,14 @@
               </a>
                </div>
               <div class="mdl-card__menu">
-                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                <a href="" onclick="fbshare('{{rest.venue_id}}','{{rest.photo_url}}','{{rest.name}}')">
                   <i class="material-icons" style="color: white;">share</i>
-                </button>
+                </a>
               </div>
             </div>
             {% endfor %}
             {% else %}
-            <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--2-offset mdl-card mdl-shadow--3dp  mdl-cell--12-col-phone">
+            <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--2-offset-desktop mdl-cell--2-offset-tablet mdl-card mdl-cell--12-col-phone">
             <h4 class="align-center">Nothing found for the given search</h4>
             </div>
             {% endif %}
@@ -61,4 +84,17 @@
       window.onload = load;
     </script>
   {% endblock %}
+  {% block fbshare %} 
+<script>
+    function fbshare(venue_id,photo_url,title){
+        FB.ui({
+          method: 'share',
+          href: 'https://searchrestaurant.pythonanywhere.com/restaurant/'+venue_id,
+          picture: photo_url,
+          caption: title,
+        }, function(response){});
+    }
+</script>
+  {% endblock %}
+
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import Http404,HttpResponse,HttpResponseRedirect
 import requests
 import random
@@ -126,7 +126,12 @@ def getRestaurantList(ilocation,query):
 
 	rfoursquare = requests.get("https://api.foursquare.com/v2/venues/search",params=foursquare_payload)
 	fjson = rfoursquare.json()
-	restaurants = fjson['response']['venues']
+	try:
+		restaurants = fjson['response']['venues']
+	except KeyError:
+		result["error"] = "Sorry - No Restaurant found!"
+		return result
+
 	total_restaurants = len(restaurants)
 	restaurants_count = min(total_restaurants,100)
 	if not restaurants_count > 0:
@@ -257,6 +262,16 @@ class RestaurantListView(View):
 		else :
 			return HttpResponseRedirect('/')
 
+
+def restaurantwithid(request,venue_id):
+	rest = get_object_or_404(Restaurant, venue_id=venue_id)
+	if rest:
+		photo_url = rest.photo_url.replace('300x200','1250x400',1)
+		return render(request,'search/single.html',{'rest':rest,'photo_url':photo_url})
+	return render(request,'search/single.html',{'rest':rest})
+
+
+
 class RestaurantAllListView(ListView):
 	print("RestaurantAllListView")
 	context_object_name = 'r_list'
@@ -274,9 +289,11 @@ class RestaurantAllMapListView(ListView):
 		context = super(RestaurantAllMapListView, self).get_context_data(**kwargs)
 		avgLat = Restaurant.objects.all().aggregate(Avg('latitude'))
 		avgLng = Restaurant.objects.all().aggregate(Avg('longitude'))
+		locations = Location.objects.all()
 		print(avgLat,avgLng)
 		context["avgLat"] = avgLat
 		context["avgLng"] = avgLng
+		context["locations"] = locations
 		return context
 
 

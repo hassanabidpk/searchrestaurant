@@ -1,4 +1,12 @@
 {% extends 'search/base.html' %}
+{% load staticfiles %}
+    {% block opengraph %}
+    <meta property="og:image" content="photo_url" />
+    <meta property="og:url"  content="{% url 'search:rwithid' rest.venue_id %}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{rest.name}}" />
+    <meta property="og:description" content="{{rest.address}}" />
+      {% endblock %}
 {% block fbsdkblock %} 
 <script>
   window.fbAsyncInit = function() {
@@ -19,62 +27,60 @@
 </script>
 
 {% endblock %}
-
         {% block content %}
 					<div class="mdl-grid">
             {% if error %} 
             <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--2-offset-desktop mdl-cell--12-col-phone">
-            <h4>Nothing delicious here -:( </h4>
+            <h4>Nothing found for the given search</h4>
             </div>
             {% else %}
-            {% if r_list %}
-            <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--4-offset mdl-cell--8-col-tablet mdl-cell--8-col-phone">
-             <h4 class="align-center">All restaurants &amp; coffee shops</h4>
-             <div id="spinner" class="mdl-spinner mdl-js-spinner is-active"></div>
-
-             </div>
-
-            {% for rest in r_list %}
-	           <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-card mdl-shadow--3dp  mdl-cell--12-col-phone">
+            {% if rest %}
+	           <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-card mdl-shadow--3dp  mdl-cell--12-col-phone">
               <div class="mdl-card__media">
-               <a href="{% url 'search:rwithid' rest.venue_id %}">
-                <img src="{{ rest.photo_url }}" style="max-height:200px;">
-                </a>
+              {% if photo_url %}
+                <img src="{{ photo_url }}">
+                {% else %}
+                 <img src="{{ rest.photo_url }}">
+              {% endif %}
               </div>
               <div class="mdl-card__title">
                  <h4 class="mdl-card__title-text">{{ rest.name }}</h4>
               </div>
-              <div class="mdl-card__supporting-text">
+              <div class="mdl-card__supporting-text post-excerpt">
                 <span class="mdl-typography--font-light mdl-typography--subhead">
               {{ rest.address }}
                 </span>
               </div>   
-                 <div class="mdl-card__actions"> 
+              
+              <div class="mdl-card__actions"> 
                 <span class="mdl-badge" data-badge="♥">{{ rest.checkins }}</span>          
               </div>
               <div class="mdl-card__actions mdl-card--border post-categories post-tags">
               <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised">
                 {{ rest.r_type }}
               </a>
+               <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised">
+                {{ rest.phone_number }}
+              </a>
                </div>
               <div class="mdl-card__menu">
-                <a href="" onclick="fbshare('{{rest.venue_id}}','{{rest.photo_url}}','{{rest.name}}')">
+                <a href="" onclick="fbshare('{{rest.venue_id}}','{{photo_url}}','{{rest.name}}')">
                   <i class="material-icons" style="color: white;">share</i>
                 </a>
               </div>
             </div>
-            {% endfor %}
+
             {% else %}
-            <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--2-offset-desktop mdl-cell--2-offset-tablet mdl-card  mdl-cell--12-col-phone">
-            <h4 class="align-center">No restaurants in the bucket list -:(</h4>
+            <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--2-offset mdl-card mdl-shadow--3dp  mdl-cell--12-col-phone">
+            <h4 class="align-center">Nothing found for the given search</h4>
             </div>
             {% endif %}
-
             {% endif %}
 					</div>
 
   {% endblock %}
   {% block jsblock1 %}
+
     <script>
       function load() {
         var spinner = document.getElementById("spinner");
@@ -95,4 +101,6 @@
         }, function(response){});
     }
 </script>
-{% endblock %}
+  {% endblock %}
+
+

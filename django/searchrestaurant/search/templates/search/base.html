@@ -30,10 +30,16 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.min.css">
     <link rel="stylesheet" href="{% static 'search/css/styles.css' %}">
-    <meta property="og:image"content="{% static 'search/images/food_kitchen.jpg' %}" />
-
+    {% block opengraph %}
+    <meta property="og:image" content="{% static 'search/images/food_kitchen.jpg' %}" />
+    <meta property="og:url"  content="https://searchrestaurant.pythonanywhere.com" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Search Restaurant" />
+    <meta property="og:description" content="Search delicious restaurant nearby you!" />
+      {% endblock %}
   </head>
   <body>
+  {% block fbsdkblock %} {% endblock %}
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 
       <div class="scan-header mdl-layout__header mdl-layout__header--waterfall">
@@ -55,6 +61,9 @@
           <div class="scan-navigation-container">
             <nav class="scan-navigation mdl-navigation">
               <a id="demo-show-toast1" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-typography--text-uppercase" href="{% url 'search:rallview' %}">Restaurants</a>
+              <a href="{% url 'search:rlistmapview' %}" class="mdl-navigation__link mdl-typography--text-uppercase">
+                <i class="material-icons">location_on</i>
+                </a>
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="https://github.com/hassanabidpk/searchrestaurant/blob/master/API_DOC.md">API</a>
             </nav>
           </div>
@@ -75,8 +84,11 @@
           Search Restaurant
         </a>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="{% url 'search:rallview' %}">Restaurants</a>
-          <a class="mdl-navigation__link" href="https://github.com/hassanabidpk/searchrestaurant/blob/master/API_DOC.md">API</a>
+          <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'search:rallview' %}">Restaurants</a>
+          <a href="{% url 'search:rlistmapview' %}" class="mdl-navigation__link mdl-typography--text-uppercase">
+                <i class="material-icons">location_on</i>
+                </a>
+          <a class="mdl-navigation__link mdl-typography--text-uppercase" href="https://github.com/hassanabidpk/searchrestaurant/blob/master/API_DOC.md">API</a>
           <div class="scan-drawer-separator"></div>
         </nav>
       </div>
@@ -113,5 +125,6 @@
     </div>
     {% block jsblock1 %}{% endblock %}
     <script src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+    {% block fbshare %} {% endblock %}
   </body>
 </html>

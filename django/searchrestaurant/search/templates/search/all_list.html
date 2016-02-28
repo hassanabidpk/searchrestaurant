@@ -21,6 +21,17 @@
 {% endblock %}
 
         {% block content %}
+        {% if locations %}
+          <div class="mdl-grid">
+          {% for location in locations %}
+
+          <div class="mdl-cell--2-col-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-desktop mdl-cell--6-col-phone"> <a href="{% url 'search:rlistview' %}?location={{location.restaurant_location}}&rtype={{location.restaurant_type}}" class="mdl-button mdl-js-button mdl-js-ripple-effect">{{location.restaurant_location }} | {{location.restaurant_type}}</a>
+          </div>
+          <br>
+          {% endfor %}
+
+          </div>
+          {% endif %}
 					<div class="mdl-grid">
             {% if error %} 
             <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--2-offset-desktop mdl-cell--12-col-phone">

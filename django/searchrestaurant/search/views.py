@@ -239,10 +239,13 @@ class RestaurantListView(View):
 		context = {}
 		if request.method == "GET":
 			location = request.GET["location"]
-			location = location.replace(" ","+")
+			location = location.rstrip().replace(" ","+")
 			restaurantType = request.GET["rtype"]
+			restaurantType = restaurantType.rstrip().replace(" ","+")
 			print("location %s",location)
 			if restaurantType and location:
+				restaurantType = restaurantType.lower()
+				location = location.lower()
 				try: 
 					print("check for exisitng location and rtype")
 					loc = Location.objects.get(restaurant_location=location,restaurant_type=restaurantType)
@@ -277,6 +280,11 @@ class RestaurantAllListView(ListView):
 	context_object_name = 'r_list'
 	queryset = Restaurant.objects.all()
 	template_name = 'search/all_list.html'
+	def get_context_data(self, **kwargs):
+		context = super(RestaurantAllListView, self).get_context_data(**kwargs)
+		locations = Location.objects.all()[:16]
+		context["locations"] = locations
+		return context
 
 class RestaurantAllMapListView(ListView):
 	""" This class based view shows map of all restaurants"""
@@ -289,7 +297,7 @@ class RestaurantAllMapListView(ListView):
 		context = super(RestaurantAllMapListView, self).get_context_data(**kwargs)
 		avgLat = Restaurant.objects.all().aggregate(Avg('latitude'))
 		avgLng = Restaurant.objects.all().aggregate(Avg('longitude'))
-		locations = Location.objects.all()
+		locations = Location.objects.all()[:16]
 		print(avgLat,avgLng)
 		context["avgLat"] = avgLat
 		context["avgLng"] = avgLng

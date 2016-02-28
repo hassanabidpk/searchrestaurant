@@ -322,7 +322,7 @@ class RestaurantList(APIView):
 				return Response(serializer.data,status=status.HTTP_200_OK)
 			except ObjectDoesNotExist:
 				print ("does not exist")
-				return Response(data={'error':"not-found",'status':404},status=status.HTTP_404_NOT_FOUND)
+				return Response(data={'error':"not-found",'status':"404"},status=status.HTTP_404_NOT_FOUND)
 			except MultipleObjectsReturned:
 				loc = loc[0]
 				restaurants = loc.restaurant.all()

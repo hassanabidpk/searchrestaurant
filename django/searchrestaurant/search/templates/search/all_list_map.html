@@ -6,7 +6,7 @@
           <div class="mdl-grid">
           {% for location in locations %}
 
-          <div class="mdl-cell--2-col-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-desktop mdl-cell--6-col-phone"> <a href="{% url 'search:rlistview' %}?location={{location.restaurant_location}}&rtype={{location.restaurant_type}}" class="mdl-button mdl-js-button mdl-js-ripple-effect">{{location.restaurant_location }}| {{location.restaurant_type}}</a>
+          <div class="mdl-cell--2-col-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-desktop mdl-cell--6-col-phone"> <a href="{% url 'search:rlistview' %}?location={{location.restaurant_location}}&rtype={{location.restaurant_type}}" class="mdl-button mdl-js-button mdl-button--primary">{{location.restaurant_location }}| {{location.restaurant_type}}</a>
           </div>
           <br>
           {% endfor %}
@@ -40,9 +40,9 @@
 
               function initMap() {
                 var map = new google.maps.Map(document.getElementById('map'), {
-                  zoom: 9,
+                  zoom: 3,
                   center: {lat: {{ avgLat.latitude__avg }}, lng: {{ avgLng.longitude__avg }}}
-                });
+                })
                  infowindow = new google.maps.InfoWindow({});
                  addMarkers(markers,labels,map,icons,addresses,titles);
 

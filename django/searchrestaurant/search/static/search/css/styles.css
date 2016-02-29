@@ -559,3 +559,8 @@ img {
   height: 768px;
   margin-left: 10px;
 }
+#single_map {
+  height: 300px;
+  margin-left: 0px;
+
+}

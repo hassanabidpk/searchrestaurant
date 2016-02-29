@@ -36,3 +36,6 @@ class Location(models.Model):
 	def __str__(self):
 		return self.restaurant_location
 
+	class Meta:
+		ordering= ("-created_at",)
+

@@ -37,11 +37,7 @@
             {% if rest %}
 	           <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-card mdl-shadow--3dp  mdl-cell--12-col-phone">
               <div class="mdl-card__media">
-              {% if photo_url %}
-                <img src="{{ photo_url }}">
-                {% else %}
-                 <img src="{{ rest.photo_url }}">
-              {% endif %}
+           <div id="single_map"></div>
               </div>
               <div class="mdl-card__title">
                  <h4 class="mdl-card__title-text">{{ rest.name }}</h4>
@@ -60,7 +56,7 @@
                 {{ rest.r_type }}
               </a>
                <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised">
-                {{ rest.phone_number }}
+                #{{ rest.phone_number }}
               </a>
                </div>
               <div class="mdl-card__menu">
@@ -69,6 +65,39 @@
                 </a>
               </div>
             </div>
+              <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAg2StWdwwf2v8OcHJNJtAcxgkygU5rROo&callback=initMap" async defer></script>
+              <script>
+                function initMap() {
+                var map = new google.maps.Map(document.getElementById('single_map'), {
+                  zoom: 14,
+                  center: {lat: {{ rest.latitude}}, lng: {{ rest.longitude}}}
+                })
+                 infowindow = new google.maps.InfoWindow({});
+                     var marker = new google.maps.Marker({
+                      position: { lat: {{rest.latitude}}, lng: {{rest.longitude}} },
+                      title: '{{rest.r_type}}',
+                      animation: google.maps.Animation.DROP,
+                      map: map,
+                    });
+                var contentString = '<div class="mdl-grid">'+
+                    '<div class="mdl-cell mdl-cell--12-col"><h4>'+
+                    '{{rest.name}}' +'</h4></div>'+
+                    '<div class="mdl-cell mdl-cell--12-col">'+
+                    '<p>' + '{{ rest.address}}' + 
+                    '</p>'+
+                    '</div>'+
+                    '</div>';
+                     marker['infowindow'] = contentString;
+
+
+                      google.maps.event.addListener(marker, 'click', function() {
+                          infowindow.setContent(this['infowindow']);
+                          infowindow.open(map, this);
+                      });
+                }
+
+              </script>
+    
 
             {% else %}
             <div class="mdl-cell-middle mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--2-offset mdl-card mdl-shadow--3dp  mdl-cell--12-col-phone">

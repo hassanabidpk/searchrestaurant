@@ -177,7 +177,7 @@ def getRestaurantList(ilocation,query):
 			photos_count = min(total_photos,100)
 			random_photo_index = random.randrange(0,photos_count)
 			photo = photos['items'][random_photo_index]
-			photo_url = photo["prefix"] + "300x200" + photo["suffix"]
+			photo_url = photo["prefix"] + "320x200" + photo["suffix"]
 			# print (photo_url)
 			oneRestaurant["photo_url"] = photo_url
 			try :

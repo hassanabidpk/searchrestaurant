@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/place_name"
+        android:inputType="textMultiLine"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:maxLines="4"
+        android:gravity="top"
+        android:layout_gravity="top"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="4dp"
+        android:hint="Gangnam-gu" />
+
+    <EditText
+        android:id="@+id/restaurant_type"
+        android:inputType="textMultiLine"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:maxLines="4"
+        android:gravity="top"
+        android:layout_gravity="top"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="4dp"
+        android:hint="pizza" />
+
+</LinearLayout>

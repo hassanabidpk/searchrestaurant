@@ -177,7 +177,7 @@ def getRestaurantList(ilocation,query):
 			photos_count = min(total_photos,100)
 			random_photo_index = random.randrange(0,photos_count)
 			photo = photos['items'][random_photo_index]
-			photo_url = photo["prefix"] + "320x200" + photo["suffix"]
+			photo_url = photo["prefix"] + "455x300" + photo["suffix"]
 			# print (photo_url)
 			oneRestaurant["photo_url"] = photo_url
 			try :
@@ -186,6 +186,9 @@ def getRestaurantList(ilocation,query):
 			except ObjectDoesNotExist:
 				try : 
 					rest = Restaurant.objects.get(name=name,address=oneRestaurant["address"],r_type=rtype)
+					rest.checkins = checkIns
+					rest.phone_number = phone_number
+					rest.save()
 					loc.restaurant.add(rest)
 					restaurantList.append(oneRestaurant)
 					print("exisiting rest found and added to location")
@@ -270,6 +273,7 @@ def restaurantwithid(request,venue_id):
 	rest = get_object_or_404(Restaurant, venue_id=venue_id)
 	if rest:
 		photo_url = rest.photo_url.replace('300x200','1250x400',1)
+		photo_url = rest.photo_url.replace('455x300','1250x400',1)
 		return render(request,'search/single.html',{'rest':rest,'photo_url':photo_url})
 	return render(request,'search/single.html',{'rest':rest})
 

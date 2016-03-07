@@ -8,6 +8,7 @@ Search Restaurant
 5. Run Django site `python manage.py runserver`
 6. Search on home page `http://127.0.0.1:8000` and see the result!
 7. [Optional] `python manage.py makemigrations` and `python manage.py migrate`
+8. Add Google Places API and Foursquare KEYS in project's settings.py `searchrestaurant/settings.py` 
 
 <img src="../images/website.png" >
 

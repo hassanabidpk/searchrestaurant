@@ -8,15 +8,14 @@
 
 import UIKit
 import GoogleMaps
+import Alamofire
 
 class ViewController: UIViewController {
 	
 	
-	let GOOGLE_API_KEY = "GOOGLE_API_KEY"
-	let FOURSQUARE_CLIENT_ID = "FOURSQUARE_CLIENT_ID"
-	let FOURSQUARE_CLIENT_SECRET = "FOURSQUARE_CLIENT_SECRET"
+	let GOOGLE_API_KEY = "AIzaSyDfSn5O7yYTPHtBg4PC41ydWPw364h5riE"
 	let GOOGLE_BASE_URL_HOST = "maps.googleapis.com"
-	let FOURSQUARE_BASE_URL_HOST = "api.foursquare.com"
+    let API_BASE_URL = "https://searchrestaurant.pythonanywhere.com/api/v1"
 	
 	@IBOutlet weak var restaurantImageView: UIImageView!
 	@IBOutlet weak var restaurantName: UILabel!
@@ -44,6 +43,7 @@ class ViewController: UIViewController {
 		
 		print("search restaurant")
 		self.dismissAnyVisibleKeyboards()
+        //TODO: handle case where two
 		if !self.locationTextField.text!.isEmpty && !self.restaurantTextField.text!.isEmpty {
             self.showRestaurantsList.enabled = false
 			self.restaurantName.text = "Searching .... "
@@ -57,9 +57,10 @@ class ViewController: UIViewController {
 				}
 			}
 			if let latlng = self.latlngFromCurrLoc {
-				self.getRandomRestaurant(nil, lng: nil)
-                self.getRestaurants(nil, lng: nil)
-				print(latlng)
+                //TODO: handle this case
+				print("search for same location : \(latlng)")
+                let latlngArray = latlng.characters.split{$0 == ","}.map(String.init)
+                self.getRestaurantsViaApi(latlngArray[0], lng: latlngArray[1])
 			} else {
 				let gURL = self.getURLForQuery()
 				print(gURL)
@@ -156,7 +157,7 @@ class ViewController: UIViewController {
 		locationManager = CLLocationManager()
 		self.restaurantName.lineBreakMode = NSLineBreakMode.ByWordWrapping
 		self.restaurantName.numberOfLines = 2
-        self.showRestaurantsList.enabled = false
+        
 		
 		
 	}
@@ -167,6 +168,21 @@ class ViewController: UIViewController {
 		self.addKeyboardDismissRecognizer()
 		self.subscribeKeyboardNotifications()
 	}
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if (self.restaurants.count != 0){
+            let venueCount = restaurants.count
+            let venueLimit = min(venueCount, 50)
+            let randomRestaurantIndex = Int(arc4random_uniform(UInt32(venueLimit)))
+            let randomRestaurant = restaurants[randomRestaurantIndex]
+            self.setRandomRestaurant(randomRestaurant)
+            self.showRestaurantsList.enabled = true
+        } else {
+            self.showRestaurantsList.enabled = false
+        }
+        
+    }
 	
 	override func viewWillDisappear(animated: Bool) {
 		
@@ -253,8 +269,9 @@ class ViewController: UIViewController {
 			print(location)
 			if let latitude = location["lat"], longitude = location["lng"] {
 			
-				self.getRandomRestaurant("\(latitude)", lng:  "\(longitude)")
+
 				self.getRestaurants("\(latitude)", lng:  "\(longitude)")
+                self.getRestaurantsViaApi("\(latitude)", lng:  "\(longitude)")
 			} else {
 				print("latitude or longitude are nil")
 				return
@@ -268,146 +285,84 @@ class ViewController: UIViewController {
 		
 	
 	}
+    
+    func getRestaurantsViaApi(lat:String! , lng: String!) {
+        restaurants.removeAll()
+    let locationStr = self.locationTextField.text!.stringByReplacingOccurrencesOfString(" ", withString: "+")
+        let escapedRestaurantValue = "\(self.restaurantTextField.text!)"
+        let params = ["location": locationStr,"rtype": escapedRestaurantValue]
+        Alamofire.request(.GET, API_BASE_URL, parameters: params)
+            .responseJSON { response in
+//                print(response.request)  // original URL request
+//                print(response.response) // URL response
+//                print(response.data)     // server data
+//                print(response.result)   // result of response serialization
+                
+                if let restaurants = response.result.value {
+                    print("JSON: \(restaurants)")
+                    if let error = restaurants["error"] {
+                        print("No venue found | error :\(error)")
+                        self.restaurantName.text = "Nothing found! Try again"
+                        self.stopSpinner(nil)
+                        return
+                    }
+                    let venueCount = restaurants.count
+                    print(" count : \(restaurants.count)")
+                    if (venueCount == 0) {
+                        print("No venue found")
+                        self.restaurantName.text = "Nothing found! Try again"
+                        self.stopSpinner(nil)
+                        return
+                    }
+                    let venueLimit = min(venueCount, 50)
+                    let randomRestaurantIndex = Int(arc4random_uniform(UInt32(venueLimit)))
+                    print(randomRestaurantIndex)
+                    guard let results = restaurants as? NSArray
+                        else {
+                            print ("cannot find key location in \(restaurants)")
+                            return
+                    }
+                    for r in results{
+                        let photoURL = NSURL(string:r["photo_url"] as! String)
+                        if let imageData = NSData(contentsOfURL: photoURL!) {
+                                let image  = UIImage(data: imageData)
+                       
+                            let name = r["name"] as! String
+                            let address = r["address"] as! String
+                            let lat = r["latitude"] as! String
+                            let lng = r["longitude"] as! String
+                            let venue_id = r["venue_id"] as! String
+                            let checkins = r["checkins"] as! UInt
+                            let restaurant = Restaurant(name: name, photo: image, address: address, checkins: checkins, latitude: lat, longitude: lng, venue_id: venue_id)!
+                            self.restaurants.append(restaurant)
+                            
+                            print("\(name) \(checkins) \(lat) \(venue_id)")
+                        }
+                        
+                    }
+                    let randomRestaurant = self.restaurants[randomRestaurantIndex]
+                    self.setRandomRestaurant(randomRestaurant)
+                   
+                    self.saveRestaurants()
+                    self.stopSpinner(nil)
+                }
+        }
+    }
+    
+    func setRandomRestaurant(randomRestaurant: Restaurant) {
+        dispatch_async(dispatch_get_main_queue(), {
+            
+            self.restaurantName.font = UIFont.systemFontOfSize(20.0)
+            self.restaurantName.text = randomRestaurant.name
+            self.restaurantCheckins.text = "Checkins : \(randomRestaurant.checkins)"
+            self.restaurantAddress.lineBreakMode = NSLineBreakMode.ByWordWrapping
+            self.restaurantAddress.numberOfLines = 0
+            self.restaurantAddress.text = randomRestaurant.address
+            self.restaurantImageView.image = randomRestaurant.photo
+            print("randomrestaurant name : \(randomRestaurant.name)")
+        })
+    }
 	
-	func getRandomRestaurant(lat:String! , lng: String!)  {
-		
-		let foursquareComponents = NSURLComponents()
-		foursquareComponents.scheme = "https"
-		foursquareComponents.host = FOURSQUARE_BASE_URL_HOST
-		foursquareComponents.path = "/v2/venues/search"
-		
-		let clientid = NSURLQueryItem(name: "client_id", value: FOURSQUARE_CLIENT_ID)
-		let clientsecret = NSURLQueryItem(name: "client_secret", value: FOURSQUARE_CLIENT_SECRET)
-		let version = NSURLQueryItem(name: "v", value: "20160105")
-		let limit = NSURLQueryItem(name: "limit", value: "50")
-		var latlongStr :String
-		if let latitude = lat as String!, longitude = lng as String! {
-			latlongStr = String(latitude) + "," + String(longitude)
-		} else {
-			if let latlng = latlngFromCurrLoc {
-				latlongStr = latlng
-			} else  {
-				latlongStr = ""
-			}
-		}
-//		let escapedRestaurantValue = self.restaurantTextField.text!.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
-		let escapedRestaurantValue = "\(self.restaurantTextField.text!)"
-		let latlong = NSURLQueryItem(name: "ll", value: latlongStr)
-		let query = NSURLQueryItem(name: "query", value: escapedRestaurantValue)
-		
-		foursquareComponents.queryItems = [clientid,clientsecret, version,limit,latlong,query]
-		let url = foursquareComponents.URL! as NSURL
-		
-		print(url)
-		
-		let session = NSURLSession.sharedSession()
-		let request = NSURLRequest(URL: url)
-		
-		let task = session.dataTaskWithRequest(request) { (data, response, error) in
-			
-			guard (error == nil ) else {
-				print("There is error in Google Geo-coding api request")
-				return
-			}
-			
-			guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-				
-				if let response = response as? NSHTTPURLResponse {
-					print ("Your Google geocoding request returned an Invalid response! Status code : \(response.statusCode)")
-				} else if let response = response {
-					print ("Your Google geocoding request returned an Invalid response! Response : \(response)")
-				} else {
-					print ("Your Google geocoding request returned an Invalid response!")
-				}
-				
-				return
-			}
-			
-			guard let data = data else {
-				
-				print("No data was returned by the request")
-				return
-			}
-			
-			
-			let parsedResult : AnyObject!
-			
-			do {
-				parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-			}catch {
-				
-				parsedResult = nil
-				print("Could not parse the data as JSON : \(data)")
-				return
-			}
-			
-			
-			guard let meta = parsedResult["meta"] as! NSDictionary?, stat = meta["code"] as? Int where stat == 200 else {
-				print ("Google geocoding API returned an error = See error code in \(parsedResult)")
-				return
-			}
-			
-			guard let response = parsedResult["response"] as? NSDictionary, venues = response["venues"] as? NSArray where venues.count >= 1
-				else {
-					print ("cannot find key restaurant in \(parsedResult)")
-					dispatch_async(dispatch_get_main_queue(), {
-						self.restaurantName.text = "Coudn't find any restaurant - Try again"
-						self.spinner.stopAnimating()
-						
-					})
-					return
-			}
-			
-			let venueCount = venues.count
-			print(venues.count)
-			let venueLimit = min(venueCount, 50)
-			let randomRestaurant = Int(arc4random_uniform(UInt32(venueLimit)))
-			
-			if let restaurant = venues[randomRestaurant] as? NSDictionary {
-					let location = restaurant["location"]!
-					let formattedAddress = location["formattedAddress"]
-				    let stats = restaurant["stats"]!
-					let name = restaurant["name"]!
-					let id = restaurant["id"]
-					let checkIns = stats["checkinsCount"]
-					
-//					print(name, " \nAddress : " , formattedAddress, "\nstats: ", checkIns)
-				if let venueId = id as! String! {
-					self.getRandomPhoto(venueId)
-					var checkInsCount : Int
-					if let checkins = checkIns  {
-						checkInsCount = checkins as! Int
-					} else {
-						checkInsCount = 0
-					}
-					
-					dispatch_async(dispatch_get_main_queue(), {
-						self.restaurantName.font = UIFont.systemFontOfSize(20.0)
-						self.restaurantName.text = "\(name)"
-						self.restaurantCheckins.text = "Checkins : \(checkInsCount)"
-						var addressArray =  [String]()
-						if let address = formattedAddress {
-							addressArray = address as! [String]
-//							print("Formatted address: ", addressArray)
-							self.restaurantAddress.lineBreakMode = NSLineBreakMode.ByWordWrapping
-							self.restaurantAddress.numberOfLines = 0
-						
-							self.restaurantAddress.text = addressArray.joinWithSeparator(" ")
-						}
-					})
-
-				}
-				
-				}
-			
-			
-			
-		}
-		
-		task.resume()
-		
-		
-	}
     
     func stopSpinner(error : String!) {
         dispatch_async(dispatch_get_main_queue(), {
@@ -417,124 +372,6 @@ class ViewController: UIViewController {
             }
         })
     }
-	
-	func getRandomPhoto(id : String!)  {
-		
-		let foursquareComponents = NSURLComponents()
-		foursquareComponents.scheme = "https"
-		foursquareComponents.host = FOURSQUARE_BASE_URL_HOST
-		var venueID :String
-		if let venueId = id as String! {
-			venueID = venueId;
-			print(venueID, " venueid : " , venueId)
-		} else {
-			print("venue Id is nil ")
-			return
-		}
-		foursquareComponents.path = "/v2/venues/"+venueID+"/photos"
-		
-		let clientid = NSURLQueryItem(name: "client_id", value: FOURSQUARE_CLIENT_ID)
-		let clientsecret = NSURLQueryItem(name: "client_secret", value: FOURSQUARE_CLIENT_SECRET)
-		let version = NSURLQueryItem(name: "v", value: "20160105")
-		
-
-		
-		foursquareComponents.queryItems = [clientid,clientsecret, version]
-		let url = foursquareComponents.URL! as NSURL
-		
-		print(url)
-		
-		let session = NSURLSession.sharedSession()
-		let request = NSURLRequest(URL: url)
-		
-		let task = session.dataTaskWithRequest(request) { (data, response, error) in
-			
-			guard (error == nil ) else {
-				print("There is error in Foursquare Photo request api request")
-				self.spinner.stopAnimating()
-				return
-			}
-			
-			guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-				
-				if let response = response as? NSHTTPURLResponse {
-					print ("Your Foursquare photo request returned an Invalid response! Status code : \(response.statusCode)")
-				} else if let response = response {
-					print ("Your Foursquare photo request returned an Invalid response! Response : \(response)")
-				} else {
-					print ("Your Foursquare photo  request returned an Invalid response!")
-				}
-				self.spinner.stopAnimating()
-				return
-			}
-			
-			guard let data = data else {
-				
-				print("No data was returned by the Foursquare photo  request")
-				self.spinner.stopAnimating()
-				return
-			}
-			
-			
-			let parsedResult : AnyObject!
-			
-			do {
-				parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-			}catch {
-				
-				parsedResult = nil
-				print("Could not parse the data (Foursquare photo ) as JSON : \(data)")
-				self.spinner.stopAnimating()
-				return
-			}
-			
-			
-			guard let meta = parsedResult["meta"] as! NSDictionary?, stat = meta["code"] as? Int where stat == 200 else {
-				print ("Google geocoding API returned an error = See error code in \(parsedResult)")
-				self.spinner.stopAnimating()
-				return
-			}
-			
-			guard let response = parsedResult["response"] as? NSDictionary, photos = response["photos"] as? NSDictionary,
-			let photoCount = photos["count"] as? Int where photoCount >= 1, let photoItems = photos["items"] as? NSArray
-				else {
-					print ("cannot find key / or count is zero / in \(parsedResult)")
-					dispatch_async(dispatch_get_main_queue(), {
-						self.spinner.stopAnimating()
-						self.restaurantImageView.image = nil
-					})
-					return
-			}
-			
-			let photoLimit = min(photoCount, 100)
-			let randomPhoto = Int(arc4random_uniform(UInt32(photoLimit)))
-			
-			if let photo = photoItems[randomPhoto] as? NSDictionary {
-				let prefix = photo["prefix"]!
-				let suffix = photo["suffix"]!
-				
-				print(prefix, "original" , suffix)
-				let photoURLString = (prefix as! String) + "width600" + (suffix as! String)
-				let photoURL = NSURL(string:photoURLString)
-				if let imageData = NSData(contentsOfURL: photoURL!) {
-					dispatch_async(dispatch_get_main_queue(), {
-						self.restaurantImageView.image = UIImage(data: imageData)
-						self.restaurantImageView.alpha = 0.5
-						
-					})
-				} else {
-					print("Image does not exist at \(photoURL)")
-				}
-				
-			}
-			
-			
-			
-		}
-		
-		task.resume()
-		
-	}
 	
 	
 	// MARK: Helper methods
@@ -609,241 +446,11 @@ extension ViewController {
 	
 	
 	func getRestaurants(lat:String! , lng: String!)  {
-		restaurants.removeAll()
-		let foursquareComponents = NSURLComponents()
-		foursquareComponents.scheme = "https"
-		foursquareComponents.host = FOURSQUARE_BASE_URL_HOST
-		foursquareComponents.path = "/v2/venues/search"
-		
-		let clientid = NSURLQueryItem(name: "client_id", value: FOURSQUARE_CLIENT_ID)
-		let clientsecret = NSURLQueryItem(name: "client_secret", value: FOURSQUARE_CLIENT_SECRET)
-		let version = NSURLQueryItem(name: "v", value: "20160105")
-		let limit = NSURLQueryItem(name: "limit", value: "50")
-		var latlongStr :String
-		if let latitude = lat as String!, longitude = lng as String! {
-			latlongStr = String(latitude) + "," + String(longitude)
-		} else {
-			if let latlng = latlngFromCurrLoc {
-				latlongStr = latlng
-			} else  {
-				latlongStr = ""
-			}
-		}
-		//		let escapedRestaurantValue = self.restaurantTextField.text!.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
-		let escapedRestaurantValue = "\(self.restaurantTextField.text!)"
-		let latlong = NSURLQueryItem(name: "ll", value: latlongStr)
-		let query = NSURLQueryItem(name: "query", value: escapedRestaurantValue)
-		
-		foursquareComponents.queryItems = [clientid,clientsecret, version,limit,latlong,query]
-		let url = foursquareComponents.URL! as NSURL
-		
-		print(url)
-		
-		let session = NSURLSession.sharedSession()
-		let request = NSURLRequest(URL: url)
-		
-		let task = session.dataTaskWithRequest(request) { (data, response, error) in
-			
-			guard (error == nil ) else {
-				print("There is error in Google Geo-coding api request")
-				return
-			}
-			
-			guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-				
-				if let response = response as? NSHTTPURLResponse {
-					print ("Your Google geocoding request returned an Invalid response! Status code : \(response.statusCode)")
-				} else if let response = response {
-					print ("Your Google geocoding request returned an Invalid response! Response : \(response)")
-				} else {
-					print ("Your Google geocoding request returned an Invalid response!")
-				}
-				
-				return
-			}
-			
-			guard let data = data else {
-				
-				print("No data was returned by the request")
-				return
-			}
-			
-			
-			let parsedResult : AnyObject!
-			
-			do {
-				parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-			}catch {
-				
-				parsedResult = nil
-				print("Could not parse the data as JSON : \(data)")
-				return
-			}
-			
-			
-			guard let meta = parsedResult["meta"] as! NSDictionary?, stat = meta["code"] as? Int where stat == 200 else {
-				print ("Google geocoding API returned an error = See error code in \(parsedResult)")
-				return
-			}
-			
-			guard let response = parsedResult["response"] as? NSDictionary, venues = response["venues"] as? NSArray where venues.count >= 1
-				else {
-					print ("cannot find key restaurant in \(parsedResult)")
-					dispatch_async(dispatch_get_main_queue(), {
-						self.spinner.stopAnimating()
-						
-					})
-					return
-			}
-			
-			print("Total Venues : " , venues.count)
-			for r in venues {
-				if let restaurant = r as? NSDictionary {
-					let location = restaurant["location"]!
-					let formattedAddress = location["formattedAddress"]
-//					let stats = restaurant["stats"]!
-					let name = restaurant["name"]!
-					let id = restaurant["id"]
-					if let venueId = id as! String! {
-						var addressArray =  [String]()
-						if let address = formattedAddress {
-							addressArray = address as! [String]
-                            dispatch_async(dispatch_get_main_queue(), {
-                                self.spinner.startAnimating()
-                                
-                            })
-                            self.getPhotoForRestaurant(venueId,name: name as! String,address: addressArray.joinWithSeparator(" "),totalCount: venues.count)
-                            
-						}
-					
-					}
-				
-				}
-			
-			}
-            
-            
-			
-		}
-		
-		task.resume()
-		
 		
 	}
 	
     func getPhotoForRestaurant(id : String!, name: String!, address: String!,totalCount:Int)  {
 		
-		let foursquareComponents = NSURLComponents()
-		foursquareComponents.scheme = "https"
-		foursquareComponents.host = FOURSQUARE_BASE_URL_HOST
-		var venueID :String
-		if let venueId = id as String! {
-			venueID = venueId;
-		} else {
-			return
-		}
-		foursquareComponents.path = "/v2/venues/"+venueID+"/photos"
-		
-		let clientid = NSURLQueryItem(name: "client_id", value: FOURSQUARE_CLIENT_ID)
-		let clientsecret = NSURLQueryItem(name: "client_secret", value: FOURSQUARE_CLIENT_SECRET)
-		let version = NSURLQueryItem(name: "v", value: "20160105")
-		
-		foursquareComponents.queryItems = [clientid,clientsecret, version]
-		let url = foursquareComponents.URL! as NSURL
-		
-		let session = NSURLSession.sharedSession()
-		let request = NSURLRequest(URL: url)
-		
-		let task = session.dataTaskWithRequest(request) { (data, response, error) in
-			self.count += 1
-			guard (error == nil ) else {
-				print("There is error in Foursquare Photo request api request")
-				self.spinner.stopAnimating()
-				return
-			}
-			
-			guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-				
-				if let response = response as? NSHTTPURLResponse {
-					print ("Your Foursquare photo request returned an Invalid response! Status code : \(response.statusCode)")
-				} else if let response = response {
-					print ("Your Foursquare photo request returned an Invalid response! Response : \(response)")
-				} else {
-					print ("Your Foursquare photo  request returned an Invalid response!")
-				}
-				self.spinner.stopAnimating()
-				return
-			}
-			
-			guard let data = data else {
-				
-				print("No data was returned by the Foursquare photo  request")
-				self.spinner.stopAnimating()
-				return
-			}
-			
-			
-			let parsedResult : AnyObject!
-			
-			do {
-				parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-			}catch {
-				
-				parsedResult = nil
-				print("Could not parse the data (Foursquare photo ) as JSON : \(data)")
-				self.spinner.stopAnimating()
-				return
-			}
-			
-			
-			guard let meta = parsedResult["meta"] as! NSDictionary?, stat = meta["code"] as? Int where stat == 200 else {
-				print ("Google geocoding API returned an error = See error code in \(parsedResult)")
-				self.spinner.stopAnimating()
-				return
-			}
-			
-			guard let response = parsedResult["response"] as? NSDictionary, photos = response["photos"] as? NSDictionary,
-				let photoCount = photos["count"] as? Int where photoCount >= 1, let photoItems = photos["items"] as? NSArray
-				else {
-					return
-				}
-			
-			let photoLimit = min(photoCount, 100)
-			let randomPhoto = Int(arc4random_uniform(UInt32(photoLimit)))
-			
-			if let photo = photoItems[randomPhoto] as? NSDictionary {
-				let prefix = photo["prefix"]!
-				let suffix = photo["suffix"]!
-				let photoURLString = (prefix as! String) + "width600" + (suffix as! String)
-				let photoURL = NSURL(string:photoURLString)
-				if let imageData = NSData(contentsOfURL: photoURL!) {
-					let image  = UIImage(data: imageData)
-					let restaurant = Restaurant(name: name, photo: image, address: address)!
-					self.restaurants.append(restaurant)
-                    self.saveRestaurants()
-//					self.saveRestaurants()
-                    if(self.count == (totalCount+1)) {
-                        print("count : \(self.count) == \(totalCount)")
-                        dispatch_async(dispatch_get_main_queue(), {
-//                            self.saveRestaurants()
-                            self.spinner.stopAnimating()
-                            
-                        })
-                    } else {
-                        print("count : \(self.count) != \(totalCount)")
-                    }
-					
-				} else {
-					print("Image does not exist at \(photoURL)")
-				}
-				
-			}
-			
-			
-			
-		}
-		
-		task.resume()
 		
 	}
 	

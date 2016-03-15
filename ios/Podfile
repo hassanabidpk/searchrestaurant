@@ -7,6 +7,7 @@ target 'Search_Restaurant' do
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios,'8.1'
 pod 'GoogleMaps'
+pod 'Alamofire', '~> 3.0'
 end
 
 target 'Search_RestaurantTests' do

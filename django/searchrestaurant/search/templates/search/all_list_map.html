@@ -85,8 +85,17 @@
             <script>
               var restLtnLng = { lat: {{rest.latitude}}, lng: {{rest.longitude}} };
               var label = "{{rest.r_type}}"
+              var icon ;
+              var REST_TYPE_IMAGES = ["burger", "pizza", "coffee", "beer","wine","restaurant"];
+              var ifPresent = REST_TYPE_IMAGES.indexOf(label);
+              if(ifPresent != -1) {
+              icon = "https://searchrestaurant.pythonanywhere.com/static/search/images/" + label +".png";
+
+              } else {
+              icon = "http://searchrestaurant.pythonanywhere.com//static/search/images/map_marker.png";
+
+              }
               // var icon = "{% static 'search/images/{{rest.r_type}' %}";
-              var icon = "http://127.0.0.1:8000/static/search/images/" + label +".png";
               icons.push(icon);
               markers.push(restLtnLng);
               labels.push(label);

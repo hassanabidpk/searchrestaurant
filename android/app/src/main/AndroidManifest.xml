@@ -25,6 +25,7 @@
             android:name=".RestaurantDetailActivity"
             android:label="@string/title_restaurant_detail"
             android:parentActivityName=".RestaurantListActivity"
+            android:taskAffinity=""
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

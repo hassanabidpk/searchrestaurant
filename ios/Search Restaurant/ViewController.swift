@@ -350,6 +350,9 @@ class ViewController: UIViewController {
     }
     
     func setRandomRestaurant(randomRestaurant: Restaurant) {
+        
+        
+        
         dispatch_async(dispatch_get_main_queue(), {
             
             self.restaurantName.font = UIFont.systemFontOfSize(20.0)

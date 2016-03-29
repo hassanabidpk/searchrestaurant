@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Search Restaurant</string>
     <string name="title_restaurant_detail">restaurant Detail</string>
+    <string name="search_for_restaurant">Search for restaurant</string>
+
+    <string name="restaurant_search_completed">Search completed</string>
+    <string name="restaurant_search_result">%d pizza restaurants found</string>
+    <string name="restaurant_search_summary">Number fo searches so far : %s</string>
+    <string name="no_restaurant_found">No Restaurant found -:(</string>
 </resources>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".RestaurantListActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -36,13 +36,25 @@
         android:visibility="gone"
         android:id="@+id/progressBar"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/emptyTextView"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:padding="4dp"
+        android:text="@string/search_for_restaurant"
+        />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_menu_search" />
+        android:src="@drawable/ic_search_white_24dp" />
 
 
 </android.support.design.widget.CoordinatorLayout>

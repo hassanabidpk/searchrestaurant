@@ -55,7 +55,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             // using a fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(RestaurantDetailFragment.ARG_CHECKINS,
-                    getIntent().getStringExtra(RestaurantDetailFragment.ARG_CHECKINS));
+                    String.valueOf(getIntent().getIntExtra(RestaurantDetailFragment.ARG_CHECKINS,0)));
             arguments.putString(RestaurantDetailFragment.ARG_NAME,
                     getIntent().getStringExtra(RestaurantDetailFragment.ARG_NAME));
             arguments.putString(RestaurantDetailFragment.ARG_ADDRESS,

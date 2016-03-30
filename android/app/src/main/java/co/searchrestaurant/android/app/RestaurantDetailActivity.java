@@ -1,15 +1,28 @@
 package co.searchrestaurant.android.app;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Messenger;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.RemoteInput;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+
+import java.util.Locale;
 
 /**
  * An activity representing a single restaurant detail screen. This
@@ -18,6 +31,17 @@ import android.view.MenuItem;
  * in a {@link RestaurantListActivity}.
  */
 public class RestaurantDetailActivity extends AppCompatActivity {
+
+    private static final String LOG_TAG = RestaurantDetailActivity.class.getSimpleName();
+
+   //1 - Create instance of RemoteInput.Builder that can add to your notification action
+
+    private static final String TEXT_REPLY_KEY = "text_reply_key";
+
+    private PendingIntent replyPendingIntent;
+    private static final int REQUEST_CODE_REPLY = 3232;
+    private static final String ACTION_REPLY_RECEIVE = "co.searchrestaurant.android.app.reply_rx";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +54,9 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+               // Reply Notification
+                createReplyNotification();
+
             }
         });
 
@@ -41,15 +66,6 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
@@ -74,6 +90,44 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         }
     }
 
+    private void createReplyNotification() {
+
+        String replyLabel = getResources().getString(R.string.reply);
+
+        android.app.RemoteInput remoteInput = new android.app.RemoteInput.Builder(TEXT_REPLY_KEY)
+                .setLabel(replyLabel)
+                .build();
+
+        // 2: Attach remote input to Notification Action
+        Intent replyIntent = new Intent(ACTION_REPLY_RECEIVE);
+        replyPendingIntent = PendingIntent.getBroadcast(this,REQUEST_CODE_REPLY,replyIntent,0);
+
+        Notification.Action action = new Notification.Action.Builder(R.drawable.ic_reply_black_24dp,
+                getString(R.string.reply),replyPendingIntent)
+                .addRemoteInput(remoteInput)
+                .build();
+
+        //3: Build Notification and add action
+
+        Bitmap icon = BitmapFactory.decodeResource(getResources(),
+                R.drawable.ic_face_black_48dp);
+
+        // Build the notification and add the action
+        Notification notification =
+                new Notification.Builder(this)
+                        .setSmallIcon(R.drawable.ic_restaurant_black_24dp)
+                        .setContentTitle(getString(R.string.title))
+                        .setContentText(getString(R.string.content))
+                        .setLargeIcon(icon)
+                        .addAction(action).build();
+
+// Issue the notification
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notification);
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -89,5 +143,12 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMultiWindowChanged(boolean inMultiWindow) {
+        super.onMultiWindowChanged(inMultiWindow);
+
+        Log.d(LOG_TAG, "onMultiWindowChanged: " + inMultiWindow);
     }
 }

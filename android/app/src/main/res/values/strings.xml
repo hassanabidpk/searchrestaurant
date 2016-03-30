@@ -7,4 +7,7 @@
     <string name="restaurant_search_result">%d pizza restaurants found</string>
     <string name="restaurant_search_summary">Number fo searches so far : %s</string>
     <string name="no_restaurant_found">No Restaurant found -:(</string>
+    <string name="reply">Reply</string>
+    <string name="title">Hassan Abid</string>
+    <string name="content">How is npreview presentation at GDG going on?</string>
 </resources>

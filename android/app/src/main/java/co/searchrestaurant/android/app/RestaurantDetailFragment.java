@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,8 @@ public class RestaurantDetailFragment extends Fragment {
     private String address;
     private String create_at;
     private String phone_number;
+    private TextView addressTextView;
+
 
 
     /**
@@ -74,6 +77,7 @@ public class RestaurantDetailFragment extends Fragment {
             if (appBarLayout != null) {
                 appBarLayout.setTitle(rest_name);
             }
+
         }
     }
 
@@ -81,9 +85,9 @@ public class RestaurantDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.restaurant_detail, container, false);
-
+        addressTextView = (TextView) rootView.findViewById(R.id.restaurant_detail);
         if (address != null) {
-            ((TextView) rootView.findViewById(R.id.restaurant_detail)).setText(address);
+            addressTextView.setText(address);
         }
         if (photo_url != null) {
             loadBackdrop(photo_url,rootView);
@@ -95,5 +99,31 @@ public class RestaurantDetailFragment extends Fragment {
     private void loadBackdrop(String photo_url, View root) {
         final ImageView imageView = (ImageView) getActivity().findViewById(R.id.rest_image);
         Glide.with(getActivity()).load(photo_url).centerCrop().into(imageView);
+    }
+
+    /* MultiWindow */
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(getActivity().inMultiWindow()) {
+            if(addressTextView != null)
+                addressTextView.setTextSize(14);
+        } else {
+            if(addressTextView != null)
+                addressTextView.setTextSize(24);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(getActivity().inMultiWindow()) {
+            if(addressTextView != null)
+                addressTextView.setTextSize(14);
+        } else {
+            if(addressTextView != null)
+                addressTextView.setTextSize(24);
+        }
     }
 }

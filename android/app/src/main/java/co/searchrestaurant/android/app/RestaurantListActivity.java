@@ -371,21 +371,6 @@ public class RestaurantListActivity extends BaseActivity {
                 .setLargeIcon(icon)
                 .setAutoCancel(true);
 
-    /*if(restList.size() != 0) {
-        try {
-            Bitmap icon = Glide.
-                    with(this).
-                    load(restList.get(0).photo_url).
-                    asBitmap().
-                    into(100, 100). // Width and height
-                    get();
-            notificationBuilder.setLargeIcon(icon);
-        } catch (final ExecutionException e) {
-            Log.e(LOG_TAG, e.getMessage());
-        } catch (final InterruptedException e) {
-            Log.e(LOG_TAG, e.getMessage());
-        }
-    }*/
         final Notification noti = notificationBuilder.build();
 
         mNotificationManager.notify(getNewNotificationId(),noti);

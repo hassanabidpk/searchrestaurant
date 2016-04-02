@@ -272,8 +272,8 @@ class RestaurantListView(View):
 def restaurantwithid(request,venue_id):
 	rest = get_object_or_404(Restaurant, venue_id=venue_id)
 	if rest:
-		if len(res) > 1:
-			res = res[0] 
+		if len(rest) > 1:
+			rest = rest[0] 
 		photo_url = rest.photo_url.replace('300x200','1250x400',1)
 		photo_url = rest.photo_url.replace('455x300','1250x400',1)
 		return render(request,'search/single.html',{'rest':rest,'photo_url':photo_url})

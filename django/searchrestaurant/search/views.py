@@ -271,18 +271,17 @@ class RestaurantListView(View):
 
 def restaurantwithid(request,venue_id):
 	try: 
-		rest = get_object_or_404(Restaurant, venue_id=venue_id)
+		rest = Restaurant.objects.get(venue_id=venue_id)
 		photo_url = rest.photo_url.replace('300x200','1250x400',1)
 		photo_url = rest.photo_url.replace('455x300','1250x400',1)
 		return render(request,'search/single.html',{'rest':rest,'photo_url':photo_url})
 
 	except MultipleObjectsReturned:
 		rest = rest[0] 
-
 		photo_url = rest.photo_url.replace('300x200','1250x400',1)
 		photo_url = rest.photo_url.replace('455x300','1250x400',1)
 		return render(request,'search/single.html',{'rest':rest,'photo_url':photo_url})
-		
+
 	except ObjectDoesNotExist:
 		return render(request,'search/single.html',{})
 

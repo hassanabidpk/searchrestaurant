@@ -10,7 +10,7 @@ Enter `GOOGLE_API_KEY`, `FOURSQUARE_CLIENT_ID` and `FOURSQUARE_CLIENT_SECRET` in
 
 # Android :
 
-Coming soon
+Check android folder.
 
 # Django :
 

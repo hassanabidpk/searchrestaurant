@@ -1,0 +1,59 @@
+{% extends 'search/yolo_base.html' %} {% block content %}
+<div class="scan-be-together-section mdl-typography--text-center">
+    <div class="logo-font scan-slogan">Yolo Gangneung</div>
+    <div id="spinner" class="mdl-spinner mdl-js-spinner"></div>
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--4-col mdl-cell--4-offset">
+            <div class="logo-font scan-sub-slogan">Eat delicious food in host city of Winter Olympics!</div>
+            <h6 style="color:white;">Contact us at isearchrestaurant@gmail.com for any inquries!</h6>
+            <!-- <form action="{% url 'search:rlistview' %}" method="get">
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" name="location" id="location" type="text" style="background-color: white;" required>
+                    <label class="mdl-textfield__label" for="name">Place : Gangnam-gu etc.</label>
+                </div><br>
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" name="rtype" id="rtype" style="background-color: white;" required>
+                    <label class="mdl-textfield__label" for="email">Restaurant type : pizza</label>
+                </div><br>
+                <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="formsubmit">
+             <i class="material-icons">search</i>
+            </button>
+            </form> -->
+        </div>
+    </div>
+    <!-- <button onclick="startSpinner()" class="scan-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+      <i class="material-icons">expand_more</i>
+    </button> -->
+</div>
+{% endblock %} {% block jsblock1 %}
+<div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+</div>
+<script>
+    (function() {
+        'use strict';
+        window['counter'] = 0;
+        var snackbarContainer = document.querySelector('#demo-toast-example');
+        var showToastButton = document.querySelector('#demo-show-toast');
+        showToastButton.addEventListener('click', function() {
+            'use strict';
+            var data = {
+                message: 'Coming soon - ' + ++counter
+            };
+            snackbarContainer.MaterialSnackbar.showSnackbar(data);
+        });
+    }());
+</script>
+<script>
+    var spinner = document.getElementById("spinner");
+    var submitButton = document.getElementById("formsubmit");
+    submitButton.addEventListener("click", startSpinner);
+
+    function startSpinner() {
+        console.log("startSpinner");
+        spinner.classList.add("is-active");
+    };
+</script>
+
+{% endblock %}

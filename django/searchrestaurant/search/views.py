@@ -220,6 +220,10 @@ def getRestaurantList(ilocation,query):
 def index(request):
     return render(request, 'search/index.html', {})
 
+def yolo_index(request):
+    context = {}
+    return render(request,'search/yolo.html',context)
+
 def result(request):
 	context = {}
 	if request.method == "GET":

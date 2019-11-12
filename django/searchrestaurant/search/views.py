@@ -22,7 +22,7 @@ FOURSQUARE_CLIENT_ID = settings.FOURSQUARE_CLIENT_ID
 FOURSQUARE_CLIENT_SECRET = settings.FOURSQUARE_CLIENT_SECRET
 
 
-def getRandomRestaurant(location,query):
+def getRandomRestaurant(location, query):
 	result = {}
 	# Get latitude and longitude
 	google_payload = {'address': location, 'key': GOOGLE_API_KEY}
@@ -231,7 +231,7 @@ def result(request):
 		location = location.replace(" ","+")
 		restaurantType = request.GET["rtype"]
 		if restaurantType and location :
-			context = getRandomRestaurant(location,restaurantType)
+			context = getRandomRestaurant(location, restaurantType)
 			return render(request,'search/result.html',context)
 		else :
 			return HttpResponseRedirect('/')

@@ -20,7 +20,6 @@ from django.views.generic import ListView
 GOOGLE_API_KEY = settings.GOOGLE_API_KEY
 FOURSQUARE_CLIENT_ID = settings.FOURSQUARE_CLIENT_ID
 FOURSQUARE_CLIENT_SECRET = settings.FOURSQUARE_CLIENT_SECRET
-GOOGLE_API_KEY_JAVASCRIPT = 'GOOGLE_API_KEY_JAVASCRIPT'
 
 
 def getRandomRestaurant(location,query):
@@ -103,6 +102,7 @@ def getRestaurantList(ilocation,query):
 	result = {}
 	restaurantList = []
 	# Get latitude and longitude
+	print(GOOGLE_API_KEY)
 	google_payload = {'address': ilocation, 'key': GOOGLE_API_KEY}
 	rgoogle = requests.get("https://maps.googleapis.com/maps/api/geocode/json", params=google_payload)
 	googlejson = rgoogle.json()

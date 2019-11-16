@@ -17,6 +17,7 @@ import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dev.hassanabid.searchrestaurant.service.response.SearchRestaurantResponse
@@ -131,7 +132,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var searchDialog: AlertDialog? = null
-    private var newPlace = "cebu"
+    private var newPlace = "1 Jalan Dusun, Singapore"
     private var newType = "pizza"
     private val inputTag: EditText? = null
     private fun createSearchDialog(): AlertDialog {

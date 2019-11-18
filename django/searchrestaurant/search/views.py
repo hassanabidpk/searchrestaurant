@@ -28,7 +28,6 @@ def getRandomRestaurant(location, query):
 	google_payload = {'address': location, 'key': GOOGLE_API_KEY}
 	rgoogle = requests.get("https://maps.googleapis.com/maps/api/geocode/json", params=google_payload)
 	googlejson = rgoogle.json()
-	# print(rgoogle.url)
 	status = googlejson["status"]
 	if not status == "OK" :
 		result["name"] = "Invalid address"
@@ -102,7 +101,6 @@ def getRestaurantList(ilocation,query):
 	result = {}
 	restaurantList = []
 	# Get latitude and longitude
-	print(GOOGLE_API_KEY)
 	google_payload = {'address': ilocation, 'key': GOOGLE_API_KEY}
 	rgoogle = requests.get("https://maps.googleapis.com/maps/api/geocode/json", params=google_payload)
 	googlejson = rgoogle.json()
@@ -125,7 +123,114 @@ def getRestaurantList(ilocation,query):
 	'limit':100,'ll': latlong,'radius':"800",'query': query}
 
 	rfoursquare = requests.get("https://api.foursquare.com/v2/venues/search",params=foursquare_payload)
+	print(rfoursquare)
 	fjson = rfoursquare.json()
+	try:
+		restaurants = fjson['response']['venues']
+	except KeyError:
+		result["error"] = "Sorry - No Restaurant found!"
+		return result
+
+	total_restaurants = len(restaurants)
+	restaurants_count = min(total_restaurants,100)
+	if not restaurants_count > 0:
+		result["error"] = "Sorry - No Restaurant found!"
+		return result
+	for restaurant in restaurants:
+		oneRestaurant = {}
+		location = restaurant["location"]
+		formattedAddress = []
+		try:
+			formattedAddress = location["formattedAddress"]
+		except KeyError:
+			formattedAddress[0] = "N/A"
+		stats = restaurant["stats"]
+		name = restaurant["name"]
+		venue_id = restaurant["id"]
+		checkIns = stats["checkinsCount"]
+		contact = restaurant["contact"]
+		phone_number = ''
+		lat = location["lat"]
+		lng = location["lng"]
+		try :
+			phone_number = contact["formattedPhone"]
+		except KeyError:
+			phone_number = 'N/A'
+		oneRestaurant["name"] = name
+		oneRestaurant["checkins"] = checkIns
+		oneRestaurant["phone_number"] = phone_number
+		oneRestaurant["venue_id"] = venue_id
+		oneRestaurant["address"] = (' ').join(formattedAddress)
+		oneRestaurant["lat"] = lat
+		oneRestaurant["lng"] = lng
+		# Get Restaurant photo
+		foursquare_payload_photo = {'client_id': FOURSQUARE_CLIENT_ID, 'client_secret': FOURSQUARE_CLIENT_SECRET, 'v' : 20160105}
+
+		rfoursquare_photo = requests.get("https://api.foursquare.com/v2/venues/"+venue_id+"/photos",params=foursquare_payload_photo)
+		# print (rfoursquare_photo.url)
+		photojson = rfoursquare_photo.json()
+		print("photojson")
+		print(photojson)
+		photos = photojson['response']['photos']
+		total_photos = photos["count"]
+		if total_photos > 0 :
+			photos_count = min(total_photos,100)
+			random_photo_index = random.randrange(0,photos_count)
+			photo = photos['items'][random_photo_index]
+			photo_url = photo["prefix"] + "455x300" + photo["suffix"]
+			# print (photo_url)
+			oneRestaurant["photo_url"] = photo_url
+			try :
+				rest = loc.restaurant.get(name=name,address=oneRestaurant["address"])
+
+			except ObjectDoesNotExist:
+				try : 
+					rest = Restaurant.objects.get(name=name,address=oneRestaurant["address"],r_type=rtype)
+					rest.checkins = checkIns
+					rest.phone_number = phone_number
+					rest.save()
+					loc.restaurant.add(rest)
+					restaurantList.append(oneRestaurant)
+					print("exisiting rest found and added to location")
+				except ObjectDoesNotExist:
+					rest = Restaurant(name=name,latitude=lat,longitude=lng,checkins=checkIns,phone_number=phone_number,
+						venue_id=venue_id,address=oneRestaurant["address"],photo_url=photo_url,r_type=rtype)
+					rest.save()
+					loc.restaurant.add(rest)
+					restaurantList.append(oneRestaurant)
+					print("no rest found therefore saved and added to location")
+				except MultipleObjectsReturned:
+					print("multiple objects returned 1")
+			except MultipleObjectsReturned:
+				print("multiple objects returned 2")
+		else :
+			# oneRestaurant["image"] = None
+			print("no_photo")
+
+	try:
+		loc = Location.objects.get(restaurant_location=ilocation,restaurant_type=rtype)
+	except MultipleObjectsReturned:
+		loc = loc[0]
+	restaurants = loc.restaurant.all()
+	result["rlist"] = restaurants
+	return result
+
+def getPizzaList(lat,lng, query):
+	rtype = query
+	result = {}
+	restaurantList = []
+	# Get latitude and longitude
+	latlong = str(lat) + "," + str(lng)
+	loc = Location(restaurant_location=latlong, latitude=float(lat), longitude=float(lng), restaurant_type=query)
+	loc.save()
+	# Get restaurant based on query
+	foursquare_payload = {'client_id': FOURSQUARE_CLIENT_ID, 'client_secret': FOURSQUARE_CLIENT_SECRET, 'v' : 20160105,
+	'limit':100,'ll': latlong,'radius':"800",'query': query}
+
+	rfoursquare = requests.get("https://api.foursquare.com/v2/venues/search",params=foursquare_payload)
+	print(rfoursquare.url)
+	fjson = rfoursquare.json()
+	print(fjson)
 	try:
 		restaurants = fjson['response']['venues']
 	except KeyError:
@@ -171,6 +276,8 @@ def getRestaurantList(ilocation,query):
 		rfoursquare_photo = requests.get("https://api.foursquare.com/v2/venues/"+venue_id+"/photos",params=foursquare_payload_photo)
 		# print (rfoursquare_photo.url)
 		photojson = rfoursquare_photo.json()
+		print("photojson")
+		print(photojson)
 		photos = photojson['response']['photos']
 		total_photos = photos["count"]
 		if total_photos > 0 :
@@ -178,7 +285,6 @@ def getRestaurantList(ilocation,query):
 			random_photo_index = random.randrange(0,photos_count)
 			photo = photos['items'][random_photo_index]
 			photo_url = photo["prefix"] + "455x300" + photo["suffix"]
-			# print (photo_url)
 			oneRestaurant["photo_url"] = photo_url
 			try :
 				rest = loc.restaurant.get(name=name,address=oneRestaurant["address"])
@@ -208,13 +314,12 @@ def getRestaurantList(ilocation,query):
 			print("no_photo")
 
 	try:
-		loc = Location.objects.get(restaurant_location=ilocation,restaurant_type=rtype)
+		loc = Location.objects.get(restaurant_location=latlong,restaurant_type=rtype)
 	except MultipleObjectsReturned:
 		loc = loc[0]
 	restaurants = loc.restaurant.all()
 	result["rlist"] = restaurants
 	return result
-
 
 
 def index(request):
@@ -304,7 +409,6 @@ class RestaurantAllListView(ListView):
 
 class RestaurantAllMapListView(ListView):
 	""" This class based view shows map of all restaurants"""
-	print("RestaurantAllMapListView")
 	context_object_name = 'r_list'
 	queryset = Restaurant.objects.all()
 	template_name = 'search/all_list_map.html'
@@ -356,6 +460,48 @@ class RestaurantList(APIView):
 			return Response(serializer.data,status=status.HTTP_200_OK)
 		except ObjectDoesNotExist:
 			context = getRestaurantList(location,restaurantType)
+			try: 
+				loc = Location.objects.get(restaurant_location=location,restaurant_type=restaurantType)
+				restaurants = loc.restaurant.all()
+				serializer = RestaurantSerializer(restaurants, many=True)
+				return Response(serializer.data,status=status.HTTP_200_OK)
+			except ObjectDoesNotExist:
+				print ("does not exist")
+				return Response(data={'error':"not-found",'status':"404"},status=status.HTTP_404_NOT_FOUND)
+			except MultipleObjectsReturned:
+				loc = loc[0]
+				restaurants = loc.restaurant.all()
+				serializer = RestaurantSerializer(restaurants, many=True)
+				return Response(serializer.data,status=status.HTTP_200_OK)
+
+class PizzaList(APIView):
+	def get(self,request,format=None):
+		if "latitude" in request.GET and "rtype" in request.GET:
+			print("request found")
+			latitude = request.GET["latitude"]
+			longitude = request.GET["longitude"]
+			location = str(latitude) + "," + str(longitude)
+			restaurantType = request.GET["rtype"]
+		else:
+			print("request not found")
+			restaurants = Restaurant.objects.all()
+			serializer = RestaurantSerializer(restaurants, many=True)
+			return Response(serializer.data,status=status.HTTP_200_OK)
+		try: 
+			loc = Location.objects.get(restaurant_location=location, restaurant_type=restaurantType)
+			restaurants = loc.restaurant.all()
+			serializer = RestaurantSerializer(restaurants, many=True)
+			print("fetching existing rest")
+			return Response(serializer.data,status=status.HTTP_200_OK)
+		except MultipleObjectsReturned:
+			loc = loc[0]
+			restaurants = loc.restaurant.all()
+			serializer = RestaurantSerializer(restaurants, many=True)
+			print("fetching existing rest with two location")
+			return Response(serializer.data,status=status.HTTP_200_OK)
+		except ObjectDoesNotExist:
+			print("fetching new rest with location")
+			context = getPizzaList(latitude, longitude, restaurantType)
 			try: 
 				loc = Location.objects.get(restaurant_location=location,restaurant_type=restaurantType)
 				restaurants = loc.restaurant.all()

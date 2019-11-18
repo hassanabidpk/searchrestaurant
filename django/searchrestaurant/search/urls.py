@@ -12,6 +12,8 @@ urlpatterns = [
 	url(r'^restaurant/(?P<venue_id>[\w-]+)/$', views.restaurantwithid,name='rwithid'),
 	url(r'^restaurants/map/$', views.RestaurantAllMapListView.as_view(), name="rlistmapview"),
 	url(r'^api/v1/$',views.RestaurantList.as_view()),
+	url(r'^api/v1/pizzalist/$',views.PizzaList.as_view()),
+
   
 ]
 

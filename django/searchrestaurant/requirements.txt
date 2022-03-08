@@ -4,7 +4,7 @@ Django==1.11.23
 django-filter==0.12.0
 djangorestframework==3.9.1
 drfdocs==0.0.6
-httpie==1.0.3
+httpie==3.1.0
 idna==2.6
 Markdown==2.6.9
 Pygments==2.2.0

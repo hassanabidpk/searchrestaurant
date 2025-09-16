@@ -5,7 +5,7 @@ django-filter==0.12.0
 djangorestframework==3.11.2
 drfdocs==0.0.6
 httpie==3.1.0
-idna==2.6
+idna==3.7
 Markdown==2.6.9
 Pygments==2.7.4
 pytz==2017.3

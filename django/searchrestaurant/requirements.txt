@@ -7,7 +7,7 @@ drfdocs==0.0.6
 httpie==1.0.3
 idna==2.6
 Markdown==2.6.9
-Pygments==2.2.0
+Pygments==2.7.4
 pytz==2017.3
 requests==2.20.0
 urllib3==1.24.2

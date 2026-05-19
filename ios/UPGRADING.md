@@ -1,80 +1,86 @@
-# iOS — Upgrade plan (NOT YET DONE)
+# iOS — Upgrade notes
 
-> **Status: not started — documentation only.** This app is **Swift 2**
-> (Xcode 7.1, 2015). Upgrading it spans four simultaneous major
-> migrations and is a **compiler-driven, interactive job that must be
-> done in Xcode on macOS**. It was deliberately not attempted blind —
-> a hand-edited Swift 2→6 rewrite without a compiler would be guesswork.
-> This file is the concrete plan to follow when someone has Xcode.
+The app was migrated from **Swift 2 (Xcode 7.1, 2016)** to **Swift 5**,
+building with **Xcode 26 / Swift 6.2 toolchain** for the iOS Simulator.
 
-## Current state
+> **Status: build-verified.** `xcodebuild` for the iOS Simulator
+> succeeds with 0 errors, and the app installs and launches in the
+> simulator without crashing. The full search flow needs a running
+> backend and was not exercised end-to-end here — see "Not verified".
 
-| Item | Value |
-|------|-------|
-| Language | Swift 2.x (pre-Swift-3 "Grand Renaming") |
-| Xcode project | `objectVersion = 46`, `LastUpgradeCheck = 0710` |
-| Deployment target | iOS 8.1 / 9.1 |
-| Dependency mgmt | CocoaPods |
-| Pods | `Alamofire ~> 3.0`, `GoogleMaps` (unversioned) |
-| Code | ~763 LOC; `ViewController.swift` is 490 |
+## What changed
 
-Swift 2 markers present throughout: `numberOfSectionsInTableView(tableView:)`,
-`cellForRowAtIndexPath:`, `viewWillAppear(animated:)`, `NSURLSession.sharedSession()`,
-`NSIndexPath`, `prepareForSegue(_:sender:)`.
+### Project / build config
+| Item | Before | After |
+|------|--------|-------|
+| Swift | 2.x (no `SWIFT_VERSION`) | `SWIFT_VERSION = 5.0` |
+| Deployment target | iOS 8.1 / 9.1 | iOS 16.0 |
+| Dependency manager | CocoaPods | none (removed) |
+| `Alamofire ~> 3` | networking | removed → `URLSession` |
+| `GoogleMaps` pod | maps/places | removed |
 
-## Recommended target
+All CocoaPods integration was stripped from `project.pbxproj`
+(framework link, `Check Pods Manifest.lock` / `Embed Pods` /
+`Copy Pods Resources` script phases, `baseConfigurationReference`
+xcconfig refs, Pods groups). `Podfile` deleted. The project now builds
+as a plain `.xcodeproj` with **no third-party dependencies**.
 
-- Swift 5 (or 6), latest stable Xcode
-- iOS deployment target 15+ (12 minimum)
-- `Alamofire 5.x` or drop it for `URLSession` (only one network call —
-  `ViewController.swift:213` already uses `NSURLSession`; removing the
-  Alamofire dependency is the lower-risk option)
-- Google Maps iOS SDK 8.x/9.x (Swift Package Manager preferred over CocoaPods)
+### Source migration (Swift 2 → 5)
+- Foundation/UIKit renames: `NSURL`/`NSURLSession`/`NSURLRequest`/
+  `NSHTTPURLResponse`/`NSJSONSerialization`/`NSData`/`NSFileManager`/
+  `NSNotificationCenter`/`NSIndexPath` → modern types; `dispatch_async`
+  → `DispatchQueue.main.async`; `.enabled`→`.isEnabled`;
+  `isFirstResponder()`→`isFirstResponder`; enum cases lowercased.
+- Selector strings (`"handleSingleTap:"`) → `#selector(...)` with
+  `@objc` methods.
+- All `UITableView*`/lifecycle delegate signatures updated to the
+  Swift 3+ "grand renaming" form (`numberOfSections(in:)`,
+  `cellForRowAt:`, `prepare(for:sender:)`, `viewWillAppear(_:)` …).
+- `NSCoding`: `encodeWithCoder`/`decodeObjectForKey` →
+  `encode(with:)`/`decodeObject(forKey:)`, failable decoder hardened
+  with `guard`.
+- Networking rewritten on `URLSession` (replaces Alamofire) for both
+  the Google geocoding call and the restaurant API call; JSON via
+  `JSONSerialization`.
+- IBAction signatures kept as `func name(_ sender:)` so the Obj-C
+  selectors still match the storyboard connections
+  (`searchRestaurant:`, `getCurrentLocation:`, `pickPlace:`).
 
-## Step order (do in Xcode, one stage at a time, compile between each)
+### Deliberate scope decision: Google Places removed
+`getCurrentLocation` and `pickPlace` depended on `GMSPlacesClient`'s
+old `currentPlace` callback and `GMSPlacePicker`. Google **removed
+`GMSPlacePicker`** and redesigned the Places API into a separate, paid
+SDK. Reimplementing against it is out of scope and unverifiable without
+a billing-enabled API key. Those two buttons now show an alert telling
+the user to type the location manually. The core flow (type location +
+type → geocode → fetch restaurants → show random + list) is unaffected
+and needs no Maps SDK. Storyboard connections were preserved (the
+IBActions still exist), so no storyboard edits were needed.
 
-1. **Backup / branch.** This is destructive churn; isolate it.
-2. **Open in current Xcode**, let it run *Edit ▸ Convert ▸ To Current
-   Swift Syntax* (Swift 2→3). Build. Fix what the converter cannot.
-3. **Swift 3→4→5** incrementally via the project's Swift Language Version
-   build setting; build and fix at each bump. Expect heavy churn in
-   `ViewController.swift` and `RestaurantTableViewController.swift`
-   (every UIKit delegate signature changed in Swift 3).
-4. **Foundation renames:** `NSURLSession`→`URLSession`,
-   `NSIndexPath`→`IndexPath`, `NSData`→`Data`, etc.
-5. **Dependencies:**
-   - Migrate CocoaPods → Swift Package Manager (or update the `Podfile`:
-     `platform :ios, '15.0'`, modern pod versions, remove the empty
-     test targets, drop the per-target `source`).
-   - `Alamofire 3` API is incompatible with 5 — rewrite the call, or
-     replace with `URLSession` (recommended; minimal usage).
-   - Update Google Maps SDK + its init in `AppDelegate.swift` /
-     `ViewController.swift`; new SDK needs an API key via
-     `GMSServices.provideAPIKey(_:)` (already the pattern, verify args).
-6. **Project format:** let Xcode update `objectVersion` / recommended
-   settings; set a real deployment target; remove `LastUpgradeCheck`
-   staleness.
-7. **Build for simulator, run, exercise:** map screen, restaurant
-   search/list, detail. There are no real tests — the test targets are
-   empty stubs.
-
-## Verification (requires macOS + Xcode)
+## How to verify
 
 ```bash
 cd ios
-pod install            # if staying on CocoaPods
-xcodebuild -workspace Search_Restaurant.xcworkspace \
-  -scheme Search_Restaurant -sdk iphonesimulator build
+xcodebuild -project Search_Restaurant.xcodeproj -scheme Search_Restaurant \
+  -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+  -configuration Debug CODE_SIGNING_ALLOWED=NO build
 ```
 
-Then run in the simulator and click through every screen — the only
-meaningful verification, since the app has no automated test coverage.
+Expected: `** BUILD SUCCEEDED **`, exit 0. Two warnings remain by
+design — the legacy `NSKeyedArchiver.archiveRootObject` /
+`unarchiveObject(withFile:)` calls are kept (and commented) to preserve
+the on-disk archive format shared between the two view controllers.
 
-## Why this wasn't auto-applied
+## Not verified / follow-ups
 
-Unlike the Django backend (verifiable headless via `manage.py check`)
-and the Android module (a mechanical AndroidX import migration), a
-Swift 2→5/6 upgrade is interactive: the Xcode migrator + compiler drive
-it, and each stage's fixes depend on the previous stage's compiler
-errors. Doing it without a build loop would produce unverifiable,
-likely-broken code.
+- End-to-end search was not run (needs the Django backend reachable and
+  a valid Google geocoding API key in `ViewController.swift`).
+- `Restaurant` photo download uses synchronous `Data(contentsOf:)`
+  inside the URLSession callback (preserves original behavior); could
+  move to async image loading.
+- Swift 5 language mode (not Swift 6 strict concurrency) — intentional,
+  lower-risk for a sample app. Moving to Swift 6 mode would surface
+  main-actor isolation work.
+- Legacy keyed-archiver persistence could move to
+  `Codable` + `unarchivedObject(ofClass:from:)`.
+- Test targets are still empty stubs.

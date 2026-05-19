@@ -11,12 +11,23 @@ Search Restaurant — a sample app with three clients and one backend:
 - `ios/` — iOS client
 - `v2/` — newer experiment
 
-Agent work almost always means the **Django backend**. The mobile clients
-are reference code, not maintained here.
+Agent work almost always means the **Django backend**. The mobile
+clients are sample code; see **Mobile clients** below before touching
+them.
+
+## Mobile clients
+
+- `android/` — modernized to Gradle 8 / AGP 8 / AndroidX / SDK 35.
+  Changes were made without an Android SDK and are **not build-verified**
+  — see [android/UPGRADING.md](android/UPGRADING.md). Verify in Android
+  Studio (JDK 17) before relying on it.
+- `ios/` — still **Swift 2 (2016)**, not upgraded. A Swift 2→5/6 upgrade
+  is interactive (Xcode-only); the concrete plan is in
+  [ios/UPGRADING.md](ios/UPGRADING.md). Do not attempt a blind rewrite.
 
 ## Backend: setup & run
 
-Runs on **Python 3.13 + Django 4.2.24**. Older Python is unsupported
+Runs on **Python 3.13 + Django 4.2.28**. Older Python is unsupported
 (several deps need 3.12+ fixes).
 
 ```bash

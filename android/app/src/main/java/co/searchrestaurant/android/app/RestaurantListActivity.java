@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,7 +29,7 @@ import co.searchrestaurant.android.app.fetch.SearchRestaurantApi;
 import co.searchrestaurant.android.app.fetch.SearchRestaurantResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.GsonConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -95,8 +95,8 @@ public class RestaurantListActivity extends AppCompatActivity {
         progessBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<SearchRestaurantResponse[]>() {
             @Override
-            public void onResponse(Response<SearchRestaurantResponse[]> response) {
-                if(response.isSuccess()) {
+            public void onResponse(Call<SearchRestaurantResponse[]> call, Response<SearchRestaurantResponse[]> response) {
+                if(response.isSuccessful()) {
                     Log.d(LOG_TAG, "success - response is " + response.body());
                     restaurants = Arrays.asList(response.body());
                     setupRecyclerView((RecyclerView) recyclerView);
@@ -110,7 +110,7 @@ public class RestaurantListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<SearchRestaurantResponse[]> call, Throwable t) {
                 Log.d(LOG_TAG, " Error :  " + t.getMessage());
             }
         });

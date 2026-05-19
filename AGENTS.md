@@ -21,9 +21,10 @@ them.
   Changes were made without an Android SDK and are **not build-verified**
   — see [android/UPGRADING.md](android/UPGRADING.md). Verify in Android
   Studio (JDK 17) before relying on it.
-- `ios/` — still **Swift 2 (2016)**, not upgraded. A Swift 2→5/6 upgrade
-  is interactive (Xcode-only); the concrete plan is in
-  [ios/UPGRADING.md](ios/UPGRADING.md). Do not attempt a blind rewrite.
+- `ios/` — modernized from Swift 2 to **Swift 5**, builds for the iOS
+  Simulator with Xcode 26 (no third-party deps; CocoaPods/Alamofire/
+  GoogleMaps removed). Build-verified; end-to-end search not run
+  (needs the live backend). See [ios/UPGRADING.md](ios/UPGRADING.md).
 
 ## Backend: setup & run
 

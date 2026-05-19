@@ -8,90 +8,81 @@
 
 import UIKit
 
-class Restaurant: NSObject,NSCoding {
+class Restaurant: NSObject, NSCoding {
 
-	// MARK: properties 
-	
+	// MARK: properties
+
 	var name: String
 	var photo: UIImage?
 	var address: String
-    var checkins: UInt!
-    var latitude: String
-    var longitude: String
-    var venue_id : String
-	
-	
+	var checkins: UInt
+	var latitude: String
+	var longitude: String
+	var venue_id: String
+
 	// MARK: Archiving Paths
-	
-	static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-	static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("restaurants")
-	
+
+	static let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+	static let archiveURL = documentsDirectory.appendingPathComponent("restaurants")
+
 	// MARK: Types
-	
+
 	struct PropertyKey {
 		static let nameKey = "name"
 		static let photoKey = "photo"
 		static let addressKey = "address"
-        static let checkinsKey = "checkins"
-        static let latitudeKey = "lat"
-        static let longitudeKey = "lng"
-        static let venueIdKey = "venue_id"
+		static let checkinsKey = "checkins"
+		static let latitudeKey = "lat"
+		static let longitudeKey = "lng"
+		static let venueIdKey = "venue_id"
 	}
-	
+
 	// MARK: Initialization
-	
-    init?(name: String, photo: UIImage?, address: String,checkins: UInt!, latitude:String,
-        longitude: String,venue_id:String) {
-            // Initialize stored properties.
-            self.name = name
-            self.photo = photo
-            self.address = address
-            self.checkins = checkins
-            self.latitude = latitude
-            self.longitude = longitude
-            self.venue_id = venue_id
-		
+
+	init?(name: String, photo: UIImage?, address: String, checkins: UInt, latitude: String,
+	      longitude: String, venue_id: String) {
+		self.name = name
+		self.photo = photo
+		self.address = address
+		self.checkins = checkins
+		self.latitude = latitude
+		self.longitude = longitude
+		self.venue_id = venue_id
+
 		super.init()
-		
-		// Initialization should fail if there is no name
+
+		// Initialization should fail if there is no name.
 		if name.isEmpty {
 			return nil
-		} else {
-			print("restaurant \(name): saved")
 		}
 	}
-	
+
 	// MARK: NSCoding
-	
-	func encodeWithCoder(aCoder: NSCoder) {
-		print("encodeWithCoder")
-		aCoder.encodeObject(name, forKey: PropertyKey.nameKey)
-		aCoder.encodeObject(photo, forKey: PropertyKey.photoKey)
-		aCoder.encodeObject(address, forKey: PropertyKey.addressKey)
-        aCoder.encodeObject(checkins,forKey: PropertyKey.checkinsKey)
-        aCoder.encodeObject(latitude, forKey: PropertyKey.latitudeKey)
-        aCoder.encodeObject(longitude, forKey: PropertyKey.longitudeKey)
-        aCoder.encodeObject(venue_id, forKey: PropertyKey.venueIdKey)
+
+	func encode(with aCoder: NSCoder) {
+		aCoder.encode(name, forKey: PropertyKey.nameKey)
+		aCoder.encode(photo, forKey: PropertyKey.photoKey)
+		aCoder.encode(address, forKey: PropertyKey.addressKey)
+		aCoder.encode(checkins, forKey: PropertyKey.checkinsKey)
+		aCoder.encode(latitude, forKey: PropertyKey.latitudeKey)
+		aCoder.encode(longitude, forKey: PropertyKey.longitudeKey)
+		aCoder.encode(venue_id, forKey: PropertyKey.venueIdKey)
 	}
-	
+
 	required convenience init?(coder aDecoder: NSCoder) {
-		let name = aDecoder.decodeObjectForKey(PropertyKey.nameKey) as! String
-		
-		// Because photo is an optional property of Meal, use conditional cast.
-		let photo = aDecoder.decodeObjectForKey(PropertyKey.photoKey) as? UIImage
-		
-		let address = aDecoder.decodeObjectForKey(PropertyKey.addressKey) as! String
-        
-        let checkins = aDecoder.decodeObjectForKey(PropertyKey.checkinsKey) as! UInt
-        
-        let lat = aDecoder.decodeObjectForKey(PropertyKey.latitudeKey) as! String
-        let lng = aDecoder.decodeObjectForKey(PropertyKey.longitudeKey) as! String
-		let venueId = aDecoder.decodeObjectForKey(PropertyKey.venueIdKey) as! String
-        
-		// Must call designated initializer.
-        self.init(name: name, photo: photo, address: address,checkins: checkins, latitude:lat,
-            longitude: lng,venue_id:venueId)
+		guard let name = aDecoder.decodeObject(forKey: PropertyKey.nameKey) as? String,
+		      let address = aDecoder.decodeObject(forKey: PropertyKey.addressKey) as? String,
+		      let lat = aDecoder.decodeObject(forKey: PropertyKey.latitudeKey) as? String,
+		      let lng = aDecoder.decodeObject(forKey: PropertyKey.longitudeKey) as? String,
+		      let venueId = aDecoder.decodeObject(forKey: PropertyKey.venueIdKey) as? String
+		else {
+			return nil
+		}
+
+		let photo = aDecoder.decodeObject(forKey: PropertyKey.photoKey) as? UIImage
+		let checkins = (aDecoder.decodeObject(forKey: PropertyKey.checkinsKey) as? UInt) ?? 0
+
+		self.init(name: name, photo: photo, address: address, checkins: checkins,
+		          latitude: lat, longitude: lng, venue_id: venueId)
 	}
-
-
 }

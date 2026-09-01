@@ -2,7 +2,7 @@ certifi==2024.7.4
 chardet==5.2.0
 Django==5.2.16
 django-filter==24.3
-djangorestframework==3.15.2
+djangorestframework==3.17.2
 drf-spectacular==0.27.2
 httpie==3.2.4
 idna==3.15

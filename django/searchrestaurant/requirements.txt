@@ -10,4 +10,4 @@ Markdown==3.8.1
 Pygments==2.20.0
 pytz==2025.2
 requests==2.33.0
-urllib3==2.7.0
+urllib3==2.8.0

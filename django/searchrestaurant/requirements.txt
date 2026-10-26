@@ -1,4 +1,4 @@
-certifi==2024.7.4
+certifi==2026.10.19
 chardet==5.2.0
 Django==5.2.16
 django-filter==24.3
